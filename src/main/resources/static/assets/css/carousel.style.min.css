@@ -1,0 +1,113 @@
+
+
+/*CARROSEL BANNER*/
+#section-carousel{
+    padding:0px;
+}
+
+#section-carousel #carouselExampleInterval img{
+    height: 422px;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    width: 5% !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+section .carousel-control-prev{
+    left: -15px;
+}
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-image: none !important;
+    color: #FFFFFF !important;
+    font-size: 35px !important;
+    cursor: pointer;
+}
+
+
+/*CAROUSEL COMPLEMENTO*/
+
+.owl-carousel .owl-nav button.owl-next,
+.owl-carousel .owl-nav button.owl-prev,
+.owl-carousel button.owl-dot {
+    background: none;
+    color: inherit;
+    border: 0;
+    padding: 0 !important;
+}
+
+.owl-theme .owl-nav [class*=owl-] {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #222529;
+    margin: 0;
+    font-size: 5rem;
+    padding: 4px 7px;
+    background: transparent;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.owl-carousel .owl-nav .owl-prev{
+    left: -3vw ;
+}
+.owl-carousel .owl-nav .owl-next{
+    right: -3vw;
+}
+
+.products-slider>.owl-stage-outer {
+    padding: 0px 10px !important;
+    margin: 0 !important;
+}
+
+@media (max-width: 1200px){
+    #section-carousel #carouselExampleInterval img{
+        height: 348px;
+    }
+}
+
+@media (max-width: 992px) {
+
+    #section-carousel #carouselExampleInterval img{
+        height: 560px;
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+        width: 10% !important;
+    }
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        font-size: 50px !important;
+    }
+
+    .new-products-section .owl-carousel .product-category {
+        margin: 10px 55px !important;
+    }
+
+    .owl-carousel .owl-nav .owl-prev{
+        left: 2vw ;
+    }
+    .owl-carousel .owl-nav .owl-next{
+        right: 2vw;
+    }
+}
+
+@media screen and (max-width: 768px){
+    #section-carousel #carouselExampleInterval img{
+        height: 456px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    #section-carousel #carouselExampleInterval img{
+        height: 380px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    #section-carousel #carouselExampleInterval img{
+        height: 310px;
+    }
+}

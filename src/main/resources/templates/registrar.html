@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head"></head>
+
+<body>
+
+	<main class="main">
+		<div class="container-fluid p-0">
+			<div class="row">
+				<div class="col-lg-6 col-12 centrado" style="min-height: 100vh;" th:each="logos:${logos}">
+					<a th:href="@{/index/inicio}" class="m-5">
+						<img th:src="@{'/images/' + ${logos.login}}" width="150" height="250" alt="Porto Logo">
+					</a>
+					<h2 class="title p-3">¡Comienza a registrarte!</h2>
+
+					<form th:action="@{/registrar}" th:object="${usuarioPerfil}" method="post">
+						<div>
+							<label for="correo">Correo electrónico <span class="required">*</span></label>
+							<input type="email"  class="form-input form-wide" id="correo" name="correo" th:field="*{usuario.correo}" required>
+						</div>
+						<div>
+							<label for="password">Contraseña <span class="required">*</span></label>
+							<input type="password" class="form-input form-wide" id="password" name="password" th:field="*{usuario.password}"
+								required>
+						</div>
+						<div>
+							<label for="nombres">Nombres <span class="required">*</span></label>
+							<input type="text" class="form-input form-wide" id="nombres" name="nombres" th:field="*{nombres}" required>
+						</div>
+						<div>
+							<label for="apellidos">Apellidos <span class="required">*</span></label>
+							<input type="text" class="form-input form-wide" id="apellidos" name="apellidos" th:field="*{apellidos}" required>
+						</div>
+						<div>
+							<label for="telefono">Teléfono <span class="required">*</span></label>
+							<input type="text" class="form-input form-wide" id="telefono" name="telefono" th:field="*{telefono}" required>
+						</div>
+						<button type="submit" class="btn btn-dark btn-md w-100 mt-3">Registrarse</button>
+						
+						<p class="tituloUsuarioNuevo pt-3 m-0">¿Ya tienes una cuenta con nosotros? <a th:href="@{/login}"
+							class="registroUsuario">Ingresa ahora</a></p>
+					</form>
+					
+				</div>
+
+				<div class="col-lg-6 registrar-body d-lg-block d-none"></div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Plugins JS File -->
+	<script data-cfasync="false"
+		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/assets/js/plugins.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+
+	<!-- Main JS File -->
+	<script th:src="@{/assets/js/main.min.js}"></script>
+</body>
+
+</html>

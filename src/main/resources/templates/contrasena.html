@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head"></head>
+
+<body>
+	<div class="page-wrapper">
+		<!-- NOTICE -->
+		<div th:replace="fragments/notice"></div>
+
+		<!-- HEADER -->
+		<header th:replace="fragments/header"></header>
+
+		<main class="main">
+			<div class="page-header">
+			<div class="container d-flex flex-column align-items-center">
+					<nav aria-label="breadcrumb" class="breadcrumb-nav">
+						<div class="container">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a></li>
+								<li class="breadcrumb-item active" aria-current="page">
+									Mi cuenta
+								</li>
+							</ol>
+						</div>
+					</nav>
+
+					<h1>MI CUENTA</h1>
+				</div>
+			</div>
+				
+				<div class="container reset-password-container">
+				<div class="row">
+					<div class="col-lg-6 offset-lg-3">
+						<div class="feature-box border-top-primary">
+							
+							<div class="feature-box-content" style="border-top: 4px solid #2ca326;">
+								<div th:if="${successMessage}">
+        <p th:text="${successMessage}" style="color: green;"></p>
+    </div>
+								<form class="mb-0" th:action="@{/cambiar-contrasena}" method="post">
+									<p>
+										¿Perdiste tu contraseña? Por favor, ingresa tu correo electrónico y la nueva contraseña a utilizar.
+									</p>
+									<div class="form-group mb-0">
+										<label for="reset-email" class="font-weight-normal">Correo electrónico</label>
+										<input type="email" class="form-control"  id="correo" name="correo"
+											required />
+									</div>
+									
+									<div class="form-group mb-0 pt-5">
+										<label for="reset-email" class="font-weight-normal">Nueva contraseña</label>
+										<input class="form-control"  type="password" id="nuevaContraseña" name="nuevaContraseña"
+											required />
+									</div>
+
+									<div class="form-footer mb-0">
+										<a th:href="@{/login}" class="iniciar-sesion">Iniciar sesión</a>
+
+										<button type="submit"
+											class="btn btn-md btn-primary form-footer-right mr-0">
+											Cambiar contraseña
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</main>
+	</div>
+
+	<!-- FOOTER-->
+	<footer th:replace="fragments/footer"></footer>
+
+	<div class="loading-overlay">
+		<div class="bounce-loader">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</div>
+
+	<div class="mobile-menu-overlay"></div>
+	<!-- End .mobil-menu-overlay -->
+
+	<!-- MENU MOBILE -->
+	<div th:replace="fragments/menu-mobile"></div>
+
+	<!-- MENU INFERIOR MOBILE-->
+	<div th:replace="fragments/menu-inferior-mobile"></div>
+
+	<!-- POPUP -->
+	<div th:replace="fragments/popup"></div>
+
+
+	<a id="scroll-top" href="demo4.html#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
+	<div class="button align-items-center d-flex">
+		<a class="button-img ms-lg-2 ms-1" href="#" target="_blank"><img th:src="@{/images/whatsapp.png}" alt=""></a>
+	</div>
+
+	<!-- Plugins JS File -->
+	<script data-cfasync="false"
+		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/assets/js/plugins.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+
+	<!-- Main JS File -->
+	<script th:src="@{/assets/js/main.min.js}"></script>
+	<script>
+		// Función para alternar entre los mensajes cada cierto tiempo
+		function alternarMensajes() {
+			var message1 = document.getElementById('message1');
+			var message2 = document.getElementById('message2');
+
+			setInterval(function () {
+				// Desvanecer gradualmente el mensaje actual
+				fadeOut(message1, function () {
+					// Una vez que la transición de desvanecimiento ha terminado, cambiar el mensaje
+					message1.style.display = 'none';
+					message2.style.display = 'block';
+					// Desvanecer gradualmente el nuevo mensaje
+					fadeIn(message2);
+					// Intercambiar los mensajes
+					var temp = message1;
+					message1 = message2;
+					message2 = temp;
+				});
+			}, 5000); // Cambiar el mensaje cada 5 segundos (5000 milisegundos)
+		}
+
+		// Función para desvanecer gradualmente un elemento
+		function fadeOut(element, callback) {
+			var opacity = 1;
+			var intervalID = setInterval(function () {
+				if (opacity > 0) {
+					opacity -= 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+					// Llamar al callback cuando la transición haya terminado
+					if (callback) {
+						callback();
+					}
+				}
+			}, 50); // Duración de la transición: 50 milisegundos
+		}
+
+		// Función para mostrar gradualmente un elemento
+		function fadeIn(element) {
+			var opacity = 0;
+			element.style.opacity = opacity;
+			element.style.display = 'block';
+			var intervalID = setInterval(function () {
+				if (opacity < 1) {
+					opacity += 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+				}
+			}, 50); // Duración de la transición: 50 milisegundos
+		}
+
+		// Llamar a la función para iniciar el cambio de mensajes
+		alternarMensajes();
+	</script>
+
+</body>
+
+
+</html>

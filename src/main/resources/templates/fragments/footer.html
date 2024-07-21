@@ -1,0 +1,157 @@
+<!-- FOOTER-->
+<footer class="footer bg-dark">
+	<div class="footer-middle" style="padding: 6.4rem 0 3.2rem !important;">
+		<div class="container">
+			<!--class="row"-->
+			<div class="d-flex justify-content-between">
+				<!--class="col-lg-3 col-sm-6"-->
+				<div>
+					<div class="widget m-0">
+						<h4 class="widget-title">Servicio al Cliente</h4>
+						<ul class="contact-info m-0">
+							<li><a href="demo4.html#">Preguntas Frecuentes</a></li>
+							<li><a href="demo4.html#">Servicio al Cliente</a></li>
+							<li><a href="demo4.html#">Centro de Ayuda</a></li>
+							<li><a href="demo4.html#">Devoluciones</a></li>
+							<li><a href="demo4.html#">Ubigeo de Envíos</a></li>
+							<li><a href="demo4.html#">Rastrear mi pedido</a></li>
+							<li><a href="demo4.html#">Métodos de Pago</a></li>
+							<li><a href="demo4.html#">Políticas de cambios y devoluciones</a></li>
+							<li><a href="demo4.html#">Contáctanos</a></li>
+						</ul>
+					</div>
+					<!-- End .widget -->
+				</div>
+
+				<!--class="col-lg-3 col-sm-6"-->
+				<div>
+					<div class="widget">
+						<h4 class="widget-title">Acerca de Nosotros</h4>
+
+						<ul class="links">
+							<li><a href="demo4.html#">Misión y Visión</a></li>
+							<li><a href="demo4.html#">Valores</a></li>
+							<li><a href="demo4.html#">Nuestras Marcas</a></li>
+							<li><a href="demo4.html#">Marketplaces afiliados</a></li>
+							<li><a href="demo4.html#">Eventos</a></li>
+						</ul>
+					</div>
+					<!-- End .widget -->
+				</div>
+				<!-- End .col-lg-3 -->
+
+
+				<!--<div class="col-lg-3 col-sm-6">
+					<div class="widget">
+						<h4 class="widget-title">Síguenos</h4>
+						<div class="social-icons">
+							<ul class="contact-info">
+								<li th:each="redes:${redesSociales}">
+									<a href="demo4.html#" th:text="${redes.nombre}"></a>
+								</li>
+
+							</ul>
+						</div>
+					</div>
+				</div>-->
+
+
+				<div>
+					<div class="widget widget-newsletter">
+						<h4 class="widget-title">Ayuda</h4>
+						<div>
+							<ul>
+								<li>
+									<a href="demo4.html#" class="pb-3">Centro de Ayuda</a>
+								</li>
+								<li>
+									<a href="demo4.html#" class="pb-3">Contáctanos</a>
+								</li>
+								<li>
+									<div>
+										<a href="demo4.html#" class="pb-3">Libro de Reclamaciones</a>
+										<figure class="d-flex justify-content-center my-4">
+											<img src="/images/LibroReclamaciones.png" style="width: 100px;">
+										</figure>
+									</div>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+					<!-- End .widget -->
+				</div>
+				<!-- End .col-lg-3 -->
+			</div>
+			<!-- End .row -->
+		</div>
+		<!-- End .container -->
+	</div>
+	<!-- End .footer-middle -->
+
+	<div class="container text-center" style="padding: 3.2rem 0 !important;">
+		<div class="footer-bottom border-0 p-0">
+			<div class="footer-right ml-auto mt-1 mt-sm-0">
+				<div class="payment-icons d-flex justify-content-center">
+					<!--<span class="payment-icon visa"
+						style="background-image: url(/images/payments/payment-visa.svg)"></span>
+					<span class="payment-icon paypal"
+						style="background-image: url(/images/payments/payment-paypal.svg)"></span>
+					<span class="payment-icon stripe"
+						style="background-image: url(/images/payments/payment-stripe.png)"></span>
+					<span class="payment-icon verisign"
+						style="background-image:  url(/images/payments/payment-verisign.svg)"></span>-->
+					<p class="m-0" style="font-size: 30px; padding: 0 25px;">
+						<a href="https://www.facebook.com/MuscleShopPeruOficial" target="_blank" style="cursor: pointer;">
+							<i class="fa-brands fa-facebook"></i>
+						</a>
+					</p>
+					<p class="m-0" style="font-size: 30px; padding: 0 25px;" >
+						<a href="https://www.instagram.com/muscleshopperu" target="_blank" style="cursor: pointer;">
+							<i class="fa-brands fa-instagram"></i>
+						</a>
+					</p>
+					<p class="m-0" style="font-size: 30px; padding: 0 25px;">
+						<a href="https://www.tiktok.com/@muscleshopperu" target="_blank" style="cursor: pointer;">
+							<i class="fa-brands fa-tiktok"></i>
+						</a>
+					</p>
+					<p class="m-0" style="font-size: 30px; padding: 0 25px;">
+						<a href="https://www.youtube.com/@muscleshopperu844" target="_blank" style="cursor: pointer;">
+							<i class="fa-brands fa-youtube"></i>
+						</a>
+					</p>
+
+				</div>
+			</div>
+		</div>
+		<!-- End .footer-bottom -->
+	</div>
+	<!-- End .container -->
+
+	<div class="container text-center" style="padding: 3.2rem 0;" >
+		<div class="d-flex justify-content-center align-items-center">
+<!--			<div class="row" th:each="logos:${logos}">
+				<div class="col-6">
+					<div class="header-left col-lg-2 w-auto pl-0">
+						<a th:href="@{/index/inicio}" class="logo">
+							<img th:src="@{'/images/' + ${logos.footer1}}" width="150" height="100">
+						</a>
+					</div>
+				</div>
+				<div class="col-6 d-flex justify-content-end">
+					<div class="header-right col-lg-2 w-auto pl-0">
+						<a th:href="@{/index/inicio}"class="logo">
+							<img th:src="@{'/images/' + ${logos.footer2}}" width="150" height="100">
+						</a>
+					</div>
+				</div>
+			</div>-->
+			<div th:each="footer:${footer}">
+				<p th:text="${footer.nombre}" class="m-0"></p>
+			</div>
+		</div>
+		<!-- End .footer-bottom -->
+	</div>
+	<!-- End .container -->
+</footer>

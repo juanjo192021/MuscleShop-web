@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+	<div class="page-wrapper pb-0 mb-0">
+
+		<!-- NOTICE -->
+		<div th:replace="fragments/notice"></div>
+
+		<!-- HEADER -->
+		<header th:replace="fragments/header"></header>
+
+		<!-- MAIN-->
+		<main class="main" style="background-color: #f8f8f8;">
+			<div class="container">
+				<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a>
+						</li>
+						<li class="breadcrumb-item"><a th:href="@{/index/objetivo}">Por Objetivo</a></li>
+						<li class="breadcrumb-item"><a th:href="@{'/index/objetivo/' + ${menuSub.url}}"><span
+									th:text="${menuSub.nombre}"></span></a></li>
+						<li class="breadcrumb-item"><a
+								th:href="@{'/index/objetivo/' + ${menuSub.url} +'/' + ${proCateUrl.url}}"><span
+									th:text="${proCateUrl.nombre}"></span></a></li>
+						<li class="breadcrumb-item"><a
+								th:href="@{'/index/objetivo/' + ${menuSub.url} + '/' + ${proCateUrl.url} + '/' + ${producto.id}}"
+								th:text="${producto.nombre}"></a></li>
+
+					</ol>
+				</nav>
+
+				<div class="product-single-container product-single-default">
+					<div class="cart-message d-none">
+						<strong class="single-cart-notice" th:text="${producto.nombre}"></strong>
+						<span>ha sido agregado al carrito.</span>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-5 col-md-6 product-single-gallery">
+							<div class="product-slider-container">
+								<div class="label-group">
+									<div class="product-label label-sale" th:text="${porcentajes[producto.id]} + '%'">
+									</div>
+								</div>
+								<div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
+									<div class="product-item" th:each="imagen : ${producto.productoImg}">
+										<img class="product-single-image" th:src="@{'/images/' + ${imagen.nombre}}"
+											th:data-zoom-image="@{'/images/' + ${imagen.nombre}}" width="468"
+											height="468" alt="product" />
+									</div>
+								</div>
+								<!-- End .product-single-carousel -->
+
+								<span class="prod-full-screen">
+									<i class="icon-plus"></i>
+								</span>
+							</div>
+
+							<div class="prod-thumbnail owl-dots">
+								<div class="owl-dot" th:each="imagen : ${producto.productoImg}">
+									<img th:src="@{'/images/' + ${imagen.nombre}}" width="110" height="110"
+										alt="product-thumbnail" />
+								</div>
+
+							</div>
+						</div>
+						<!-- End .product-single-gallery -->
+
+						<div class="col-lg-7 col-md-6 product-single-details pt-4">
+							<form th:action="@{/index/productoAgregar}" method="post" class="m-0">
+								<input type="hidden" th:value="${producto.id}" name="id">
+								<input type="hidden" id="idPresentacion" name="idPresentacion">
+
+
+
+								<h1 class="product-title" th:text="${producto.nombre}"></h1>
+								<div class="product-desc">
+									<p class="m-0" th:text="${producto.descripcion}"></p>
+								</div>
+								<hr class="large-divider my-3 pb-4">
+								<div class="price-box">
+									<span class="old-price" th:text="'S/. ' + ${preciosTachados[producto.id]}"></span>
+									<span id="precioProducto" class="new-price"
+										th:text="'S/. ' + ${precios[producto.id]}"></span>
+								</div>
+
+								<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleColor)}">
+									<label class="font2">Colores:</label>
+									<ul class="config-size-list config-color-list config-filter-list">
+										<li th:each="color : ${detalleColor}">
+											<a href="javascript:;" class="filter-color border-0"
+												th:style="'background-color: #' + ${color.propiedadesDetalles.detalles.nombre}+';'"
+												th:attr="data-id=${color.propiedadesDetalles.detalles.id}"></a>
+										</li>
+									</ul>
+								</div>
+
+								<div class="product-single-filter" th:if="${not #lists.isEmpty(detallePresentacion)}">
+									<label class="font2">Presentación:</label>
+									<select class="form-select" aria-label="Large select example">
+										<option selected>Seleccionar </option>
+										<option th:each="detalle : ${detallePresentacion}"
+										 		href="javascript:;"
+												class="d-flex align-items-center justify-content-center"
+												th:text="${detalle.propiedadesDetalles.detalles.nombre}"
+												th:attr="data-id=${detalle.propiedadesDetalles.detalles.id}">
+										</option>
+									</select>
+								</div>
+
+								<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleTam)}">
+									<label class="font2">Tallas:</label>
+									<select class="form-select" aria-label="Large select example">
+										<option selected>Seleccionar </option>
+										<option th:each="tam : ${detalleTam}"
+										 		href="javascript:;"
+												class="d-flex align-items-center justify-content-center"
+												th:text="${tam.propiedadesDetalles.detalles.nombre}"
+												th:attr="data-id=${tam.propiedadesDetalles.detalles.id}">
+										</option>
+									</select>
+								</div>
+
+								<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleSabor)}">
+									<label class="font2">Sabores:</label>
+									<select class="form-select" aria-label="Large select example">
+										<option selected>Seleccionar </option>
+										<option th:each="sab : ${detalleSabor}"
+										 		href="javascript:;"
+												class="d-flex align-items-center justify-content-center"
+												th:text="${sab.propiedadesDetalles.detalles.nombre}"
+												th:attr="data-id=${sab.propiedadesDetalles.detalles.id}">
+										</option>
+									</select>								
+								</div>
+
+								<div class="product-action">
+									<div class="product-single-qty p-0">
+										<input class="horizontal-quantity form-control" type="text" id="cantidad"
+											name="cantidad" value="1" autocomplete="off">
+									</div>
+									<!-- End .product-single-qty -->
+									<button type="submit" class="btn butt btn-light agregar-pro">AGREGAR
+										PRODUCTO</button>
+
+								</div>
+								<!-- End .product-action -->
+							</form>
+							<hr class="divider mb-0 mt-0">
+
+							<div class="product-single-share mb-3 mt-2">
+								<p class="m-0">Métodos de Pago:</p>
+
+								<div class="social-icons d-flex mr-2">
+									<a class="mx-4 "><img th:src="@{/images/visa.png}" width="45px" height="45px"></a>
+									<a><img th:src="@{/images/mastercard.png}" width="40px" height="40px"></a>
+									<a class="mx-4"><img th:src="@{/images/diners.png}" width="60px" height="60px"></a>
+									<a><img th:src="@{/images/amex.png}" width="35px" height="35px"></a>
+								</div>
+								<!-- End .social-icons -->
+							</div>
+							<div class="my-5 p-5 text-center stock-message">
+								<p>¡Ingresa tu correo electónico para recibir notificaciones sobre el stock de este
+									producto!
+								</p>
+								<form action="product.html#" class="mb-0">
+									<input type="email" class="form-control m-b-3" placeholder="Correo electrónico"
+										required>
+
+									<input type="submit" class="btn btn-primary shadow-none"
+										style="background-color:#2ca326; border: none;" value="Notificarme">
+								</form>
+							</div>
+							<!-- End .product single-share -->
+						</div>
+						<!-- End .product-single-details -->
+					</div>
+					<!-- End .row -->
+
+
+				</div>
+				<!-- End .product-single-container -->
+
+			</div>
+
+			<section style="background-color: rgb(41, 169, 35);">
+				<div class="container-fluid px-5">
+					<div class="row" th:each="info : ${producto.productoInfo}">
+						<div class="col-lg-7 col-md-6">
+							<div id="accordion2">
+								<h2 style="color: #FFF;">INFORMACION DEL PRODUCTO</h2>
+								<div class="card card-accordion accordion-boxed">
+									<a class="card-header" href="element-accordions.html#" data-toggle="collapse"
+										data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+										DESCRIPCIÓN
+									</a>
+
+									<div id="collapse4" class="collapse" data-parent="#accordion2">
+										<p th:text="${info.descripcion}"></p>
+									</div>
+								</div>
+
+								<div class="card card-accordion accordion-boxed">
+									<a class="card-header collapsed" href="element-accordions.html#"
+										data-toggle="collapse" data-target="#collapse5" aria-expanded="true"
+										aria-controls="collapse5">
+										BENEFICIOS
+									</a>
+
+									<div id="collapse5" class="collapse" data-parent="#accordion2">
+										<p th:text="${info.beneficios}"></p>
+									</div>
+								</div>
+
+								<div class="card card-accordion accordion-boxed">
+									<a class="card-header collapsed" href="element-accordions.html#"
+										data-toggle="collapse" data-target="#collapse6" aria-expanded="true"
+										aria-controls="collapse6">
+										USO SUGERIDO
+									</a>
+
+									<div id="collapse6" class="collapse" data-parent="#accordion2">
+										<p th:text="${info.uso_sugerido}"></p>
+									</div>
+								</div>
+
+								<div class="card card-accordion accordion-boxed">
+									<a class="card-header collapsed" href="element-accordions.html#"
+										data-toggle="collapse" data-target="#collapse7" aria-expanded="true"
+										aria-controls="collapse7">
+										INFORMACION NUTRICIONAL
+									</a>
+
+									<div id="collapse7" class="collapse" data-parent="#accordion2">
+										<p th:text="${info.info_nutricional}"></p>
+									</div>
+								</div>
+
+								<div class="card card-accordion accordion-boxed">
+									<a class="card-header collapsed" href="element-accordions.html#"
+										data-toggle="collapse" data-target="#collapse8" aria-expanded="true"
+										aria-controls="collapse8">
+										INGREDIENTES
+									</a>
+
+									<div id="collapse8" class="collapse" data-parent="#accordion2">
+										<p th:text="${info.ingredientes}"></p>
+									</div>
+								</div>
+
+								<div class="card card-accordion accordion-boxed">
+									<a class="card-header collapsed" href="element-accordions.html#"
+										data-toggle="collapse" data-target="#collapse9" aria-expanded="true"
+										aria-controls="collapse9">
+										PRECAUCIONES
+									</a>
+
+									<div id="collapse9" class="collapse" data-parent="#accordion2">
+										<p th:text="${info.precauciones}"></p>
+									</div>
+								</div>
+
+								<div class="card card-accordion accordion-boxed">
+									<a class="card-header collapsed" href="element-accordions.html#"
+										data-toggle="collapse" data-target="#collapse10" aria-expanded="true"
+										aria-controls="collapse10">
+										REVIEWS
+									</a>
+
+									<div id="collapse10" class="collapse" data-parent="#accordion2">
+										<p>Lorem ipsum dolor sit amet, consectetur
+											adipiscing elit. Curabitur eget leo at velit
+											imperdiet varius. In eu ipsum vitae velit
+											congue iaculis vitae at risus. Nullam tortor
+											nunc, bibendum vitae semper a, volutpat eget
+											massa.</p>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-lg-5 col-md-6 d-flex justify-content-center align-items-center">
+							<div class="container video-container text-center">
+								<iframe width="560" height="315" th:src="${info.url}" title="YouTube video player"
+									frameborder="0"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen></iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="featured-products-section" style="background-color: #FFF;">
+				<div class="container">
+					<h2 class="section-title heading-border ls-20 border-0">Sugerencias</h2>
+					<div class="products-slider custom-products owl-carousel owl-theme nav-outer show-nav-hover nav-image-center"
+						data-owl-options="{
+							'dots': false,
+							'nav': true
+						}">
+						<div class="product-default inner-btn inner-icon inner-icon-inline left-details"
+							th:each="pro, i:${productos}">
+							<figure>
+								<a
+									th:href="@{'/index/objetivo/' + ${menuSub.url} + '/' + ${proCateUrl.url} + '/' + ${pro.id}}">
+									<img th:src="@{'/images/'} + ${pro.imagen}" width="280" height="280"
+										alt="product" />
+								</a>
+								<div class="label-group">
+									<div class="product-label label-sale" th:text="${porcentajes[pro.id]} + '%'"></div>
+								</div>
+								<div class="btn-icon-group">
+									<a th:href="@{/index/productoAgregar(id=${pro.id})}"
+										class="btn-icon btn-add-cart"><i class="icon-shopping-cart"></i></a>
+
+								</div>
+							</figure>
+
+							<div class="product-details">
+								<div class="category-wrap">
+									<div class="category-list" th:each="proCate : ${pro.categoria}">
+										<a th:href="@{'/index/objetivo/' + ${menuSub.url} + '/' + ${proCate.url}}"
+											class="product-category" th:text="${proCate.nombre}"></a>
+									</div>
+								</div>
+
+								<h3 class="product-title pb-2"> <a
+										th:href="@{'/index/objetivo/' + ${menuSub.url} + '/' + ${proCateUrl.url} + '/' + ${pro.id}}"
+										th:text="${pro.nombre}"></a></h3>
+
+								<div class="price-box">
+									<del class="old-price" th:text="'S/. ' + ${preciosTachados[pro.id]}"></del>
+									<span class="product-price" th:text="'S/. ' + ${precios[pro.id]}"></span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- End .featured-proucts -->
+				</div>
+			</section>
+
+		</main>
+		<!-- FOOTER-->
+		<footer th:replace="fragments/footer"></footer>
+	</div>
+
+
+	<div class="loading-overlay">
+		<div class="bounce-loader">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</div>
+
+	<div class="mobile-menu-overlay"></div>
+	<!-- End .mobil-menu-overlay -->
+
+	<!-- MENU MOBILE -->
+	<div th:replace="fragments/menu-mobile"></div>
+
+	<!-- MENU INFERIOR MOBILE-->
+	<div th:replace="fragments/menu-inferior-mobile"></div>
+
+	<!-- POPUP -->
+	<div th:replace="fragments/popup"></div>
+
+	<a id="scroll-top" href="demo4.html#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
+	<div class="button align-items-center d-flex">
+		<a class="button-img ms-lg-2 ms-1" href="#" target="_blank"><img th:src="@{/images/whatsapp.png}" alt=""></a>
+	</div>
+
+	<!-- Plugins JS File -->
+	<script data-cfasync="false"
+		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/assets/js/plugins.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+
+	<!-- Main JS File -->
+	<script th:src="@{/assets/js/main.min.js}"></script>
+
+	<script>
+		function alternarMensajes() {
+			var message1 = document.getElementById('message1');
+			var message2 = document.getElementById('message2');
+
+			setInterval(function () {
+				fadeOut(message1, function () {
+					message1.style.display = 'none';
+					message2.style.display = 'block';
+					fadeIn(message2);
+					var temp = message1;
+					message1 = message2;
+					message2 = temp;
+				});
+			}, 5000); 
+		}
+
+		function fadeOut(element, callback) {
+			var opacity = 1;
+			var intervalID = setInterval(function () {
+				if (opacity > 0) {
+					opacity -= 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+					if (callback) {
+						callback();
+					}
+				}
+			}, 50);
+		}
+
+		function fadeIn(element) {
+			var opacity = 0;
+			element.style.opacity = opacity;
+			element.style.display = 'block';
+			var intervalID = setInterval(function () {
+				if (opacity < 1) {
+					opacity += 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+				}
+			}, 50); 
+		}
+
+		alternarMensajes();
+	</script>
+
+	<script>
+		document.querySelectorAll('.config-size-list a').forEach((option) => {
+			option.addEventListener('click', function () {
+				var idPresentacion = option.getAttribute('data-id');
+				document.getElementById('idPresentacion').value = idPresentacion;
+				console.log('Respuesta del servidor:', idPresentacion);
+
+			});
+		});
+
+	</script>
+
+	<script th:inline="javascript">
+		const enlacesPresentacion = document.querySelectorAll('.config-size-list a');
+		const precioProductoSpan = document.getElementById('precioProducto');
+
+		enlacesPresentacion.forEach(enlace => {
+			enlace.addEventListener('click', evento => {
+				evento.preventDefault();
+
+				const idPresentacion = enlace.dataset.id;
+
+				fetch(`/index/precioPresentacion?idPresentacion=${idPresentacion}`)
+					.then(respuesta => respuesta.json())
+					.then(data => {
+						console.log('Respuesta del servidor:', data);
+						if (typeof data === 'number' && !isNaN(data)) {
+							const nuevoPrecio = data;
+							console.log('Nuevo precio:', nuevoPrecio);
+							precioProductoSpan.innerText = 'S/. ' + nuevoPrecio.toFixed(2);
+						} else {
+							console.error('La respuesta del servidor no es un número válido:', data);
+						}
+					})
+					.catch(error => console.error('Error al obtener el precio:', error));
+			});
+		});
+	</script>
+
+</body>
+
+</html>

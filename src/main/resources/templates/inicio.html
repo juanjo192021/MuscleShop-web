@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--th:replace="fragments/head"-->
+<head>
+<!--	<title>Inicio</title>-->
+	<th:block th:replace="fragments/head :: global-style"></th:block>
+	<th:block th:replace="fragments/head :: inicio-style"></th:block>
+</head>
+
+<body style="background-color: #f8f8f8;">
+	<div class="page-wrapper">
+
+		<!-- NOTICE -->
+		<div th:replace="fragments/notice"></div>
+
+		<!-- HEADER -->
+		<header th:replace="fragments/header"></header>
+
+		<!-- MAIN-->
+		<main class="main">
+
+			<!--SECCION CARRUSEL-->
+
+			<section id="section-carousel">
+				<div id="carouselExampleInterval" class="carousel slide carousel-fade h-100" data-ride="carousel">
+					<ol class="carousel-indicators">
+						<li th:each="banner, stat : ${banner}"
+							th:data-slide-to="${stat.index}"
+							th:classappend="${stat.index == 0} ? 'active' : ''"
+							data-target="#carouselExampleInterval">
+						</li>
+					</ol>
+					<div class="carousel-inner h-100">
+						<div th:each="banner,stat : ${banner}"
+							 th:classappend="${stat.index == 0} ? 'carousel-item h-100 active' : 'carousel-item h-100'"
+							 data-interval="5000">
+							<img th:src="@{'/images/' + ${banner.nombre}}" class="d-block w-100" alt="...">
+						</div>
+					</div>
+					<button class="carousel-control-prev" type="button" data-target="#carouselExampleInterval" data-slide="prev">
+						<span class="carousel-control-prev-icon fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-target="#carouselExampleInterval" data-slide="next">
+						<span class="carousel-control-next-icon fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</button>
+				</div>
+			</section>
+
+			<!--SECCION OBJETIVOS-->
+
+			<section class="new-products-section objetivos" id="section-objetivos" style="background-color: #FFF;">
+				<div class="container">
+					<h2 class="section-title border-0 text-left">
+						¿CUÁL ES TU OBJETIVO?
+					</h2>
+					<div class="owl-carousel owl-theme show-nav-hover slide-animate" data-owl-options="{
+					'dots': false,
+					'nav': true,
+					'loop': true,
+					'responsive': {
+        				'0': {'items': 1},
+           				'768': {'items': 2},
+            			'992': {'items': 4}
+    }
+				}">
+						<div class="product-category" data-animation-name="fadeInUpShorter"
+							th:each="subMenu : ${subMenu}">
+							<a th:href="@{'/index/objetivo/' + ${subMenu.url}}">
+								<figure>
+									<img th:src="@{'/images/'} + ${subMenu.imagen}" class="objetivo-img" alt="category"/>
+								</figure>
+
+
+								<div class="category-content">
+									<h3 th:text="${subMenu.nombre}"></h3>
+								</div>
+							</a>
+						</div>
+					</div>
+
+				</div>
+			</section>
+
+			<!--SECCION BEST SELLERS-->
+
+			<section id="section-best-sellers" style="background-color: #EFEFEF;">
+				<div class="container">
+					<div style="display: flex; justify-content: space-between;">
+						<div>
+							<h2 class="section-title border-0 text-left">BEST SELLERS</h2>
+						</div>
+						<div>
+							<a class="btn btn-primary" id="btn-best-sellers">
+								<span style="display: block;">Comprar</span>
+								<span>Best Sellers</span>
+							</a>
+						</div>
+					</div>
+					<div class="products-slider custom-products owl-carousel owl-theme nav-outer show-nav-hover nav-image-center"
+						data-owl-options="{
+							'dots': false,
+							'nav': true,
+							'loop': true
+						}">
+
+						<div class="product-default inner-btn inner-icon inner-icon-inline left-details m-0"
+							th:each="pro:${proForma}">
+							<figure style="height: 280px;">
+								<a th:href="@{'/index/inicio/' + ${pro.categoria.url} + '/' + ${pro.id}}">
+									<img th:src="@{'/images/'} + ${pro.imagen}" width="280" height="280"
+										alt="product" style="object-fit: cover"/>
+								</a>
+
+								<div class="btn-icon-group">
+									<a th:href="@{/index/productoAgregar(id=${pro.id})}"
+										class="btn-icon btn-add-cart"><i
+											class="icon-shopping-cart"></i></a>
+									
+								</div>
+							</figure>
+
+							<div class="product-details">
+
+								<h3 class="product-title pb-2"> <a
+										th:href="@{'/index/inicio/' + ${pro.categoria.url} + '/' + ${pro.id}}"
+										th:text="${pro.nombre}"></a></h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!--SECCION BLOGS-->
+
+			<section id="section-blog">
+				<div class="container">
+					<div style="display: flex; justify-content: space-between;">
+						<div>
+							<h2 class="section-title border-0 text-left">NUESTRO BLOG</h2>
+						</div>
+						<div>
+							<a class="btn btn-primary" id="btn-ver-blog" th:href="@{'/index/blog'}">
+								<!--<span style="display: block;">Comprar</span>-->
+								<span>Ver todo</span>
+							</a>
+						</div>
+					</div>
+
+					<div class="d-flex flex-row justify-content-around justify-content-lg-between" style="padding: 0 10px;">
+						<div th:each="articulosBlog : ${articulosBlog}" class="card m-0">
+							<img th:src="@{'/images/'} + ${articulosBlog.imagen}" class="card-img-top" alt="...">
+							<div class="card-body">
+								<h4 class="card-title" th:text="${articulosBlog.titulo}"></h4>
+								<div class="contenedor-descripcion-blog">
+									<p class="card-text" th:text="${articulosBlog.descripcion}"></p>
+								</div>
+								<a th:href="@{'/index/blog/ver-blog/' + ${articulosBlog.id}}" class="card-link" style="text-decoration: none;">Leer más ...</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!--SECCION REVIEWS-->
+
+			<section id="section-reviews" style="background-color: #EFEFEF;">
+				<div class="container">
+					<h2 class="section-title text-center pb-3" style="color: #000000;">Reviews</h2>
+
+					<div class="testimonials-carousel owl-carousel owl-theme images-left" data-owl-options="{
+						'margin': 20,
+                        'lazyLoad': true,
+                        'autoHeight': true,
+                        'dots': false,
+                        'responsive': {
+								'0': {
+									'items': 1
+								},
+								'992': {
+									'items': 1
+								}
+							}
+                    	}">
+						<div class="container reviews" th:each="mostrarCom : ${mostrarCom}">
+							<div class="row m-0">
+								<div class="col-lg-6 col-12 p-0" style="display:flex; flex-direction: column; justify-content: space-between; align-items: center;">
+									<div style="text-align: center;">
+										<h3>EXCELENT 4.5 / 5  ⭐</h3>
+										<p>Basado en
+											<a th:text="${#lists.size(mostrarCom)} + ' comentarios'" style="cursor: pointer;"></a>
+										</p>
+									</div>
+									<div style="width: 100%; overflow-y: scroll; height: 365px;">
+										<div >
+											<p style="margin-top: 15px;">Show our latest review</p>
+										</div>
+										<div style="background: #FFFFFF; padding: 15px 20px; margin: 15px 0;">
+											<div style="display: flex;">
+												<p>⭐⭐⭐⭐⭐ ✅ Verificado</p>
+											</div>
+											<div>
+												<h5 th:text="${mostrarCom.pedidoProducto.pedido.usuario.usuarioPerfil.nombres} + ' ' + ${mostrarCom.pedidoProducto.pedido.usuario.usuarioPerfil.apellidos} + ', hace 5 semanas'"></h5>
+
+												<h4>Easy delivery</h4>
+
+												<p>Easy delivery, great price and the items are very tasly</p>
+											</div>
+										</div>
+										<div style="background: #FFFFFF; padding: 15px 20px; margin: 15px 0;">
+											<div style="display: flex;">
+												<p>⭐⭐⭐⭐⭐ ✅ Verificado</p>
+											</div>
+											<div>
+												<h5 th:text="${mostrarCom.pedidoProducto.pedido.usuario.usuarioPerfil.nombres} + ' ' + ${mostrarCom.pedidoProducto.pedido.usuario.usuarioPerfil.apellidos} + ', hace 5 semanas'"></h5>
+
+												<h4>Easy delivery</h4>
+
+												<p>Easy delivery, great price and the items are very tasly</p>
+											</div>
+										</div>
+										<div style="background: #FFFFFF; padding: 15px 20px; margin: 15px 0;">
+											<div style="display: flex;">
+												<p>⭐⭐⭐⭐⭐ ✅ Verificado</p>
+											</div>
+											<div>
+												<h5 th:text="${mostrarCom.pedidoProducto.pedido.usuario.usuarioPerfil.nombres} + ' ' + ${mostrarCom.pedidoProducto.pedido.usuario.usuarioPerfil.apellidos} + ', hace 5 semanas'"></h5>
+
+												<h4>Easy delivery</h4>
+
+												<p>Easy delivery, great price and the items are very tasly</p>
+											</div>
+										</div>
+										<div class="testimonial">
+											<div class="testimonial-owner">
+												<figure>
+													<img th:src="@{/images/clients/client1.png}" alt="client">
+												</figure>
+												<div>
+													<strong class="testimonial-title"
+															th:text="${mostrarCom.pedidoProducto.pedido.usuario.usuarioPerfil.nombres} + ' ' + ${mostrarCom.pedidoProducto.pedido.usuario.usuarioPerfil.apellidos}"></strong>
+													<div class="ratings-container">
+														<div class="product-ratings">
+															<span class="ratings" style="width:80%"></span>
+															<span class="tooltiptext tooltip-top"></span>
+														</div>
+													</div>
+												</div>
+											</div><!-- End .testimonial-owner -->
+
+											<blockquote>
+												<p th:text="${mostrarCom.comentario}"></p>
+											</blockquote>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6 image p-0 d-lg-block d-none">
+									<figure>
+										<img th:src="@{'/images/'} + ${mostrarCom.pedidoProducto.producto.imagen}" />
+									</figure>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+
+			<!--SECCION MARCAS AFILIADAS-->
+
+			<section id="section-marcas-afiliadas">
+				<div class="container">
+					<h4 class="text-center font-italic" style="margin-bottom: 6.4rem; line-height: 1">Encuéntranos también en</h4>
+					<div class="d-flex justify-content-around align-items-center mb-3">
+						<figure>
+							<img th:src="@{/images/logosAfiliados/Falabella.png}" style="width: 150px">
+						</figure>
+						<figure>
+							<img th:src="@{/images/logosAfiliados/Ripley.png}" style="width: 150px">
+						</figure>
+						<figure>
+							<img th:src="@{/images/logosAfiliados/Rappi.png}" style="width: 150px">
+						</figure>
+						<figure>
+							<img th:src="@{/images/logosAfiliados/Juntoz.png}" style="width: 150px">
+						</figure>
+					</div>
+					<div class="d-flex justify-content-around align-items-center">
+						<figure>
+							<img th:src="@{/images/logosAfiliados/MiFarma.png}" style="width: 180px" alt="MiFarma-logo">
+						</figure>
+						<figure>
+							<img th:src="@{/images/logosAfiliados/Inkafarma.png}" style="width: 180px">
+						</figure>
+						<figure>
+							<img th:src="@{/images/logosAfiliados/DinersClub.png}" style="width: 180px">
+						</figure>
+						<figure>
+							<img th:src="@{/images/logosAfiliados/ShopStar.png}" style="width: 180px">
+						</figure>
+					</div>
+				</div>
+			</section>
+
+		</main>
+
+	</div>
+
+	<!-- FOOTER-->
+
+	<footer th:replace="fragments/footer"></footer>
+
+	<div class="loading-overlay">
+		<div class="bounce-loader">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</div>
+
+	<div class="mobile-menu-overlay"></div>
+	<!-- End .mobil-menu-overlay -->
+
+	<!-- MENU MOBILE -->
+	<div th:replace="fragments/menu-mobile"></div>
+
+	<!-- MENU INFERIOR MOBILE-->
+	<div th:replace="fragments/menu-inferior-mobile"></div>
+
+	<!-- POPUP -->
+	<div th:replace="fragments/popup"></div>
+
+
+	<a id="scroll-top" href="demo4.html#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
+	<div class="button align-items-center d-flex">
+		<a class="button-img ms-lg-2 ms-1" href="#" target="_blank"><img th:src="@{/images/whatsapp.png}" alt=""></a>
+	</div>
+
+	<!-- Plugins JS File -->
+	<script data-cfasync="false"
+		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<!--<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>-->
+	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/assets/js/plugins.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+
+	<!-- Main JS File -->
+	<script th:src="@{/assets/js/main.min.js}"></script>
+	<script>
+		// Variables globales para los mensajes
+		var message1 = document.getElementById('message1');
+		var message2 = document.getElementById('message2');
+
+		function alternarMensajes() {
+			fadeOut(message1, function () {
+				message1.style.display = 'none';
+				message2.style.display = 'block';
+				fadeIn(message2);
+				// Intercambiar los mensajes
+				var temp = message1;
+				message1 = message2;
+				message2 = temp;
+				// Guardar el tiempo actual en localStorage
+				window.localStorage.setItem('lastMessageChange', new Date().getTime());
+				setTimeout(alternarMensajes, 5000);
+			});
+		}
+
+		function fadeOut(element, callback) {
+			var opacity = 1;
+			var intervalID = setInterval(function () {
+				if (opacity > 0) {
+					opacity -= 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+					if (callback) {
+						callback();
+					}
+				}
+			}, 50);
+		}
+
+		function fadeIn(element) {
+			var opacity = 0;
+			element.style.opacity = opacity;
+			element.style.display = 'block';
+			var intervalID = setInterval(function () {
+				if (opacity < 1) {
+					opacity += 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+				}
+			}, 50);
+		}
+
+		// Comprobar si hay un tiempo de cambio de mensaje guardado en localStorage
+		if (window.localStorage.getItem('lastMessageChange')) {
+			// Calcular el tiempo transcurrido desde el último cambio de mensaje
+			var timeSinceLastChange = new Date().getTime() - parseInt(window.localStorage.getItem('lastMessageChange'));
+			// Si el tiempo transcurrido es mayor a 5 segundos (5000 ms), actualizar los mensajes
+			if (timeSinceLastChange > 5000) {
+				alternarMensajes();
+			} else {
+				// Si no ha pasado el tiempo suficiente, actualizar los mensajes en el tiempo restante
+				setTimeout(alternarMensajes, 5000 - timeSinceLastChange);
+			}
+		} else {
+			// Si no hay un tiempo de cambio de mensaje guardado en localStorage, actualizar los mensajes
+			alternarMensajes();
+		}
+	</script>
+
+</body>
+
+</html>

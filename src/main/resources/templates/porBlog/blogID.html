@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head"></head>
+
+<body style="background-color: #f8f8f8;">
+	<div class="page-wrapper">
+		<!-- NOTICE -->
+		<div th:replace="fragments/notice"></div>
+
+		<!-- HEADER -->
+		<header th:replace="fragments/header"></header>
+
+		<main class="main">
+			<div class="container">
+				<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a>
+						</li>
+						<li class="breadcrumb-item"><a
+								th:href="@{'/index/blog/ver-blog/' + ${session.articulo.id}}"
+								th:text="${session.articulo.titulo}"></a></li>
+					</ol>
+				</nav>
+
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-9">
+							<article class="post single articuloID">
+								<div class="post-media">
+									<img th:src="@{'/images/'} + ${session.articulo.imagen}" alt="Post">
+								</div><!-- End .post-media -->
+
+								<div class="post-body">
+									<div class="post-date">
+										<span class="day" style="color: #38d430;">22</span>
+										<span class="month" style="background-color: #38d430;">Jun</span>
+									</div><!-- End .post-date -->
+
+									<h2 class="post-title" th:text="${session.articulo.titulo}"></h2>
+
+									<div class="post-meta">
+										<a href="single.html#" class="hash-scroll"
+											th:text="${session.articulo.articuloCom.size()} + ' Comentarios'"></a>
+									</div><!-- End .post-meta -->
+
+									<div class="post-content mt-3">
+										<p th:text="${session.articulo.descripcion}">
+										</p>
+									</div><!-- End .post-content -->
+									<hr class="large-divider my-3 pb-4">
+
+									<div class="post-share">
+										<h3 class="d-flex align-items-center">
+											<i class="fas fa-share"></i>
+											Compartir este Articulo
+										</h3>
+
+										<div class="social-icons">
+											<a href="single.html#" class="social-icon social-facebook" target="_blank"
+												title="Facebook">
+												<i class="icon-facebook"></i>
+											</a>
+											<a href="single.html#" class="social-icon social-twitter" target="_blank"
+												title="Twitter">
+												<i class="icon-twitter"></i>
+											</a>
+											<a href="single.html#" class="social-icon social-linkedin" target="_blank"
+												title="Linkedin">
+												<i class="fab fa-linkedin-in"></i>
+											</a>
+											<a href="single.html#" class="social-icon social-gplus" target="_blank"
+												title="Google +">
+												<i class="fab fa-google-plus-g"></i>
+											</a>
+											<a href="single.html#" class="social-icon social-mail" target="_blank"
+												title="Email">
+												<i class="icon-mail-alt"></i>
+											</a>
+										</div><!-- End .social-icons -->
+									</div><!-- End .post-share -->
+
+									<hr class="large-divider my-3 pb-4">
+
+									<div class="post-author comentarios">
+										<h3><i class="far fa-user"></i>Comentarios</h3>
+
+										<div class="author-content my-3"
+											th:each="comentario : ${session.articulo.articuloCom}">
+											<h4 class="m-0 my-1" th:text="${comentario.nombre}"></h4>
+											<p th:text="${comentario.comentario}"></p>
+										</div><!-- End .author.content -->
+									</div><!-- End .post-author -->
+
+									<div class="comment-respond pt-5">
+										<h3>Deja un Comentario</h3>
+
+										<form
+											th:action="@{/index/blog/agregar-comentario/{id}(id=${session.articulo.id})}"
+											method="post">
+
+											<div class="form-group">
+												<label>Comentario</label>
+												<textarea cols="30" rows="1" name="comentario" class="form-control"
+													required></textarea>
+											</div><!-- End .form-group -->
+
+											<div class="form-group">
+												<label>Nombre</label>
+												<input type="text" class="form-control" name="nombre" required>
+											</div><!-- End .form-group -->
+
+											<div class="form-footer my-0">
+												<button type="submit" class="btn btn-sm btn-primary">Agregar Comentario</button>
+											</div><!-- End .form-footer -->
+										</form>
+									</div><!-- End .comment-respond -->
+								</div><!-- End .post-body -->
+							</article><!-- End .post -->
+
+							<hr class="mt-2 mb-1">
+
+							<div class="related-posts">
+								<h4>Recomendaciones</h4>
+
+								<div class="owl-carousel owl-theme related-posts-carousel" data-owl-options="{
+								'dots': false
+							}">
+									<article class="post" th:each="articulo : ${articulosList}">
+										<div class="post-media zoom-effect">
+											<a th:href="@{'/index/blog/ver-blog/' + ${articulo.id}}">
+												<img th:src="@{'/images/'} + ${articulo.imagen}" alt="Post">
+											</a>
+										</div><!-- End .post-media -->
+
+										<div class="post-body">
+											<div class="post-date">
+												<span class="day" style="color: #38d430;">29</span>
+												<span class="month" style="background-color: #38d430;">Jun</span>
+											</div><!-- End .post-date -->
+
+											<h2 class="post-title">
+												<a th:href="@{'/index/blog/ver-blog/' + ${articulo.id}}"
+													th:text="${articulo.titulo}"></a>
+											</h2>
+
+											<div class="post-content">
+												<p th:text="${articulo.descripcion}"></p>
+
+												<a href="single.html" class="read-more">Leer más<i
+														class="fas fa-angle-right"></i></a>
+											</div><!-- End .post-content -->
+										</div><!-- End .post-body -->
+									</article>
+
+
+								</div><!-- End .owl-carousel -->
+							</div><!-- End .related-posts -->
+						</div><!-- End .col-lg-9 -->
+
+						<div class="sidebar-toggle custom-sidebar-toggle">
+							<i class="fas fa-sliders-h"></i>
+						</div>
+						<div class="sidebar-overlay"></div>
+						<aside class="sidebar mobile-sidebar col-lg-3">
+							<div class="sidebar-wrapper" data-sticky-sidebar-options='{"offsetTop": 72}'>
+								<div class="widget widget-categories">
+									<h4 class="widget-title">Categorias</h4>
+
+									<ul class="list">
+										<li><a href="single.html#">Blogs</a></li>
+										<li><a href="single.html#">Salud</a></li>
+										<li><a href="single.html#">Recetas</a></li>
+										<li><a href="single.html#">Categoria Ejm</a></li>
+										<li><a href="single.html#">Categoria Ejm</a></li>
+									</ul>
+								</div><!-- End .widget -->
+
+								<div class="widget">
+									<h4 class="widget-title">Post Recientes</h4>
+
+									<ul class="simple-post-list">
+										<li th:each="articulo : ${listaArticulos}" th:limit="2">
+											<div class="post-media">
+												<a th:href="@{'/index/blog/ver-blog/' + ${articulo.id}}">
+													<img th:src="@{'/images/'} + ${articulo.imagen}" alt="Post">
+												</a>
+											</div><!-- End .post-media -->
+											<div class="post-info">
+												<a th:href="@{'/index/blog/ver-blog/' + ${articulo.id}}"
+													th:text="${articulo.titulo}" style="color: #545456;"></a>
+												<div class="post-meta">
+													April 08, 2018
+												</div><!-- End .post-meta -->
+											</div><!-- End .post-info -->
+										</li>
+									</ul>
+								</div><!-- End .widget -->
+							</div><!-- End .sidebar-wrapper -->
+						</aside><!-- End .col-lg-3 -->
+					</div><!-- End .row -->
+				</div><!-- End .container -->
+
+
+		</main>
+	</div>
+
+	<!-- FOOTER-->
+	<footer th:replace="fragments/footer"></footer>
+
+	<div class="loading-overlay">
+		<div class="bounce-loader">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</div>
+
+	<div class="mobile-menu-overlay"></div>
+	<!-- End .mobil-menu-overlay -->
+
+	<!-- MENU MOBILE -->
+	<div th:replace="fragments/menu-mobile"></div>
+
+	<!-- MENU INFERIOR MOBILE-->
+	<div th:replace="fragments/menu-inferior-mobile"></div>
+
+	<!-- POPUP -->
+	<div th:replace="fragments/popup"></div>
+
+
+	<a id="scroll-top" href="demo4.html#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
+	<div class="button align-items-center d-flex">
+		<a class="button-img ms-lg-2 ms-1" href="#" target="_blank"><img th:src="@{/images/whatsapp.png}" alt=""></a>
+	</div>
+
+	<!-- Plugins JS File -->
+	<script data-cfasync="false"
+		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/assets/js/plugins.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+
+	<!-- Main JS File -->
+	<script th:src="@{/assets/js/main.min.js}"></script>
+	<script>
+		// Función para alternar entre los mensajes cada cierto tiempo
+		function alternarMensajes() {
+			var message1 = document.getElementById('message1');
+			var message2 = document.getElementById('message2');
+
+			setInterval(function () {
+				// Desvanecer gradualmente el mensaje actual
+				fadeOut(message1, function () {
+					// Una vez que la transición de desvanecimiento ha terminado, cambiar el mensaje
+					message1.style.display = 'none';
+					message2.style.display = 'block';
+					// Desvanecer gradualmente el nuevo mensaje
+					fadeIn(message2);
+					// Intercambiar los mensajes
+					var temp = message1;
+					message1 = message2;
+					message2 = temp;
+				});
+			}, 5000); // Cambiar el mensaje cada 5 segundos (5000 milisegundos)
+		}
+
+		// Función para desvanecer gradualmente un elemento
+		function fadeOut(element, callback) {
+			var opacity = 1;
+			var intervalID = setInterval(function () {
+				if (opacity > 0) {
+					opacity -= 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+					// Llamar al callback cuando la transición haya terminado
+					if (callback) {
+						callback();
+					}
+				}
+			}, 50); // Duración de la transición: 50 milisegundos
+		}
+
+		// Función para mostrar gradualmente un elemento
+		function fadeIn(element) {
+			var opacity = 0;
+			element.style.opacity = opacity;
+			element.style.display = 'block';
+			var intervalID = setInterval(function () {
+				if (opacity < 1) {
+					opacity += 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+				}
+			}, 50); // Duración de la transición: 50 milisegundos
+		}
+
+		// Llamar a la función para iniciar el cambio de mensajes
+		alternarMensajes();
+	</script>
+
+</body>
+
+
+</html>

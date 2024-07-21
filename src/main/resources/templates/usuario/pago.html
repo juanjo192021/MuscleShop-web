@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+	<div class="page-wrapper">
+		<!-- NOTICE -->
+		<div th:replace="fragments/notice"></div>
+
+		<!-- HEADER -->
+		<header th:replace="fragments/header"></header>
+
+		<main class="main">
+			<div class="container checkout-container">
+
+				<div class="checkout-discount mt-5">
+					<h4>¿Tienes un cupón?
+						<button data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+							aria-controls="collapseOne" class="btn btn-link btn-toggle">INGRESA TU CÓDIGO</button>
+					</h4>
+
+					<div id="collapseTwo" class="collapse p-2">
+						<div class="feature-box">
+							<div class="feature-box-content">
+								<p>Si tienes el código de un cupón, ingresalo aquí.</p>
+
+								<form action="checkout.html#">
+									<div class="input-group">
+										<input type="text" class="form-control form-control-sm w-auto"
+											value="Código cupon" required="" />
+										<div class="input-group-append">
+											<button class="btn btn-sm mt-0" type="submit"
+												style="background-color: #545456; color: #FFF;">
+												Aplicar
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<form id="checkout-form">
+					<div class="row">
+
+						<div class="col-lg-7">
+							<ul class="checkout-steps">
+								<li>
+									<div th:if="${session.usuario != null}">
+										<h2 class="step-title">Facturación y envío</h2>
+										<hr class="large-divider my-3 pb-4">
+
+										<div class="select-custom">
+											<label>Utilizar una de mis direcciones guardadas</label>
+											<select name="direccionSelec" class="form-control"
+												onchange="mostrarOcultarCampos()">
+												<option value="" selected="selected">Seleccione una dirección
+												</option>
+												<th:block th:each="direccion : ${direcciones}">
+													<option th:value="${direccion.id}" th:text="${direccion.direccion}"
+														th:data-referencia="${direccion.referencia}">
+													</option>
+												</th:block>
+											</select>
+										</div>
+									</div>
+									<div th:if="${session.usuario == null}">
+										<h2 class="step-title">1. Datos Personales</h2>
+										<hr class="large-divider my-3 pb-4">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Nombres <abbr class="required"
+															title="required">*</abbr></label>
+													<input type="text" class="form-control" name="nombres"
+														placeholder="Ingrese sus nombres" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Apellidos <abbr class="required"
+															title="required">*</abbr></label>
+													<input type="text" class="form-control" name="apellidos"
+														placeholder="Ingrese sus apellidos" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Correo electrónico <abbr class="required"
+															title="required">*</abbr></label>
+													<input type="email" class="form-control" name="correo"
+														placeholder="Ingrese su correo electrónico" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Contraseña <abbr class="required"
+															title="required">*</abbr></label>
+													<input type="password" class="form-control" name="password"
+														placeholder="Ingrese su contraseña" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Teléfono <abbr class="required"
+															title="required">*</abbr></label>
+													<input type="text" class="form-control" name="telefono"
+														placeholder="Ingrese su telefono" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div th:if="${session.usuario != null}" class="session-active">
+										<h2 class="step-title">1. Datos Personales</h2>
+										<hr class="large-divider my-3 pb-4">
+										<div class="row">
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Nombres
+														<abbr class="required" title="required">*</abbr>
+													</label>
+													<input type="text" class="form-control"
+														th:value="${usuario.usuarioPerfil.nombres}" />
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Apellidos
+														<abbr class="required" title="required">*</abbr></label>
+													<input type="text" class="form-control"
+														th:value="${usuario.usuarioPerfil.apellidos}" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Tipo de documento
+														<abbr class="required" title="required">*</abbr></label>
+													<select name="orderby" class="form-control">
+														<option value="" selected="selected">DNI
+														</option>
+														<option value="1">Opción 2</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Número de Documento
+														<abbr class="required" title="required">*</abbr></label>
+													<input type="text" class="form-control" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Correo electrónico <abbr class="required"
+															title="required">*</abbr></label>
+													<input type="text" class="form-control"
+														th:value="${usuario.correo}" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Celular
+														<abbr class="required" title="required">*</abbr></label>
+													<input type="text" class="form-control"
+														th:value="${usuario.usuarioPerfil.telefono}" />
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+									<h2 class="step-title">2. Seleccionar Comprobante de Pago</h2>
+									<hr class="large-divider my-3 pb-4">
+
+									<div class="select-custom">
+										<label>Seleccionar comprobante <abbr class="required"
+												title="requerido">*</abbr></label>
+										<select name="comprobante.id" class="form-control">
+											<!-- Ajustado el nombre del selector -->
+											<option value="" selected="selected">Seleccionar una opción</option>
+											<th:block th:each="comprobantePago : ${comprobanteList}">
+												<!-- Cambiado de ${comprobante} a ${comprobanteList} -->
+												<option th:value="${comprobantePago.id}">
+													<th:text th:text="${comprobantePago.nombre}">
+												</option>
+											</th:block>
+										</select>
+									</div>
+
+
+									<h2 class="step-title">3. Dirección de Entrega</h2>
+									<hr class="large-divider my-3 pb-4">
+
+									<div class="form-group mb-1 pb-2" id="camposDireccion">
+										<label>Dirección completa
+											<abbr class="required" title="required">*</abbr></label>
+										<input type="text" class="form-control" id="direccion" name="direccion" />
+									</div>
+
+									<div class="form-group" id="camposReferencia">
+										<label>Referencia
+											<abbr class="required" title="required">*</abbr></label>
+										<input type="text" class="form-control" id="referencia" name="referencia" />
+									</div>
+
+									<div id="infoDireccion" style="display: none;" class="session-active">
+										<div class="form-group mb-1 pb-2">
+											<label>Dirección completa <abbr class="required"
+													title="required">*</abbr></label>
+											<input type="text" class="form-control" id="direccionMostrar"
+												name="direccion" readonly />
+										</div>
+
+										<div class="form-group">
+											<label>Referencia <abbr class="required" title="required">*</abbr></label>
+											<input type="text" class="form-control" id="referenciaMostrar"
+												name="referencia" readonly />
+										</div>
+									</div>
+
+
+									<div class="select-custom">
+										<label>Departamento <abbr class="required" title="required">*</abbr></label>
+										<select id="id_region" value="" class="form-control">
+											<option value="" selected="selected">Selecciona un departamento</option>
+
+										</select>
+									</div>
+
+									<div class="select-custom">
+										<label>Provincia <abbr class="required" title="required">*</abbr></label>
+										<select id="id_provincia" class="form-control">
+											<option value="" selected="selected">Selecciona una opción</option>
+										</select>
+									</div>
+
+									<div class="select-custom">
+										<label>Distrito <abbr class="required" title="required">*</abbr></label>
+										<select id="id_distrito" class="form-control">
+											<option value="" selected="selected">Selecciona una opción</option>
+										</select>
+									</div>
+									<input type="hidden" id="ubigeo_id" name="ubigeo_id">
+
+								</li>
+							</ul>
+						</div>
+						<!-- End .col-lg-8 -->
+
+						<div class="col-lg-5">
+							<div class="order-summary">
+								<h3>TU PEDIDO</h3>
+
+								<table class="table table-mini-cart">
+									<thead>
+										<tr>
+											<th colspan="2">Productos del Carrito</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="pedidoPro : ${session.carrito}">
+											<td class="product-col">
+												<h3 class="product-title"
+													th:text="${pedidoPro.producto.nombre + ' × ' + pedidoPro.cantidad + (pedidoPro.productoProDetal != null ? ' × ' + pedidoPro.productoProDetal.propiedadesDetalles.detalles.nombre : '')}">
+												</h3>
+											</td>
+
+											<td class="price-col">
+												<span class="cart-product-qty"
+													th:if="${pedidoPro.productoProDetal != null}"
+													th:text="'S/. ' + ${pedidoPro.productoProDetal.precio}"></span>
+												<span th:unless="${pedidoPro.productoProDetal != null}"
+													th:text="'S/. ' + ${precios[pedidoPro.producto.id]}"></span>
+											</td>
+										</tr>
+
+									</tbody>
+									<tfoot>
+										<tr class="cart-subtotal">
+											<td>
+												<h4>Subtotal</h4>
+											</td>
+
+											<td class="price-col">
+												<span id="subtotal-price"
+													th:text="'  S/.' + ${session.totalCarrito}"></span>
+											</td>
+										</tr>
+										<tr class="order-shipping">
+											<td class="text-left">
+												<h4 class="m-b-sm">Envio</h4>
+											</td>
+											<td colspan="2">
+												<h4 id="envio-cost"></h4>
+											</td>
+										</tr>
+
+										<tr class="order-total">
+											<td>
+												<h4>Total</h4>
+											</td>
+											<td>
+												<b id="total-price"></b>
+											</td>
+										</tr>
+									</tfoot>
+								</table>
+
+								<div class="payment-methods mb-0">
+									<h4 class="">Seleccionar Método de Pago</h4>
+									<div class="form-group">
+										<th:block th:each="metodoPago : ${metodo}">
+											<div class="custom-control custom-radio m-0">
+												<input type="radio" th:id="radio_+${metodoPago.id}" name="${metodoPago.id}"
+													   class="custom-control-input" th:value="${metodoPago.id}" th:onclick="'crearBoton(' + ${metodoPago.id} + ')'">
+												<label for="radio_${metodoPago.id}" class="custom-control-label"
+													   th:text="${metodoPago.nombre}"></label>
+											</div>
+										</th:block>
+									</div>
+								</div>
+								<div class="payment-methods">
+									<p>Tus datos personales se utilizarán para procesar tu pedido, mejorar tu
+										experiencia en esta web y otros propósitos descritos en nuestras políticas de
+										seguridad.</p>
+									<div class="form-group mb-1">
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="terms-checkbox" />
+											<label class="custom-control-label" for="terms-checkbox"
+												style="font-weight: 600; color: #000;">He leído y estoy de acuerdo con
+												los términos y condiciones de la web</label>
+										</div>
+									</div>
+								</div>
+								<div id="buttonContainer"></div>
+							</div>
+							<!-- End .cart-summary -->
+						</div>
+
+						<!-- End .col-lg-4 -->
+					</div>
+				</form>
+			</div>
+		</main>
+	</div>
+
+	<!-- FOOTER-->
+	<footer th:replace="fragments/footer"></footer>
+
+	<div class="loading-overlay">
+		<div class="bounce-loader">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</div>
+
+	<div class="mobile-menu-overlay"></div>
+	<!-- End .mobil-menu-overlay -->
+
+	<!-- MENU MOBILE -->
+	<div th:replace="fragments/menu-mobile"></div>
+
+	<!-- MENU INFERIOR MOBILE-->
+	<div th:replace="fragments/menu-inferior-mobile"></div>
+
+	<!-- POPUP -->
+	<div th:replace="fragments/popup"></div>
+
+
+	<a id="scroll-top" href="demo4.html#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
+	<div class="button align-items-center d-flex">
+		<a class="button-img ms-lg-2 ms-1" href="#" target="_blank"><img th:src="@{/images/whatsapp.png}" alt=""></a>
+	</div>
+
+	<!-- Plugins JS File -->
+	<script data-cfasync="false"
+		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/assets/js/plugins.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+
+	<!-- Main JS File -->
+	<script th:src="@{/assets/js/main.min.js}"></script>
+	<script>
+
+		const crearBoton = async(id) => {
+			// Elimina cualquier botón existente
+			const existingButton = document.getElementById("btn-comprar");
+			if (existingButton) {
+				existingButton.remove();
+			}
+
+			// Crear nuevo botón
+			const button = document.createElement("a");
+			button.id = "btn-comprar";
+			button.classList.add('btn','btn-dark','btn-place-order');
+			if(id===1){
+				button.textContent = "Finalizar comprar por Mercado Pago";
+				const orderData={
+					title: "MuscleShop product",
+					quantity: 1,
+					price: 150,
+				};
+				const response = await fetch("http://104.218.48.244:8080/next/usuario/validation",{
+					method: "GET",
+					headers:{
+						"Accept": "application/json",
+					},
+				});
+
+				if (!response.ok) {
+					console.error(`HTTP error! status: ${response.status}`);
+				}
+
+				const responseMercadoPago = await response.json();
+				button.href=responseMercadoPago.preferenceId;
+
+
+			}else{
+
+				button.textContent = "Finalizar compra por Culqi";
+				button.href="https://www.youtube.com";
+
+			}
+			document.getElementById("buttonContainer").appendChild(button);
+		};
+
+		// Función para alternar entre los mensajes cada cierto tiempo
+		function alternarMensajes() {
+			var message1 = document.getElementById('message1');
+			var message2 = document.getElementById('message2');
+
+			setInterval(function () {
+				// Desvanecer gradualmente el mensaje actual
+				fadeOut(message1, function () {
+					// Una vez que la transición de desvanecimiento ha terminado, cambiar el mensaje
+					message1.style.display = 'none';
+					message2.style.display = 'block';
+					// Desvanecer gradualmente el nuevo mensaje
+					fadeIn(message2);
+					// Intercambiar los mensajes
+					var temp = message1;
+					message1 = message2;
+					message2 = temp;
+				});
+			}, 5000); // Cambiar el mensaje cada 5 segundos (5000 milisegundos)
+		}
+
+		// Función para desvanecer gradualmente un elemento
+		function fadeOut(element, callback) {
+			var opacity = 1;
+			var intervalID = setInterval(function () {
+				if (opacity > 0) {
+					opacity -= 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+					// Llamar al callback cuando la transición haya terminado
+					if (callback) {
+						callback();
+					}
+				}
+			}, 50); // Duración de la transición: 50 milisegundos
+		}
+
+		// Función para mostrar gradualmente un elemento
+		function fadeIn(element) {
+			var opacity = 0;
+			element.style.opacity = opacity;
+			element.style.display = 'block';
+			var intervalID = setInterval(function () {
+				if (opacity < 1) {
+					opacity += 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+				}
+			}, 50); // Duración de la transición: 50 milisegundos
+		}
+
+		// Llamar a la función para iniciar el cambio de mensajes
+		alternarMensajes();
+	</script>
+
+	<script th:inline="javascript">
+		$(document).ready(function () {
+			$.getJSON("/usuario/listaRegion", function (data) {
+				$.each(data, function (i, item) {
+					$("#id_region").append("<option value='" + item + "'>" + item + "</option>");
+				});
+			});
+
+			$("#id_region").change(function () {
+				var var_reg = $("#id_region").val();
+				$("#id_provincia").empty();
+				$("#id_provincia").append("<option value=''>Selecciona una provincia </option>");
+
+				$("#id_distrito").empty();
+				$("#id_distrito").append("<option value=''>Selecciona un distrito </option>");
+
+				$.getJSON("/usuario/listaProvincia", {"region": var_reg}, function (data) {
+					$.each(data, function (i, item) {
+						$("#id_provincia").append("<option value='" + item + "'>" + item + "</option>");
+					});
+				});
+			});
+
+			$("#id_provincia").change(function () {
+				var var_reg = $("#id_region").val();
+				var var_pro = $("#id_provincia").val();
+				$("#id_distrito").empty();
+				$("#id_distrito").append("<option value=''>Selecciona un distrito </option>");
+
+				$.getJSON("/usuario/listaDistrito", {"region": var_reg, "provincia": var_pro}, function (data) {
+					$.each(data, function (i, item) {
+						$("#id_distrito").append("<option value='" + item.id + "'>" + item.distrito + "</option>");
+					});
+				});
+			});
+			$("#id_distrito").change(function () {
+				var var_reg = $("#id_region").val();
+				var var_pro = $("#id_provincia").val();
+				var var_dis = $("#id_distrito").val();
+				$("#ubigeo_id").val(var_dis);
+
+				$.getJSON("/usuario/listaDistrito", {"region": var_reg, "provincia": var_pro}, function (data) {
+					var costoEnvio;
+					$.each(data, function (i, item) {
+						if (item.id == var_dis) {
+							costoEnvio = parseFloat(item.costo);
+							return false;
+						}
+					});
+					$("#envio-cost").text("S/." + costoEnvio.toFixed(2));
+					var subtotalText = $("#subtotal-price").text().replace('S/.', '').trim();
+					var subtotal = parseFloat(subtotalText);
+					var nuevoTotal = subtotal + costoEnvio;
+
+					$("#total-price").text("S/." + nuevoTotal.toFixed(2));
+				});
+
+			});
+		});
+	</script>
+
+	<script>
+		function mostrarOcultarCampos() {
+			var direccionSeleccionada = document.getElementsByName("direccionSelec")[0];
+			var selectedOption = direccionSeleccionada.options[direccionSeleccionada.selectedIndex];
+			var camposDireccion = document.getElementById("camposDireccion");
+			var camposReferencia = document.getElementById("camposReferencia");
+
+			if (direccionSeleccionada === "") {
+				camposDireccion.style.display = "block"; 
+				camposReferencia.style.display = "block"; 
+			} else {
+				camposDireccion.style.display = "none"; 
+				camposReferencia.style.display = "none";
+			}
+			var direccion = selectedOption.textContent;
+			var referencia = selectedOption.getAttribute('data-referencia');
+
+			var camposDireccionInfo = document.getElementById("direccionMostrar");
+			var camposReferenciaInfo = document.getElementById("referenciaMostrar");
+
+			camposDireccionInfo.value = direccion;
+			camposReferenciaInfo.value = referencia;
+
+			// Mostrar las cajas de texto
+			document.getElementById("infoDireccion").style.display = "block";
+		}
+
+	</script>
+
+
+
+
+</body>
+
+
+</html>

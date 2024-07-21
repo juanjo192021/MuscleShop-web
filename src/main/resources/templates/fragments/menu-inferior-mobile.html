@@ -1,0 +1,30 @@
+<!-- MENU INFERIOR MOBILE-->
+<div class="sticky-navbar">
+	<div class="sticky-info">
+		<a th:href="@{/index/inicio}" style="color: #FFF;">
+			<i class="icon-home"></i>Inicio
+		</a>
+	</div>
+	<div class="sticky-info">
+		<a th:href="@{/index/por-producto}" class="" style="color: #FFF;">
+			<i class="icon-bars"></i>Productos
+		</a>
+	</div>
+	<div class="sticky-info">
+		<a th:href="@{/index/por-objetivo}" class="" style="color: #FFF;">
+			<i class="icon-wishlist-2"></i>Objetivos
+		</a>
+	</div>
+	<div class="sticky-info">
+		<a th:href="@{/index/usuario/mi-cuenta}" class="" style="color: #FFF;">
+			<i class="icon-user-2"></i>Mi cuenta
+		</a>
+	</div>
+	<div class="sticky-info">
+		<a th:href="@{/index/carrito}" class="" style="color: #FFF;">
+			<i class="icon-shopping-cart position-relative">
+				<span class="cart-count badge-circle" th:text="${session.carrito.size()}"></span>
+			</i>Carrito
+		</a>
+	</div>
+</div>

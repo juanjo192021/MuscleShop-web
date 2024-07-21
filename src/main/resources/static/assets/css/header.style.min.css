@@ -1,0 +1,149 @@
+/*1) HEADER TOP*/
+
+.header-top {
+    background-color: #000 !important;
+    color: #FFF !important;
+}
+
+.header-top p, .header-top a{
+    font-weight: 700;
+    font-size: 12px;
+   /* margin: 0 0 0 10px;*/
+}
+.header-top a.text-whathsapp:hover{
+    color: #FFFFFF;
+}
+
+/*2) HEADER MIDDLE*/
+
+.header-middle {
+    display: flex;
+    padding: 2.3rem 0;
+    border-top: 1px solid #e7e7e7;
+}
+
+.header-middle i{
+    color: #000000;
+}
+
+.header-middle .header-left i{
+    font-size: 25px;
+}
+
+.header-middle .header-left img{
+    max-width: 250px;
+}
+.header-middle .header-right .container-options{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-middle .header-right icon-user-2{
+    font-size: 25px;
+}
+.header-right .fa-bag-shopping, .header-right .fa-gift {
+    font-size: 30px;
+}
+
+.header-middle .header-right .title-header-middle{
+    display: block;
+    font-weight: 700;
+    font-size: 12px;
+    padding-top: 3px;
+}
+
+.header-middle a{
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.header-middle a:hover{
+    font-weight: 800;
+}
+
+.header-middle .header-right .dropdown-toggle .badge-circle{
+    position: absolute;
+    top: 1px;
+    right: 0;
+    width: 1.6rem;
+    border-radius: 50%;
+    color: #fff;
+    background: #000000;
+    font-weight: 600;
+    font-size: 1.1rem;
+    line-height: 1.6rem;
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+}
+
+/*3) HEADER BOTTOM*/
+.header-bottom .menu>li.active>a,
+.header-bottom .menu>li.show>a,
+.header-bottom .menu>li:hover>a {
+    color: #FFFFFF;
+    background: transparent;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+
+@media screen and (max-width: 992px){
+
+    /*1) HEADER TOP*/
+
+    .header-top {
+        padding: 20px 15px;
+    }
+    .header-top i{
+        font-size: 30px;
+    }
+    .header-top p, .header-top a{
+        font-weight: 650;
+        font-size: 18px;
+        margin: 0 0 0 15px;
+        line-height: 1.5;
+    }
+
+    /*2) HEADER MIDDLE*/
+
+    .header-middle .mobile-menu-toggler {
+        border: 0;
+        background: transparent;
+        color: #222529;
+        padding: 1rem;
+        font-size: 20px;
+        line-height: 0;
+        cursor: pointer;
+    }
+    .header-middle .header-left i{
+        font-size: 40px;
+    }
+
+    .header-middle .header-left img{
+        max-width: 310px;
+    }
+
+    .header-middle .header-right .icon-user-2{
+        font-size: 40px;
+    }
+    .header-middle .header-right .fa-bag-shopping{
+        font-size: 45px;
+        padding: 5px 0;
+    }
+
+    .header-middle .header-right .title-header-middle{
+        font-size: 17px;
+    }
+
+    .header-middle .header-right .dropdown-toggle .badge-circle{
+        top: 0px;
+        width: 2rem;
+        font-size: 15px;
+        line-height: 2rem;
+    }
+
+}
+
+

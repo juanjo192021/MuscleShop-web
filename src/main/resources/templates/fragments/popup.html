@@ -1,0 +1,22 @@
+<div class="newsletter-popup mfp-hide bg-img" id="newsletter-popup-form" th:if="${not #lists.isEmpty(popup)}"
+		th:style="'background: #f1f1f1 no-repeat center/cover url(' + @{/images/} + ${popup[0].imagen} + ')'">
+		<div class="newsletter-popup-content">
+			<img th:src="@{/images/muscle-shop.png}" width="111" height="44" alt="Logo" class="logo-newsletter">
+			<p class="m-0 pt-5 pb-3" th:text="${popup[0].descripcion}">Descripcion</p>
+			<h2 class="popup m-0 pb-5" th:text="${popup[0].titulo}"></h2>
+			
+
+			<form action="demo4.html#">
+				<div class="input-group">
+					<input type="email" class="form-control" id="newsletter-email" name="newsletter-email"
+						placeholder="Ingresa tu correo electrónico" required />
+					<input type="submit" class="btn btn-primary" value="Registrar" style="border: none;"/>
+				</div>
+			</form>
+		</div>
+		<!-- End .newsletter-popup-content -->
+
+		<button title="Close (Esc)" type="button" class="mfp-close">
+			×
+		</button>
+	</div>

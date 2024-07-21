@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head"></head>
+
+<body style="background-color: #f8f8f8;">
+
+	<div class="anchoContenedor">
+		<div class="container mt-5 mb-5">
+			<div class="row d-flex justify-content-center">
+				<div class="col-md-10">
+					<div class="card">
+						<div class="text-left p-4 px-5" style="background-color: #545456;" th:each="logos:${logos}"><a
+								th:href="@{/index/inicio}"><img th:src="@{'/images/' + ${logos.boleta}}" width="100"
+									height="100"></a>
+						</div>
+						<div class="invoice p-5">
+							<h5>Gracias, ¡tu pedido ha sido recibido!</h5>
+
+							<div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+								<table class="table table-borderless">
+									<tbody>
+										<tr>
+											<td>
+												<div class="py-2">
+													<span class="d-block text-muted">Numero del pedido:</span>
+													<span style="color: #000; font-weight: 700;"
+														th:text="${session.pedido.num_pedido}"></span>
+												</div>
+											</td>
+											<td>
+												<div class="py-2">
+													<span class="d-block text-muted">Fecha y hora:</span>
+													<span style="color: #000; font-weight: 700;"
+														th:text="${#dates.format(session.pedido.fecha, 'dd-MMM-yyyy HH:mm')}"></span>
+												</div>
+											</td>
+											<td>
+												<div class="py-2">
+													<span class="d-block text-muted">Email:</span>
+													<span style="color: #000; font-weight: 700;"
+														th:text="${session.pedido.usuario.correo}"></span>
+												</div>
+											</td>
+											<td>
+												<div class="py-2">
+													<span class="d-block text-muted">Total:</span>
+													<span style="color: #000; font-weight: 700;"
+														th:text="'  S/.' + ${session.pedido.total_costo}"></span>
+												</div>
+											</td>
+											<td>
+												<div class="py-2">
+													<span class="d-block text-muted">Metodo de pago:</span>
+													<span style="color: #000; font-weight: 700;"
+														th:text="${session.pedido.metodo.nombre}"></span>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<h5>¡IMPORTANTE!: Tu orden aún no ha sido procesada.</h5>
+							<p>Realiza tu pago a nuestra cuenta <span style="font-weight: 600; color: #000;">YAPE del
+									BCP.</span><br>
+								Puedes escanear nuestro código QR o añade nuestro <span
+									style="font-weight: 600; color: #000;">YAPE +51 999 999 999</span></p>
+							<img th:src="@{/images/yape-qr.png}" class="py-5">
+							<p>Por favor, verificia que indique <span style="font-weight: 600; color: #000;">Muscle
+									Squad S.A.C.</span> como propietario de la cuenta.<br>
+								Te agradeceríamos si usas el número de orden como referencia de pago.<br>
+								Una vez realizado el pago, escribenos por WhatsApp al <span
+									style="font-weight: 600; color: #000;">+51 999 999 999</span> y envíanos la
+								constancia para procesar tu compra.</p>
+
+							<p>Recuerda, también puedes realizar el pago mediante <span
+									style="font-weight: 600; color: #000;">depósito o transferencia a nuestra cuenta
+									bancaria del BCP.</span></p>
+
+							<p style="font-weight: 600; color: #000;">Muscle Squad S.A.C. - RUC 20605060723 - Corriente
+								Soles <br>
+								<span style="font-weight: 400;">Número de cuenta: 1932596389049</span>
+							</p>
+							<p style="font-weight: 600; color: #000;">Muscle Squad S.A.C. - RUC 20605060723 -
+								Interbancaria Corriente Soles <br>
+								<span style="font-weight: 400;">Número de cuenta: 00219300259638904913</span>
+							</p>
+
+							<p>*Si pagas mediante transferencia interbancaria, tu pedido será procesado cuando el dinero
+								se vea reflejado en nuestra cuenta*</p>
+
+							<div class="text-center mt-5">
+								<a type="submit" class="btn butt btn-light mt-4 mb-3 px-4" th:href="@{/index/inicio}"
+									style="background-color: #2ca326; color: #FFF;">Página
+									Principal</a>
+								<a type="submit" class="btn butt btn-light mt-4 mb-3 px-4"
+									th:href="@{/usuario/misPedidos}" style="background-color: #2ca326; color: #FFF;">Ver
+									mis Pedidos</a>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Plugins JS File -->
+	<script data-cfasync="false"
+		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/assets/js/plugins.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+
+	<!-- Main JS File -->
+	<script th:src="@{/assets/js/main.min.js}"></script>
+
+</body>
+
+</html>

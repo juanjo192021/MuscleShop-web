@@ -1,0 +1,9 @@
+@media screen and (max-width: 992px) {
+    #container-notice i{
+        font-size: 30px;
+    }
+    #container-notice .title-notice{
+        font-size: 20px;
+        margin: 0 0 0 10px;
+    }
+}

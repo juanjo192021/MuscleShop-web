@@ -1,0 +1,225 @@
+<!-- HEADER -->
+
+<header>
+	<!-- HEADER TOP -->
+	<div class="header-top">
+		<!--container-->
+		<div class="container-fluid row px-3 mx-0 d-flex justify-content-center">
+			<div class="col-7 col-sm-6 col-lg-4">
+				<div class="header-left justify-content-center align-items-center">
+					<i class="icons-header-top fa-solid fa-truck"></i>
+					<p class="top-message text-center"
+					   th:text="${header[1].nombre}"></p>
+				</div>
+			</div>
+			<div class="col-5 col-sm-6 col-lg-4 text-center">
+<!--				d-sm-block-->
+				<div class="header-center d-flex justify-content-center align-items-center" >
+					<i class="icons-header-top fa-brands fa-whatsapp"></i>
+					<!--wsp-nr-->
+					<p class="top-message text-center"
+					   style="font-size: 12px;">
+						<a class="text-whathsapp"
+						   href="https://www.youtube.com"
+						   target="_blank"
+						   th:text="${header[3].nombre}"></a>
+					</p>
+				</div>
+			</div>
+<!--			ml-sm-auto-->
+			<div class="col-lg-4 header-right justify-content-center">
+				<div class="ml-0 w-sm-100 d-flex align-items-center">
+					<i class="icons-header-top fa-solid fa-money-check-dollar d-none d-lg-block"></i>
+					<div class="header-dropdown dropdown-expanded d-none d-lg-block">
+						<p class="top-message text-capitalize"
+						   style="font-size: 12px;"
+						   th:text="${header[4].nombre}"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- HEADER MIDDLE -->
+	<div class="header-middle sticky-header" data-sticky-options="{'mobile': true}">
+		<div class="container justify-content-center" >
+		 <div  class="row justify-content-between w-100">
+			<div class="header-left col-6 col-sm-5 col-lg-3 w-100 px-0 px-lg-3 justify-content-center" th:each="logos:${logos}">
+				<button class="mobile-menu-toggler text-primary mr-2" type="button">
+					<i class="fas fa-bars"></i>
+				</button>
+				<a th:href="@{/index/inicio}" class="logo-a">
+					<img th:src="@{'/images/' + ${logos.header}}" class="logo-img w-100 alt-100">
+				</a>
+			</div>
+			<!-- End .header-left -->
+
+			<div class="col-6 col-sm-7 col-lg-9 row mx-0 justify-content-end justify-content-sm-center header-right w-lg-max">
+				<div class="col-sm-7 col-lg-5 d-none d-sm-block header-search header-search-inline header-search-category w-lg-max text-right mt-0">
+					<a href="demo4.html#" class="search-toggle" role="button"><i class="icon-search-3"></i></a>
+					<form th:action="@{/index/productoBuscar}" method="post">
+						<div class="header-search-wrapper">
+							<input type="search" class="form-control" name="buscar" id="q" placeholder="Buscar productos..."
+								required>
+							<button class="btn icon-magnifier p-0" title="search" type="submit"></button>
+						</div>
+						<!-- End .header-search-wrapper -->
+					</form>
+				</div>
+				<!-- End .header-search -->
+
+				<div class="col-lg-3 d-none d-lg-flex text-center justify-content-center">
+					<span th:if="${session.usuario == null}">
+						<p class="d-none d-lg-block">
+							<a th:href="@{/login}">INICIAR SESION</a>
+						</p>
+					</span>
+					<span th:unless="${session.usuario == null}" class="nav-item dropdown  d-none d-lg-block">
+						<a class="textoUsuario nav-link dropdown-toggle" href="#" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							<span th:text="'Hola, '+ ${session.usuario}" style="color: #000; text-decoration: none;"></span>
+						</a>
+					</span>
+				</div>
+
+				<div class="col-9 col-sm-5 col-lg-4 row m-0 align-items-center justify-content-center">
+					<div class="col-lg-4 d-none d-lg-block">
+						<a th:href="@{/index/ofertas}" title="login">
+							<div class="d-flex flex-column align-items-center">
+								<i class="fas fa-gift"></i>
+								<span class="title-header-middle">OFERTAS</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-6 col-lg-4">
+						<a th:href="@{/usuario/mi-cuenta}" title="Mi cuenta">
+							<div class="d-flex flex-column align-items-center">
+								<i class="icon-user-2"></i>
+								<span class="title-header-middle">CUENTA</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-6 col-lg-4">
+						<div class="dropdown cart-dropdown">
+
+							<a th:href="@{/index/carrito}" title="Cart" class="dropdown-toggle cart-toggle justify-content-center" role="button"
+							   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+								<div class="d-flex flex-column align-items-center h-100">
+									<i class="fa-solid fa-bag-shopping"></i>
+									<!--<i class="minicart-icon" style="margin-bottom: 5px; font-size: 25px;"></i>-->
+									<span class="cart-count badge-circle"
+										  th:text="${session.carrito.size()}"></span>
+									<span class="title-header-middle">CARRITO</span>
+								</div>
+							</a>
+
+
+							<div class="cart-overlay"></div>
+
+							<div class="dropdown-menu mobile-cart p-0">
+								<a href="demo4.html#" title="Close (Esc)" class="btn-close"></a>
+
+								<div class="dropdownmenu-wrapper custom-scrollbar">
+									<div class="dropdown-cart-header">Mi Carrito</div>
+									<!-- End .dropdown-cart-header -->
+
+									<div class="dropdown-cart-products">
+										<div class="product" th:each="pedidoPro : ${session.carrito}">
+											<div class="product-details">
+												<h4 class="product-title">
+													<a href="product.html" th:text="${pedidoPro.producto.nombre}"></a>
+												</h4>
+
+												<span class="cart-product-info">
+											<span class="cart-product-detail" th:if="${pedidoPro.productoProDetal != null}"
+												  th:text="${pedidoPro.productoProDetal.propiedadesDetalles.detalles.nombre} + ' × '"></span>
+											<span class="cart-product-qty" th:text="${pedidoPro.cantidad}"></span>
+											<span class="cart-product-qty" th:if="${pedidoPro.productoProDetal != null}"
+												  th:text="' × S/. ' + ${pedidoPro.productoProDetal.precio}"></span>
+											<span class="cart-product-qty"
+												  th:unless="${pedidoPro.productoProDetal != null}"
+												  th:text="' × S/. ' + ${precios[pedidoPro.producto.id]}"></span>
+										</span>
+											</div>
+											<!-- End .product-details -->
+
+											<figure class="product-image-container">
+												<a href="product.html" class="product-image">
+													<img th:src="@{'/images/' + ${pedidoPro.producto.imagen}}" alt="product"
+														 width="80" height="80">
+												</a>
+
+												<a th:href="@{/index/carrito/eliminarProducto/{id} (id = ${pedidoPro.producto.id})}"
+												   class="btn-remove" title="Remove Product"><span>×</span></a>
+											</figure>
+										</div>
+										<!-- End .product -->
+									</div>
+
+									<!-- End .cart-product -->
+
+									<div class="dropdown-cart-total"
+										 th:if="${session.carrito != null and session.carrito.size() > 0}">
+										<span>SUBTOTAL:</span>
+										<span class="cart-total-price float-right"
+											  th:text="'S/. ' + ${session.totalCarrito}"></span>
+									</div>
+
+									<div th:if="${session.carrito == null or session.carrito.size() == 0}"
+										 class="carrito-vacio-header">
+										<section class="py-5 text-center container">
+											<p class="lead text-muted text-center">¡Tu carrito de la compra está vacío!</p>
+										</section>
+									</div>
+
+									<div class="dropdown-cart-action">
+										<a th:href="@{/index/carrito}" class="btn btn-dark btn-block">Ver carrito</a>
+									</div>
+
+									<!-- End .dropdown-cart-total -->
+								</div>
+								<!-- End .dropdownmenu-wrapper -->
+							</div>
+							<!-- End .dropdown-menu -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End .header-right -->
+			
+		 </div>
+		</div>
+		<!-- End .container -->
+	</div>
+
+	<!-- HEADER BOTTOM-->
+	<div class="header-bottom sticky-header d-none d-lg-block" data-sticky-options="{'mobile': false}">
+		<div class="container">
+			<nav class="main-nav w-100 ">
+				<div class="w-100">
+					<ul class="menu" style="display: flex; justify-content: space-evenly; align-items: center;">
+						<li th:each="menu : ${menu}" class="px-4" style="display: flex;align-items: center; margin-inline-end: 0;">
+							<a th:href="@{'/index/' + ${menu.url}}" th:text="${menu.nombre}"></a>
+							<ul class="sub-ul" th:if="${menu.menuSub != null and menu.menuSub.size() > 0}">
+								<li th:each="submenu : ${menu.menuSub}">
+									<a th:href="@{'/index/' + ${menu.url} + '/' + ${submenu.url}}"
+										th:text="${submenu.nombre}" style="color: #545456;"></a>
+									<ul th:if="${submenu.productoCate != null and submenu.productoCate.size() > 0}">
+										<li th:each="productoCate : ${submenu.productoCate}">
+											<a th:href="@{'/index/' + ${menu.url} + '/' + ${submenu.url} + '/' + ${productoCate.url}}"
+												th:text="${productoCate.nombre}" style="color: #545456;"></a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<!-- End .container -->
+	</div>
+
+
+</header>

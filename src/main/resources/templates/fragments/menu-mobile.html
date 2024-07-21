@@ -1,0 +1,40 @@
+<!-- MENU MOBILE -->
+<div class="mobile-menu-container">
+	<div class="mobile-menu-wrapper">
+		<span class="mobile-menu-close"><i class="fa fa-times"></i></span>
+		<nav class="mobile-nav">
+			<ul class="mobile-menu">
+				<li th:each="menu : ${menu}">
+					<a th:href="@{'/index/' + ${menu.url}}" th:text="${menu.nombre}">Por Producto</a>
+					<ul class="sub-ul" th:if="${menu.menuSub != null and menu.menuSub.size() > 0}">
+						<li th:each="submenu : ${menu.menuSub}"><a th:href="@{'//' + ${menu.url} + '/' + ${submenu.url}}" th:text="${submenu.nombre}"></a></li>
+						
+					</ul>
+				</li>
+			</ul>
+
+			<ul class="mobile-menu mt-2 mb-2">
+				<li class="border-0">
+					<a th:href="@{/index/ofertas}">
+						OFERTAS
+					</a>
+				</li>
+			</ul>
+
+			<ul class="mobile-menu">
+				<li><a th:href="@{/registrar}">Registrarse</a></li>
+				<li><a th:href="@{/login}">Acceder</a></li>
+				<li><a th:href="@{/index/usuario/mi-cuenta}">Mi cuenta</a></li>
+				<li><a th:href="@{/index/carrito}">Carrito</a></li>
+				<li><a href="cart.html">Lista de deseos</a></li>
+			</ul>
+		</nav>
+		<!-- End .mobile-nav -->
+
+		<form class="search-wrapper mb-2" action="demo4.html#">
+			<input type="text" class="form-control mb-0" placeholder="Search..." required />
+			<button class="btn icon-search text-white bg-transparent p-0" type="submit"></button>
+		</form>
+	</div>
+	<!-- End .mobile-menu-wrapper -->
+</div>

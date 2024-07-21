@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head"></head>
+
+<body style="background-color: #f8f8f8;">
+	<div class="page-wrapper">
+		<!-- NOTICE -->
+		<div th:replace="fragments/notice"></div>
+
+		<!-- HEADER -->
+		<header th:replace="fragments/header"></header>
+
+		<main class="main">
+			<div class="container">
+				<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a>
+						</li>
+						<li class="breadcrumb-item"><a th:href="@{/index/blog}">Blog</a></li>
+					</ol>
+				</nav>
+
+				<div class="blog-section blog-type3 media-with-zoom appear-animate articulo mb-5"
+					data-animation-name="fadeInUpShorter" data-animation-delay="250">
+					<h1 class="text-center appear-animate py-3" data-animation-delay="100" data-animation-name="fadeIn">
+						Nuestros Blogs</h2>
+					<div class="container">
+						<div class="post-slider owl-carousel owl-theme mb-0" data-owl-options="{
+                            'margin' : 20,
+                            'nav' : false,
+                            'dots' : false,
+                            'loop' : false,
+                            'responsive' : {
+                                '576' : {
+                                    'items' : 2
+                                },
+                                '768' : {
+                                    'items' : 2
+                                },
+                                '992' : {
+                                    'items' : 3
+                                }
+                            }
+                        }">
+							<article class="post" th:each="articulo : ${articulo}">
+								<div class="post-box">
+									<div class="post-media">
+										<a th:href="@{'/index/blog/ver-blog/' + ${articulo.id}}">
+											<img th:src="@{'/images/'} + ${articulo.imagen}"
+												th:data-zoom-image="@{'/images/'} + ${articulo.imagen}" width="354"
+												height="181" alt="Post">
+										</a>
+									</div><!-- End .post-media -->
+
+									<div class="post-body">
+										<div class="post-meta">
+											<span class="meta-date"><i class="far fa-calendar-alt"></i>December 1,
+												2020</span>
+											<span class="meta-comments"
+												th:text="${articulo.articuloCom.size()} + ' Comentarios'"><i
+													class="far fa-comments"></i></span>
+										</div>
+
+										<h2 class="post-title m-2">
+											<a th:href="@{'/index/blog/ver-blog/' + ${articulo.id}}"
+												th:text="${articulo.titulo}"></a>
+										</h2>
+
+										<div class="post-content">
+											<p th:text="${articulo.descripcion}"></p>
+
+											<a th:href="@{'/index/blog/ver-blog/' + ${articulo.id}}"
+												class="read-more mt-5">Leer más..</a>
+										</div><!-- End .post-content -->
+									</div><!-- End .post-body -->
+								</div>
+							</article>
+
+						</div><!-- End .owl-carousel -->
+					</div>
+				</div>
+
+		</main>
+	</div>
+
+	<!-- FOOTER-->
+	<footer th:replace="fragments/footer"></footer>
+
+	<div class="loading-overlay">
+		<div class="bounce-loader">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</div>
+
+	<div class="mobile-menu-overlay"></div>
+	<!-- End .mobil-menu-overlay -->
+
+	<!-- MENU MOBILE -->
+	<div th:replace="fragments/menu-mobile"></div>
+
+	<!-- MENU INFERIOR MOBILE-->
+	<div th:replace="fragments/menu-inferior-mobile"></div>
+
+	<!-- POPUP -->
+	<div th:replace="fragments/popup"></div>
+
+
+	<a id="scroll-top" href="demo4.html#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
+	<div class="button align-items-center d-flex">
+		<a class="button-img ms-lg-2 ms-1" href="#" target="_blank"><img th:src="@{/images/whatsapp.png}" alt=""></a>
+	</div>
+
+	<!-- Plugins JS File -->
+	<script data-cfasync="false"
+		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/assets/js/plugins.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+
+	<!-- Main JS File -->
+	<script th:src="@{/assets/js/main.min.js}"></script>
+	<script>
+		// Función para alternar entre los mensajes cada cierto tiempo
+		function alternarMensajes() {
+			var message1 = document.getElementById('message1');
+			var message2 = document.getElementById('message2');
+
+			setInterval(function () {
+				// Desvanecer gradualmente el mensaje actual
+				fadeOut(message1, function () {
+					// Una vez que la transición de desvanecimiento ha terminado, cambiar el mensaje
+					message1.style.display = 'none';
+					message2.style.display = 'block';
+					// Desvanecer gradualmente el nuevo mensaje
+					fadeIn(message2);
+					// Intercambiar los mensajes
+					var temp = message1;
+					message1 = message2;
+					message2 = temp;
+				});
+			}, 5000); // Cambiar el mensaje cada 5 segundos (5000 milisegundos)
+		}
+
+		// Función para desvanecer gradualmente un elemento
+		function fadeOut(element, callback) {
+			var opacity = 1;
+			var intervalID = setInterval(function () {
+				if (opacity > 0) {
+					opacity -= 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+					// Llamar al callback cuando la transición haya terminado
+					if (callback) {
+						callback();
+					}
+				}
+			}, 50); // Duración de la transición: 50 milisegundos
+		}
+
+		// Función para mostrar gradualmente un elemento
+		function fadeIn(element) {
+			var opacity = 0;
+			element.style.opacity = opacity;
+			element.style.display = 'block';
+			var intervalID = setInterval(function () {
+				if (opacity < 1) {
+					opacity += 0.1;
+					element.style.opacity = opacity;
+				} else {
+					clearInterval(intervalID);
+				}
+			}, 50); // Duración de la transición: 50 milisegundos
+		}
+
+		// Llamar a la función para iniciar el cambio de mensajes
+		alternarMensajes();
+	</script>
+
+</body>
+
+
+</html>

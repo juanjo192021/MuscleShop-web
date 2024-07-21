@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head"></head>
+
+<body class="login-body">
+
+	<div class="container login">
+		<div class="container">
+			<div class=" container-image" th:each="logos:${logos}">
+				<a th:href="@{/index/inicio}" class="mb-5">
+					<img th:src="@{'/images/' + ${logos.login}}" width="250">
+				</a>
+			</div>
+			<div class="heading mb-1">
+				<h2 class="title">Inicia Sesión</h2>
+			</div>
+			<div class="px-5">
+				<form th:action="@{/login}" th:object="${usuario}" method="post">
+
+					<label for="login-email">
+						Correo Electrónico
+						<span class="required">*</span>
+					</label>
+					<input type="email" class="form-input form-wide" id="username" name="username" required />
+
+					<label for="login-password" class="mt-1">
+						Contraseña
+						<span class="required">*</span>
+					</label>
+					<input type="password" class="form-input form-wide" id="password" name="password" required />
+
+					<p class="tituloUsuarioNuevo pt-5 m-0 text-dark">¿Eres un usuario nuevo? <a th:href="@{/registrar}"
+							class="registroUsuario text-white">Registrate
+							aqui.</a></p><br>
+					<a th:href="@{/cambiar-contrasena}" class="forget-password text-dark form-footer-right">¿Olvidaste
+						tu
+						contraseña?</a>
+
+					<input name="_csrf" type="hidden"
+						value="mPc73lbY6orX-zupYwtSFa0N8tb8twk1IvFV1ntC5Wus2zuGrMUKvTO7j7v6zg6dWyZmLMtu37eZj2sYRJRisxkg1VqfvV-2" />
+					<button type="submit" class="btn btn-dark btn-md w-100 mt-3">
+						Ingresar
+					</button>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Plugins JS File -->
+	<script data-cfasync="false"
+		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+	<script th:src="@{/assets/js/plugins.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+
+	<!-- Main JS File -->
+	<script th:src="@{/assets/js/main.min.js}"></script>
+</body>
+
+</html>
