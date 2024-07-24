@@ -39,7 +39,7 @@
     align-items: center;
 }
 
-.header-middle .header-right icon-user-2{
+.header-middle .header-right .icon-user-2{
     font-size: 25px;
 }
 .header-right .fa-bag-shopping, .header-right .fa-gift {

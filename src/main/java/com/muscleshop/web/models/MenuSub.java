@@ -3,6 +3,7 @@ package com.muscleshop.web.models;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class MenuSub {
 	private String imagen;
 	private String banner;
 
+
 	@ManyToOne
 	@JoinColumn(name = "menu_id")
 	private Menu menu;
@@ -33,11 +35,14 @@ public class MenuSub {
 	@OneToOne
 	@JoinColumn(name = "estado_id")
 	private Estado estado;
-	
+
+
 	@OneToMany(mappedBy = "menuSub")
+	@JsonIgnore
 	private List<ProductoCategoria> productoCate;
-	
+
 	@ManyToMany(mappedBy = "menuSub")
+	@JsonIgnore
 	private Set<Producto> producto;
 	
 	public MenuSub() {

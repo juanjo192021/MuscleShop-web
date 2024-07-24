@@ -692,7 +692,7 @@ button.btn-toggle {
 
 
 
-@media (max-width: 991.98px) {
+@media screen and (max-width: 991.98px) {
 	.container.login {
 		width: 70%;
 	}

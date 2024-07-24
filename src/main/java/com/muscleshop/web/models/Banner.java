@@ -1,12 +1,6 @@
 package com.muscleshop.web.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "banner")
@@ -15,7 +9,12 @@ public class Banner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(name="nombre", nullable = false)
 	private String nombre;
+
+	@Column(name="tipo_dispositivo", nullable = false)
+	private String tipoDispositivo;
 
 	@OneToOne
 	@JoinColumn(name = "estado_id")
@@ -24,9 +23,10 @@ public class Banner {
 	public Banner() {
 	}
 
-	public Banner(String nombre, Estado estado) {
+	public Banner(String nombre,String tipoDispositivo , Estado estado) {
 		super();
 		this.nombre = nombre;
+		this.tipoDispositivo = tipoDispositivo;
 		this.estado = estado;
 	}
 
@@ -44,6 +44,14 @@ public class Banner {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getTipoDispositivo() {
+		return tipoDispositivo;
+	}
+
+	public void setTipoDispositivo(String tipoDispositivo) {
+		this.tipoDispositivo = tipoDispositivo;
 	}
 
 	public Estado getEstado() {

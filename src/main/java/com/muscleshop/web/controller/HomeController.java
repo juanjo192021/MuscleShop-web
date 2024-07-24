@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -198,10 +199,13 @@ public class HomeController {
 
 	@GetMapping("/prueba")
 	@ResponseBody
-	public ResponseEntity<List<Producto>> resp(){
+	public ResponseEntity<List<Banner>> resp(){
 		/*List<PedidoProductoComentario> mostrarCom = pedProComService.comentariosMostrables();*/
-		List<Producto> mostrarCom = productoService.listarProducto();
-		return  ResponseEntity.ok(mostrarCom);
+		List<Banner> ban = bannerService.listarBanner()
+				.stream()
+				.filter(banner -> "movil_tablet".equals(banner.getTipoDispositivo()))
+				.collect(Collectors.toList());
+		return  ResponseEntity.ok(ban);
 	}
 	// MENÚS
 	@SuppressWarnings("unchecked")
@@ -209,7 +213,14 @@ public class HomeController {
 	public String Inicio(Model model, HttpSession session) {
 
 		List<Producto> pro = productoService.listarProducto();
-		List<Banner> ban = bannerService.listarBanner();
+		List<Banner> banner = bannerService.listarBanner();
+		List<Banner> bannerMovilTablet = banner.stream()
+				.filter(ban -> "movil_tablet".equals(ban.getTipoDispositivo()))
+				.collect(Collectors.toList());
+		List<Banner> bannerLaptopPc = banner.stream()
+				.filter(ban-> "laptop_pc".equals(ban.getTipoDispositivo()))
+				.collect(Collectors.toList());
+
 		List<Popup> pop = popupService.listarPopup();
 		/*List<Articulo> articulosBlog = articuloService.listarArticulo();*/
 		Integer cantidadArticulos = 3;
@@ -218,7 +229,14 @@ public class HomeController {
 
 		model.addAttribute("productos", pro);
 		model.addAttribute("popup", pop);
-		model.addAttribute("banner", ban);
+		model.addAttribute("banner", banner);
+		model.addAttribute("bannerMovilTablet",bannerMovilTablet);
+		model.addAttribute("bannerLaptopPc", bannerLaptopPc);
+
+		boolean isFirstMovilTabletActive = bannerLaptopPc.isEmpty() && !bannerMovilTablet.isEmpty();
+
+		model.addAttribute("isFirstMovilTabletActive", isFirstMovilTabletActive);
+
 		model.addAttribute("articulosBlog", articulosBlog);
 
 		Integer menuId = 3;
@@ -267,7 +285,11 @@ public class HomeController {
 
 		return "anonimo/inicioCate";
 	}
+/*
 
+MODIFICAR 22-07-2024
+
+* */
 	@GetMapping("/inicio/{categoriaUrl}/{id}")
 	public String verProductoInicio(@PathVariable("id") int id, @PathVariable String categoriaUrl, Model model,
 			HttpSession session) {

@@ -22,7 +22,8 @@ public class ProductoCategoria {
 	@OneToOne
 	@JoinColumn(name = "estado_id")
 	private Estado estado;
-	
+
+
 	@ManyToOne
 	@JoinColumn(name = "menu_sub_id")
 	private MenuSub menuSub;

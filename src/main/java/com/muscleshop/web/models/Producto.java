@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,23 +43,30 @@ public class Producto {
 	
 	@OneToMany(mappedBy = "producto")
 	private List<ProductoPrecio> productoPre;
-	
+
+
 	@ManyToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
 	@JoinTable(name = "producto_menu_sub", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "menu_sub_id") })
 	private Set<MenuSub> menuSub;
-	
+
+
 	@OneToMany(mappedBy = "producto")
 	private List<ProductoProDetal> proPropiDetal ;
-	
+
+
 	@OneToOne(mappedBy  = "producto")
 	private ProductoInformacion productoInfo;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "producto_forma_producto", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "producto_forma_id") })
 	private Set<ProductoForma> productoForma;
 
+	@OneToOne()
+	@JoinColumn(name="agrupacion_id")
+	private Agrupacion agrupacion;
 	
 	public Producto() {
 	}
@@ -194,8 +202,12 @@ public class Producto {
 	public void setProductoInfo(ProductoInformacion productoInfo) {
 		this.productoInfo = productoInfo;
 	}
-	
-	
-	
 
+	public Agrupacion getAgrupacion() {
+		return agrupacion;
+	}
+
+	public void setAgrupacion(Agrupacion agrupacion) {
+		this.agrupacion = agrupacion;
+	}
 }

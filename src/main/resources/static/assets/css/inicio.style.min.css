@@ -130,7 +130,7 @@ section {
     margin: 0px 10px !important;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     #section-objetivos h2{
         line-height: normal;
     }

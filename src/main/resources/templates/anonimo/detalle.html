@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="fragments/head">
+<head>
+	<!--	<title>Inicio</title>-->
+	<th:block th:replace="fragments/head :: global-style"></th:block>
+	<th:block th:replace="fragments/head :: anonimo-detalle-style"></th:block>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </head>
 
 <body>
@@ -16,7 +18,7 @@
 		<header th:replace="fragments/header"></header>
 
 		<!-- MAIN-->
-		<main class="main" style="background-color: #f8f8f8;">
+		<main class="main">
 			<div class="container">
 				<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
 					<ol class="breadcrumb">
@@ -40,7 +42,7 @@
 					<div class="row">
 						<div class="col-lg-5 col-md-6 product-single-gallery">
 							<div class="product-slider-container">
-								<div class="label-group">
+								<div class="label-group d-none">
 									<div class="product-label label-sale" th:text="${porcentajes[producto.id]} + '%'">
 									</div>
 								</div>
@@ -74,44 +76,62 @@
 								<input type="hidden" id="idPresentacion" name="idPresentacion">
 
 								<h1 class="product-title" th:text="${producto.nombre}"></h1>
-								<div class="product-desc">
+
+								<hr class="d-none large-divider my-3 pb-4">
+
+								<div class="d-none product-desc">
 									<p class="m-0" th:text="${producto.descripcion}"></p>
 								</div>
-								<hr class="large-divider my-3 pb-4">
+								<hr class="d-none large-divider my-3 pb-4">
 								<div class="price-box">
 									<span class="old-price" th:text="'S/. ' + ${preciosTachados[producto.id]}"></span>
 									<span id="precioProducto" class="new-price"
 										th:text="'S/. ' + ${precios[producto.id]}"></span>
 								</div>
 
-								<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleColor)}">
-									<label class="font2">Colores:</label>
-									<ul class="config-size-list config-color-list config-filter-list">
-										<li th:each="color : ${detalleColor}">
-											<a href="javascript:;" class="filter-color border-0"
-												th:style="'background-color: #' + ${color.propiedadesDetalles.detalles.nombre}+';'"
-												th:attr="data-id=${color.propiedadesDetalles.detalles.id}"></a>
-										</li>
-									</ul>
-								</div>
+								<div class="opciones-producto">
+									<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleColor)}">
+										<label class="font2">Colores:</label>
+										<ul class="config-size-list config-color-list config-filter-list">
+											<li th:each="color : ${detalleColor}">
+												<a href="javascript:;" class="filter-color border-0"
+												   th:style="'background-color: #' + ${color.propiedadesDetalles.detalles.nombre}+';'"
+												   th:attr="data-id=${color.propiedadesDetalles.detalles.id}"></a>
+											</li>
+										</ul>
+									</div>
 
-								<div class="product-single-filter" th:if="${not #lists.isEmpty(detallePresentacion)}">
-									<label class="font2">Presentación:</label>
-									<select class="form-select" aria-label="Large select example">
-										<option selected>Seleccionar </option>
-										<option th:each="detalle : ${detallePresentacion}"
-										 		href="javascript:;"
-												class="d-flex align-items-center justify-content-center"
-												th:text="${detalle.propiedadesDetalles.detalles.nombre}"
-												th:attr="data-id=${detalle.propiedadesDetalles.detalles.id}">
-										</option>
-									</select>
+									<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleSabor)}">
+										<label class="font2">Sabores:</label>
+										<select class="form-select" aria-label="Large select example">
+											<option selected disabled>Seleccionar </option>
+											<option th:each="sab : ${detalleSabor}"
+													href="javascript:;"
+													class="d-flex align-items-center justify-content-center"
+													th:text="${sab.propiedadesDetalles.detalles.nombre}"
+													th:attr="data-id=${sab.propiedadesDetalles.detalles.id}">
+											</option>
+										</select>
+									</div>
+
+									<div class="product-single-filter" th:if="${not #lists.isEmpty(detallePresentacion)}">
+										<label class="font2">Presentación:</label>
+										<select class="form-select" aria-label="Large select example">
+											<option selected disabled>Seleccionar </option>
+											<option th:each="detalle : ${detallePresentacion}"
+													href="javascript:;"
+													class="d-flex align-items-center justify-content-center"
+													th:text="${detalle.propiedadesDetalles.detalles.nombre}"
+													th:attr="data-id=${detalle.propiedadesDetalles.detalles.id}">
+											</option>
+										</select>
+									</div>
 								</div>
 
 								<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleTam)}">
 									<label class="font2">Tallas:</label>
 									<select class="form-select" aria-label="Large select example">
-										<option selected>Seleccionar </option>
+										<option selected disabled>Seleccionar </option>
 										<option th:each="tam : ${detalleTam}"
 										 		href="javascript:;"
 												class="d-flex align-items-center justify-content-center"
@@ -121,18 +141,7 @@
 									</select>
 								</div>
 
-								<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleSabor)}">
-									<label class="font2">Sabores:</label>
-									<select class="form-select" aria-label="Large select example">
-										<option selected>Seleccionar </option>
-										<option th:each="sab : ${detalleSabor}"
-										 		href="javascript:;"
-												class="d-flex align-items-center justify-content-center"
-												th:text="${sab.propiedadesDetalles.detalles.nombre}"
-												th:attr="data-id=${sab.propiedadesDetalles.detalles.id}">
-										</option>
-									</select>								
-								</div>
+
 
 								<div class="product-action">
 									<div class="product-single-qty p-0">
@@ -140,7 +149,7 @@
 											name="cantidad" value="1" autocomplete="off">
 									</div>
 									<!-- End .product-single-qty -->
-									<button type="submit" class="btn butt btn-light agregar-pro">AGREGAR
+									<button type="submit" class="btn btn-light agregar-producto">AGREGAR
 										PRODUCTO</button>
 
 								</div>
@@ -160,7 +169,7 @@
 								</div>
 								<!-- End .social-icons -->
 							</div>
-							<div class="my-5 p-5 text-center stock-message">
+							<div class=" d-none my-5 p-5 text-center stock-message">
 								<p>¡Ingresa tu correo electónico para recibir notificaciones sobre el stock de este
 									producto!
 								</p>

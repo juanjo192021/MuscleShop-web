@@ -1,5 +1,6 @@
 package com.muscleshop.web.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class ProductoProDetal {
 
 	@OneToOne
 	@JoinColumn(name = "producto_id")
+	@JsonIgnore
 	private Producto producto;
 
 	@ManyToOne
