@@ -100,7 +100,13 @@ section {
     padding: 0 10px;
 }
 #section-blog .card{
+    border-radius: 15px;
     width: 35rem;
+}
+
+#section-blog .card-img-top{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 
 #section-blog .card-body{
@@ -170,7 +176,7 @@ section {
 }
 
 #section-reviews .owl-item{
-    margin: 0px 10px !important;
+    margin-right: 19px !important;
 }
 
 #section-marcas-afiliadas h4{

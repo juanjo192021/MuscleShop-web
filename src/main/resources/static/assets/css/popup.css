@@ -7,7 +7,7 @@
     padding: 64px 40px;
     border-radius: 0;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
-    background: #f1f1f1 no-repeat center / cover url(/images/img-popup.png);
+
 }
 
 @media screen and (max-width: 576px) {

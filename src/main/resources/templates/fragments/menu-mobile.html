@@ -5,7 +5,7 @@
 		<nav class="mobile-nav">
 			<ul class="mobile-menu">
 				<li th:each="menu : ${menu}">
-					<a th:href="@{'/index/' + ${menu.url}}" th:text="${menu.nombre}">Por Producto</a>
+					<a th:href="@{'/index/' + ${menu.url}}" th:text="${menu.nombre}"></a>
 					<ul class="sub-ul" th:if="${menu.menuSub != null and menu.menuSub.size() > 0}">
 						<li th:each="submenu : ${menu.menuSub}"><a th:href="@{'//' + ${menu.url} + '/' + ${submenu.url}}" th:text="${submenu.nombre}"></a></li>
 						

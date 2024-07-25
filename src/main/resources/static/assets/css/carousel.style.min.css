@@ -25,7 +25,9 @@ section .carousel-control-prev{
     cursor: pointer;
 }
 
+.owl-item{
 
+}
 /*CAROUSEL COMPLEMENTO*/
 
 .img-owl-carousel{
@@ -91,6 +93,7 @@ section .carousel-control-prev{
         display: none;
     }
     .owl-dots{
+        display: block;
         margin: 15px 0;
     }
     .owl-carousel button.owl-dot{
@@ -113,6 +116,7 @@ section .carousel-control-prev{
     .owl-carousel .owl-nav .owl-next{
         right: 2vw;
     }
+
 }
 
 /*
@@ -131,5 +135,8 @@ section .carousel-control-prev{
 @media screen and (max-width: 576px) {
     .img-owl-carousel{
         height: 230px;
+    }
+    #section-best-sellers .owl-item{
+        margin-right: 19px !important;
     }
 }
