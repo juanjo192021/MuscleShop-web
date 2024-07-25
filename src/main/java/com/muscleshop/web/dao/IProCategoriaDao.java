@@ -9,7 +9,7 @@ import com.muscleshop.web.models.ProductoCategoria;
 
 public interface IProCategoriaDao extends JpaRepository<ProductoCategoria, Integer> {
 
-	public ProductoCategoria findByUrl(String url);
+	ProductoCategoria findByUrl(String url);
     List<ProductoCategoria> findByMenuSub(MenuSub menuSub);
     List<ProductoCategoria> findByMenuSubId(int menuSubId);
 

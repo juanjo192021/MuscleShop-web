@@ -1,9 +1,13 @@
+.top-notice .container {
+    width: calc(100% - 20px);
+    margin: 0;
+}
 @media screen and (max-width: 992px) {
     #container-notice i{
-        font-size: 30px;
+        font-size: 18px;
     }
     #container-notice .title-notice{
-        font-size: 20px;
+        font-size: 11px;
         margin: 0 0 0 10px;
     }
 }

@@ -2,6 +2,7 @@ package com.muscleshop.web.models;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class Roles {
 	private String nombre;
 
 	@ManyToMany(mappedBy = "roles")
+	@JsonIgnore
 	private Set<Usuario> usuario;
 
 	public Roles() {

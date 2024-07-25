@@ -18,6 +18,7 @@ public class ProductoProDetal {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Double precio;
+	private Integer stock;
 
 	@OneToOne
 	@JoinColumn(name = "producto_id")
@@ -71,6 +72,12 @@ public class ProductoProDetal {
 		this.precio = precio;
 	}
 
-	
-	
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
 }

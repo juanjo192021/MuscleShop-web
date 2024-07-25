@@ -3,6 +3,7 @@ package com.muscleshop.web.models;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -40,6 +41,7 @@ public class Pedidos {
 	private Ubigeo ubigeo;
 	
 	@OneToMany(mappedBy = "pedido")
+	@JsonIgnore
 	private List<PedidoProducto> pedidosProductos;
 	
 	@OneToOne

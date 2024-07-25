@@ -70,14 +70,6 @@ span {
 	color: #FFF;
 }
 
-.new-products-section .owl-carousel .product-category {
-	margin: 10px;
-}
-
-.new-products-section .owl-carousel h3 {
-	color: #FFF;
-}
-
 .new-products-section .owl-carousel .category-content {
 	background-color: #545456;
 }
@@ -720,10 +712,6 @@ button.btn-toggle {
 	.wsp-nr {
 		text-align: end;
 		font-size: 7px;
-	}
-
-	.new-products-section .section-title {
-		font-size: 15px;
 	}
 
 	.button {

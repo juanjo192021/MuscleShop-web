@@ -1,5 +1,6 @@
 package com.muscleshop.web.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +22,7 @@ public class UsuarioPerfil {
 
 	@OneToOne
 	@JoinColumn(name = "usuario_id")
+	@JsonIgnore
 	private Usuario usuario;
 
 	public UsuarioPerfil() {

@@ -28,13 +28,24 @@ section .carousel-control-prev{
 
 /*CAROUSEL COMPLEMENTO*/
 
+.img-owl-carousel{
+    display: block;
+    height: 313px;
+    object-fit: cover;
+}
+.new-products-section .owl-carousel .product-category {
+    margin: 10px;
+}
+.owl-dots{
+    display: none;
+}
 .owl-carousel .owl-nav button.owl-next,
 .owl-carousel .owl-nav button.owl-prev,
 .owl-carousel button.owl-dot {
     background: none;
     color: inherit;
     border: 0;
-    padding: 0 !important;
+    padding: 0 ;
 }
 
 .owl-theme .owl-nav [class*=owl-] {
@@ -62,7 +73,9 @@ section .carousel-control-prev{
     padding: 0px 10px !important;
     margin: 0 !important;
 }
-
+.owl-nav{
+    display: block;
+}
 @media screen and (max-width: 1200px){
 /*    #section-carousel #carouselExampleInterval img{
         height: 348px;
@@ -74,7 +87,15 @@ section .carousel-control-prev{
 /*    #section-carousel #carouselExampleInterval img{
         height: 560px;
     }*/
-
+    .owl-nav{
+        display: none;
+    }
+    .owl-dots{
+        margin: 15px 0;
+    }
+    .owl-carousel button.owl-dot{
+        padding: 0 3px ;
+    }
     .carousel-control-prev, .carousel-control-next {
         width: 10% !important;
     }
@@ -83,7 +104,7 @@ section .carousel-control-prev{
     }
 
     .new-products-section .owl-carousel .product-category {
-        margin: 10px 55px !important;
+        margin: 10px 35px;
     }
 
     .owl-carousel .owl-nav .owl-prev{
@@ -106,9 +127,9 @@ section .carousel-control-prev{
         height: 380px;
     }
 }
-
+*/
 @media screen and (max-width: 576px) {
-    #section-carousel #carouselExampleInterval img{
-        height: 310px;
+    .img-owl-carousel{
+        height: 230px;
     }
-}*/
+}

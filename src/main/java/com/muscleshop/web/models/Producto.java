@@ -28,7 +28,7 @@ public class Producto {
 	private String imagen;
 	private String descripcion;
 	private LocalDate fecha;
-	private Integer stock;
+/*	private Integer stock;*/
 
 	@OneToOne
 	@JoinColumn(name = "categoria_id")
@@ -71,7 +71,7 @@ public class Producto {
 	public Producto() {
 	}
 
-	public Producto(String nombre, String imagen, String descripcion, LocalDate fecha, Integer stock,
+	public Producto(String nombre, String imagen, String descripcion, LocalDate fecha,
 			ProductoCategoria categoria, Estado estado, List<ProductoImagen> productoImg,
 			List<ProductoPrecio> productoPre, Set<MenuSub> menuSub, List<ProductoProDetal> proPropiDetal,
 			ProductoInformacion productoInfo, Set<ProductoForma> productoForma) {
@@ -80,7 +80,7 @@ public class Producto {
 		this.imagen = imagen;
 		this.descripcion = descripcion;
 		this.fecha = fecha;
-		this.stock = stock;
+		/*this.stock = stock;*/
 		this.categoria = categoria;
 		this.estado = estado;
 		this.productoImg = productoImg;
@@ -131,13 +131,13 @@ public class Producto {
 		this.fecha = fecha;
 	}
 
-	public Integer getStock() {
+	/*public Integer getStock() {
 		return stock;
 	}
 
 	public void setStock(Integer stock) {
 		this.stock = stock;
-	}
+	}*/
 
 	public ProductoCategoria getCategoria() {
 		return categoria;

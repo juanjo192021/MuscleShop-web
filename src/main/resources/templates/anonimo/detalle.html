@@ -20,7 +20,7 @@
 		<!-- MAIN-->
 		<main class="main">
 			<div class="container">
-				<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
+				<nav aria-label="breadcrumb" class="breadcrumb-nav py-5">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a>
 						</li>
@@ -39,7 +39,7 @@
 						<span>ha sido agregado al carrito.</span>
 					</div>
 
-					<div class="row">
+					<div class="row m-0 pb-5">
 						<div class="col-lg-5 col-md-6 product-single-gallery">
 							<div class="product-slider-container">
 								<div class="label-group d-none">
@@ -145,12 +145,17 @@
 
 								<div class="product-action">
 									<div class="product-single-qty p-0">
-										<input class="horizontal-quantity form-control" type="text" id="cantidad"
-											name="cantidad" value="1" autocomplete="off">
+										<input class="horizontal-quantity form-control"
+											   type="text"
+											   id="cantidad"
+											   name="cantidad"
+											   value="1"
+											   autocomplete="off">
 									</div>
 									<!-- End .product-single-qty -->
-									<button type="submit" class="btn btn-light agregar-producto">AGREGAR
-										PRODUCTO</button>
+									<button type="submit" class="btn btn-light agregar-producto">
+										AGREGAR PRODUCTO
+									</button>
 
 								</div>
 								<!-- End .product-action -->
@@ -158,14 +163,30 @@
 
 							<hr class="divider mb-0 mt-0">
 
-							<div class="product-single-share mb-3 mt-2">
+							<div class="product-single-share my-5">
 								<p class="m-0">Métodos de Pago:</p>
 
 								<div class="social-icons d-flex mr-2">
-									<a class="mx-4 "><img th:src="@{/images/visa.png}" width="45px" height="45px"></a>
-									<a><img th:src="@{/images/mastercard.png}" width="40px" height="40px"></a>
-									<a class="mx-4"><img th:src="@{/images/diners.png}" width="60px" height="60px"></a>
-									<a><img th:src="@{/images/amex.png}" width="35px" height="35px"></a>
+									<a class="mx-4 ">
+										<img th:src="@{/images/visa.png}"
+											 width="45px"
+											 height="45px">
+									</a>
+									<a>
+										<img th:src="@{/images/mastercard.png}"
+											 width="40px"
+											 height="40px">
+									</a>
+									<a class="mx-4">
+										<img th:src="@{/images/diners.png}"
+											 width="60px"
+											 height="60px">
+									</a>
+									<a>
+										<img th:src="@{/images/amex.png}"
+											 width="35px"
+											 height="35px">
+									</a>
 								</div>
 								<!-- End .social-icons -->
 							</div>

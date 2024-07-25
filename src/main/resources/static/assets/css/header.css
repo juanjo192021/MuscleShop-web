@@ -101,7 +101,7 @@
     }
     .header-top p, .header-top a{
         font-weight: 650;
-        font-size: 18px;
+        font-size: 17px;
         margin: 0 0 0 15px;
         line-height: 1.5;
     }
@@ -138,7 +138,7 @@
     }
 
     .header-middle .header-right .dropdown-toggle .badge-circle{
-        top: 0px;
+        top: 0;
         width: 2rem;
         font-size: 15px;
         line-height: 2rem;
@@ -146,4 +146,51 @@
 
 }
 
+@media screen and (max-width: 576px){
+    .header-top .items-anuncios p , .header-top .items-anuncios a{
+        font-size: 11px;
+        margin: 0;
+    }
+    .header-top .items-anuncios i {
+        font-size: 18px;
+    }
+    .header-top .items-anuncios .fa-whatsapp{
+        font-size: 23px;
+    }
 
+    .header-middle .mobile-menu-toggler {
+        padding: 10px 10px 10px 0;
+        margin: 0;
+    }
+    .header-middle .header-left i{
+        font-size: 25px;
+    }
+    .header-middle .header-left img {
+        max-width: 235px;
+    }
+
+    .header-middle .header-right .icon-user-2{
+        font-size: 23px;
+        line-height: normal;
+    }
+    .header-middle .header-right .fa-bag-shopping{
+        font-size: 28px;
+        padding: 0;
+    }
+    .header-middle .header-right .title-header-middle{
+        font-size: 10px;
+    }
+    .header-middle .header-right .dropdown-toggle .badge-circle{
+        top: 0;
+        right: 15%;
+        width: 15px;
+        font-size: 11px;
+        line-height: 14px;
+    }
+}
+
+@media screen and (max-width: 430px){
+    .header-middle .header-right .dropdown-toggle .badge-circle{
+        right: 0;
+    }
+}

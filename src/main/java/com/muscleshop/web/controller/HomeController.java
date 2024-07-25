@@ -199,57 +199,62 @@ public class HomeController {
 
 	@GetMapping("/prueba")
 	@ResponseBody
-	public ResponseEntity<List<Banner>> resp(){
-		/*List<PedidoProductoComentario> mostrarCom = pedProComService.comentariosMostrables();*/
-		List<Banner> ban = bannerService.listarBanner()
-				.stream()
-				.filter(banner -> "movil_tablet".equals(banner.getTipoDispositivo()))
-				.collect(Collectors.toList());
-		return  ResponseEntity.ok(ban);
+	public ResponseEntity<List<PedidoProductoComentario>> resp(){
+		List<PedidoProductoComentario> mostrarCom = pedProComService.comentariosMostrables();
+		return  ResponseEntity.ok(mostrarCom);
 	}
 	// MENÚS
 	@SuppressWarnings("unchecked")
 	@GetMapping("/inicio")
 	public String Inicio(Model model, HttpSession session) {
 
-		List<Producto> pro = productoService.listarProducto();
-		List<Banner> banner = bannerService.listarBanner();
-		List<Banner> bannerMovilTablet = banner.stream()
+		List<Producto> productos = productoService.listarProducto();
+
+		List<Banner> banners = bannerService.listarBanner();
+
+		List<Banner> bannerMovilTablet = banners.stream()
 				.filter(ban -> "movil_tablet".equals(ban.getTipoDispositivo()))
 				.collect(Collectors.toList());
-		List<Banner> bannerLaptopPc = banner.stream()
+
+		List<Banner> bannerLaptopPc = banners.stream()
 				.filter(ban-> "laptop_pc".equals(ban.getTipoDispositivo()))
 				.collect(Collectors.toList());
 
-		List<Popup> pop = popupService.listarPopup();
+		List<Popup> popups = popupService.listarPopup();
+
 		/*List<Articulo> articulosBlog = articuloService.listarArticulo();*/
+
 		Integer cantidadArticulos = 3;
 		Page<Articulo> articulosBlog = articuloService.listarArticuloPorPage(cantidadArticulos);
 
+		/*{1,Inicio,inicio},
+		{2,Categorias,categorias},
+		{3,Objetivo,objetivo},
+		{4,Por Marca,marcas},
+		{5,Lifestyle,lifestyle},
+		{6,Blog,blog},
+		{7,Contactanos,contactanos}	*/
+		Integer menuId = 3;
+		List<MenuSub> subMenus = menuSubService.obtenerMenuID(menuId);
 
-		model.addAttribute("productos", pro);
-		model.addAttribute("popup", pop);
-		model.addAttribute("banner", banner);
+		/*[{1,normal},{2,bestsellers},{3,ofertas}]*/
+		List<Producto> productosPorForma = productoService.listarProForma(2);
+
+		List<PedidoProductoComentario> comentariosProductos = pedProComService.comentariosMostrables();
+
+
+		model.addAttribute("productos", productos);
+		model.addAttribute("popup", popups);
+		model.addAttribute("banner", banners);
 		model.addAttribute("bannerMovilTablet",bannerMovilTablet);
 		model.addAttribute("bannerLaptopPc", bannerLaptopPc);
-
-		boolean isFirstMovilTabletActive = bannerLaptopPc.isEmpty() && !bannerMovilTablet.isEmpty();
-
-		model.addAttribute("isFirstMovilTabletActive", isFirstMovilTabletActive);
-
 		model.addAttribute("articulosBlog", articulosBlog);
+		model.addAttribute("subMenu", subMenus);
+		model.addAttribute("productosPorForma", productosPorForma);
+		model.addAttribute("comentariosProductos", comentariosProductos);
 
-		Integer menuId = 3;
-		List<MenuSub> subMenu = menuSubService.obtenerMenuID(menuId);
-		model.addAttribute("subMenu", subMenu);
+		// LÓGICA CARRITO
 
-		List<Producto> proForma = productoService.listarProForma(2);
-		model.addAttribute("proForma", proForma);
-
-		List<PedidoProductoComentario> mostrarCom = pedProComService.comentariosMostrables();
-		model.addAttribute("mostrarCom", mostrarCom);
-		
-		// CARRITO
 		if (session.getAttribute("usuario") != null) {
 			Usuario usuario = usuarioService.buscarUsuario(session.getAttribute("usuario").toString());
 
