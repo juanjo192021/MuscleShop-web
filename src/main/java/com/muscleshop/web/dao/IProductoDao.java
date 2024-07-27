@@ -13,7 +13,7 @@ public interface IProductoDao extends JpaRepository<Producto, Integer> {
 
 	List<Producto> findByCategoriaUrl(String categoriaUrl);
     List<Producto> findByCategoria(ProductoCategoria categoria);
-    List<Producto> findByMenuSub(MenuSub menuSub);
+    /*List<Producto> findByMenuSub(MenuSub menuSub);*/
     List<Producto> findByProductoFormaId(int productoFormaId);
     
     @Query("select p from Producto p where p.nombre like %?1%")

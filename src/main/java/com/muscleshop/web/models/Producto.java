@@ -45,15 +45,12 @@ public class Producto {
 	private List<ProductoPrecio> productoPre;
 
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	@JsonIgnore
-	@JoinTable(name = "producto_menu_sub", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "menu_sub_id") })
-	private Set<MenuSub> menuSub;
-
+	private List<ProductoMenuSub> productoMenuSub;
 
 	@OneToMany(mappedBy = "producto")
-	private List<ProductoProDetal> proPropiDetal ;
+	private List<ProductoPropiedadDetalle> proPropiDetal ;
 
 
 	@OneToOne(mappedBy  = "producto")
@@ -69,26 +66,6 @@ public class Producto {
 	private Agrupacion agrupacion;
 	
 	public Producto() {
-	}
-
-	public Producto(String nombre, String imagen, String descripcion, LocalDate fecha,
-			ProductoCategoria categoria, Estado estado, List<ProductoImagen> productoImg,
-			List<ProductoPrecio> productoPre, Set<MenuSub> menuSub, List<ProductoProDetal> proPropiDetal,
-			ProductoInformacion productoInfo, Set<ProductoForma> productoForma) {
-		super();
-		this.nombre = nombre;
-		this.imagen = imagen;
-		this.descripcion = descripcion;
-		this.fecha = fecha;
-		/*this.stock = stock;*/
-		this.categoria = categoria;
-		this.estado = estado;
-		this.productoImg = productoImg;
-		this.productoPre = productoPre;
-		this.menuSub = menuSub;
-		this.proPropiDetal = proPropiDetal;
-		this.productoInfo = productoInfo;
-		this.productoForma = productoForma;
 	}
 
 	public Integer getId() {
@@ -179,19 +156,12 @@ public class Producto {
 		this.productoPre = productoPre;
 	}
 
-	public Set<MenuSub> getMenuSub() {
-		return menuSub;
-	}
 
-	public void setMenuSub(Set<MenuSub> menuSub) {
-		this.menuSub = menuSub;
-	}
-
-	public List<ProductoProDetal> getProPropiDetal() {
+	public List<ProductoPropiedadDetalle> getProPropiDetal() {
 		return proPropiDetal;
 	}
 
-	public void setProPropiDetal(List<ProductoProDetal> proPropiDetal) {
+	public void setProPropiDetal(List<ProductoPropiedadDetalle> proPropiDetal) {
 		this.proPropiDetal = proPropiDetal;
 	}
 

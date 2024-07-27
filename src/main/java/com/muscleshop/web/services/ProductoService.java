@@ -43,9 +43,11 @@ public class ProductoService {
         return productoDao.findByCategoria(categoria);
     }
 	
+/*
     public List<Producto> listarPorMenuSub(MenuSub menuSub) {
         return productoDao.findByMenuSub(menuSub);
     }
+*/
 
     public List<Producto> listarProForma(int productoFormaId){
     	return productoDao.findByProductoFormaId(productoFormaId);

@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.muscleshop.web.dao.IProImgDao;
+import com.muscleshop.web.dao.IProductoImagenDao;
 import com.muscleshop.web.models.ProductoImagen;
 
 @Service
 public class ProImgService {
 
 	@Autowired
-	private IProImgDao proImgDao;
+	private IProductoImagenDao proImgDao;
 
 	public List<ProductoImagen> listarProImg() {
 		return proImgDao.findAll();

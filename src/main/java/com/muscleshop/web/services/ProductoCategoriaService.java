@@ -10,7 +10,7 @@ import com.muscleshop.web.models.MenuSub;
 import com.muscleshop.web.models.ProductoCategoria;
 
 @Service
-public class ProCategoriaService {
+public class ProductoCategoriaService {
 
 	@Autowired
 	private IProCategoriaDao proCateDao;

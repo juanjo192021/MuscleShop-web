@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "producto_propiedades_detalles")
-public class ProductoProDetal {
+public class ProductoPropiedadDetalle {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +29,10 @@ public class ProductoProDetal {
 	@JoinColumn(name = "propiedades_detalles_id")
 	private PropiedadesDetalles propiedadesDetalles;
 
-	public ProductoProDetal() {
+	public ProductoPropiedadDetalle() {
 	}
 
-	public ProductoProDetal(Double precio, Producto producto, PropiedadesDetalles propiedadesDetalles) {
+	public ProductoPropiedadDetalle(Double precio, Producto producto, PropiedadesDetalles propiedadesDetalles) {
 		super();
 		this.precio = precio;
 		this.producto = producto;

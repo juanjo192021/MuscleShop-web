@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="fragments/head"></head>
+<head>
+	<!--	<title>Inicio</title>-->
+	<th:block th:replace="fragments/head :: global-style"></th:block>
+	<th:block th:replace="fragments/head :: inicio-style"></th:block>
+</head>
 
 <body style="background-color: #f8f8f8;">
 	<div class="page-wrapper">
@@ -20,8 +24,13 @@
 						</li>
 						<li class="breadcrumb-item"><a th:href="@{'/index/inicio/' + ${proCateUrl.url}}"><span
 									th:text="${proCateUrl.nombre}"></span></a></li>
+
+
 					</ol>
 				</nav>
+
+				<p th:text="${nombreCategoria}"></p>
+
 				<h1 class="section-title categoriaPro text-center background-text" th:text="${nombreCategoria}"></h1>
 
 				<div class="container">

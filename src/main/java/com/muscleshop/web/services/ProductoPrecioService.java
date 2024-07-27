@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.muscleshop.web.dao.IProPrecioDao;
+import com.muscleshop.web.dao.IProductoPrecioDao;
 import com.muscleshop.web.models.ProductoPrecio;
 
 @Service
 public class ProductoPrecioService {
 	
 	@Autowired
-	private IProPrecioDao proPrecioDao;
+	private IProductoPrecioDao proPrecioDao;
 	
 	public double obtenerPrecioProducto(int idProducto, int idRolPerfil) {
 	    ProductoPrecio productoPrecio = proPrecioDao.findByProductoIdAndRolPerfilId(idProducto, idRolPerfil);

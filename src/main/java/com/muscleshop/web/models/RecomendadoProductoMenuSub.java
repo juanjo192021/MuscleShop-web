@@ -7,20 +7,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "producto_recomendado_menu_sub")
-public class ProductoRecomendadoMenuSub {
+@Table(name = "recomendado_producto_menu_sub")
+public class RecomendadoProductoMenuSub {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
-	
-	public ProductoRecomendadoMenuSub() {
-	}
-	public ProductoRecomendadoMenuSub(String nombre) {
-		super();
-		this.nombre = nombre;
-	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -33,7 +27,11 @@ public class ProductoRecomendadoMenuSub {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	
 
+	public RecomendadoProductoMenuSub() {
+	}
+
+	public RecomendadoProductoMenuSub(String nombre) {
+		this.nombre = nombre;
+	}
 }

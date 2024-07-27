@@ -384,13 +384,13 @@ public class UsuarioController {
 							int cantidad = contenido.getCantidad();
 							Producto producto = contenido.getProducto();
 							double subtotal = contenido.getSub_total();
-							ProductoProDetal productoProDetal = contenido.getProductoProDetal();
+							ProductoPropiedadDetalle productoPropiedadDetalle = contenido.getProductoProDetal();
 
-							if (productoProDetal == null) {
+							if (productoPropiedadDetalle == null) {
 								PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, null);
 						        pedProService.guardarPedidoPro(pedidoProducto);
 						    } else {
-						        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoProDetal);
+						        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoPropiedadDetalle);
 						        pedProService.guardarPedidoPro(pedidoProducto);
 						    }
 						}
@@ -468,13 +468,13 @@ public class UsuarioController {
 							int cantidad = contenido.getCantidad();
 							Producto producto = contenido.getProducto();
 							double subtotal = contenido.getSub_total();
-							ProductoProDetal productoProDetal = contenido.getProductoProDetal();
+							ProductoPropiedadDetalle productoPropiedadDetalle = contenido.getProductoProDetal();
 
-							if (productoProDetal == null) {
+							if (productoPropiedadDetalle == null) {
 								PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, null);
 						        pedProService.guardarPedidoPro(pedidoProducto);
 						    } else {
-						        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoProDetal);
+						        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoPropiedadDetalle);
 						        pedProService.guardarPedidoPro(pedidoProducto);
 						    }
 						}
@@ -584,13 +584,13 @@ public class UsuarioController {
 				int cantidad = contenido.getCantidad();
 				Producto producto = contenido.getProducto();
 				double subtotal = contenido.getSub_total();
-				ProductoProDetal productoProDetal = contenido.getProductoProDetal();
+				ProductoPropiedadDetalle productoPropiedadDetalle = contenido.getProductoProDetal();
 
-				if (productoProDetal == null) {
+				if (productoPropiedadDetalle == null) {
 					PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, null);
 			        pedProService.guardarPedidoPro(pedidoProducto);
 			    } else {
-			        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoProDetal);
+			        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoPropiedadDetalle);
 			        pedProService.guardarPedidoPro(pedidoProducto);
 			    }
 			}

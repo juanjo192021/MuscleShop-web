@@ -3,7 +3,7 @@
 
 <head th:replace="fragments/head"></head>
 
-<body style="background-color: #f8f8f8;">
+<body style="background-color: #FFFFFF;">
 	<div class="page-wrapper">
 		<!-- NOTICE -->
 		<div th:replace="fragments/notice"></div>
@@ -23,7 +23,7 @@
 				<p th:text="${cate.descripcion}"></p>
 				<div class="category-banner-container bg-gray">
 					<div class="category-banner banner text-uppercase"
-             			th:style="'background: no-repeat 60%/cover url(' + @{/images/} + ${cate.imagen} + '); height: 300px;'">
+             			th:style="'background: no-repeat 60%/cover url(' + @{/images/banner/laptop_pc/} + ${cate.imagen} + '); height: 300px;'">
 					</div>
 				</div>
 

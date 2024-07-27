@@ -4,16 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "menu_sub")
@@ -41,26 +32,9 @@ public class MenuSub {
 	@JsonIgnore
 	private List<ProductoCategoria> productoCate;
 
-	@ManyToMany(mappedBy = "menuSub")
+	@OneToMany(mappedBy = "menuSub", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private Set<Producto> producto;
-	
-	public MenuSub() {
-	}
-
-	public MenuSub(String nombre, String url, String imagen, Menu menu, Estado estado,
-			List<ProductoCategoria> productoCate, Set<Producto> producto) {
-		super();
-		this.nombre = nombre;
-		this.url = url;
-		this.imagen = imagen;
-		this.menu = menu;
-		this.estado = estado;
-		this.productoCate = productoCate;
-		this.producto = producto;
-	}
-
-
+	private List<ProductoMenuSub> productoMenuSub;
 
 	public Integer getId() {
 		return id;
@@ -84,6 +58,22 @@ public class MenuSub {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
+	public String getBanner() {
+		return banner;
+	}
+
+	public void setBanner(String banner) {
+		this.banner = banner;
 	}
 
 	public Menu getMenu() {
@@ -110,29 +100,24 @@ public class MenuSub {
 		this.productoCate = productoCate;
 	}
 
-	public Set<Producto> getProducto() {
-		return producto;
+	public List<ProductoMenuSub> getProductoMenuSub() {
+		return productoMenuSub;
 	}
 
-	public void setProducto(Set<Producto> producto) {
-		this.producto = producto;
+	public void setProductoMenuSub(List<ProductoMenuSub> productoMenuSub) {
+		this.productoMenuSub = productoMenuSub;
 	}
 
-	public String getImagen() {
-		return imagen;
-	}
+	public MenuSub(){}
 
-	public void setImagen(String imagen) {
+	public MenuSub(String nombre, String url, String imagen, Menu menu, String banner, Estado estado, List<ProductoMenuSub> productoMenuSub, List<ProductoCategoria> productoCate) {
+		this.nombre = nombre;
+		this.url = url;
 		this.imagen = imagen;
-	}
-
-	public String getBanner() {
-		return banner;
-	}
-
-	public void setBanner(String banner) {
+		this.menu = menu;
 		this.banner = banner;
+		this.estado = estado;
+		this.productoMenuSub = productoMenuSub;
+		this.productoCate = productoCate;
 	}
-	
-
 }

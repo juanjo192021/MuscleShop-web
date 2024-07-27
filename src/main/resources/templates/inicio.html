@@ -214,7 +214,7 @@
 
                     <div class="row m-0 justify-content-around justify-content-lg-between">
                         <div th:each="articulosBlog : ${articulosBlog}" class="card m-0 col-12 col-md-5 col-lg-3 mb-4 p-0">
-                            <img th:src="@{'/images/' + ${articulosBlog.imagen}}" class="card-img-top" alt="...">
+                            <img th:src="@{'/images/' + ${articulosBlog}}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4 class="card-title" th:text="${articulosBlog.titulo}"></h4>
                                 <div class="contenedor-descripcion-blog">
@@ -296,73 +296,10 @@
                     <h4 class="text-center font-italic">Encuéntranos también
                         en</h4>
                     <div class="row m-0 justify-content-center align-items-center">
-                        <div class="col-4 col-lg-3 py-4 d-flex justify-content-center">
-                            <a href="https://www.youtube.com" target="_blank">
+                        <div th:each="marketplaces: ${marketplaces}" style="margin: 0 10px;" class="col-4 col-lg-2 py-4 d-flex justify-content-center">
+                            <a th:href="${marketplaces.getUrl()}" target="_blank">
                                 <figure>
-                                    <img th:src="@{/images/marketplace/falabella_green_icon.svg}">
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-3 py-4 d-flex justify-content-center">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <figure>
-                                    <img th:src="@{/images/marketplace/ripley_icon.svg}">
-                                </figure>
-
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-3 py-4 d-flex justify-content-center">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <figure>
-                                    <img th:src="@{/images/marketplace/rappi_icon.svg}">
-                                </figure>
-
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-3 py-4 d-flex justify-content-center">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <figure>
-                                    <img th:src="@{/images/marketplace/mercadolibre_icon.svg}">
-                                </figure>
-
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-3 py-4 d-flex justify-content-center">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <figure>
-                                    <img th:src="@{/images/marketplace/juntoz_icon.svg}">
-                                </figure>
-
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-3 py-4 d-flex justify-content-center">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <figure>
-                                    <img th:src="@{/images/marketplace/mifarma_icon.svg}">
-                                </figure>
-
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-3 py-4 d-flex justify-content-center">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <figure>
-                                    <img th:src="@{/images/marketplace/inkafarma_icon.svg}">
-                                </figure>
-
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-3 py-4 d-flex justify-content-center">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <figure>
-                                    <img th:src="@{/images/marketplace/dinersclub_icon.svg}">
-                                </figure>
-
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-3 py-4 d-flex justify-content-center">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <figure>
-                                    <img th:src="@{/images/marketplace/shopstar_icon.svg}">
+                                    <img th:src="@{'/images/marketplace/' + ${marketplaces.getImagen()}}" th:alt="${marketplaces.getNombre()}">
                                 </figure>
                             </a>
                         </div>
