@@ -172,13 +172,13 @@
                         <div class="product-default inner-btn inner-icon inner-icon-inline left-details m-0"
                              th:each="productosPorForma:${productosPorForma}">
                             <figure>
-                                <a th:href="@{'/index/inicio/' + ${productosPorForma.categoria.url} + '/' + ${productosPorForma.id}}">
-                                    <img th:src="@{'/images/' + ${productosPorForma.imagen}}" class="img-owl-carousel"
+                                <a th:href="@{'/index/inicio/' + ${productosPorForma.getProductoCategoria().getUrl()} + '/' + ${productosPorForma.getId()}}">
+                                    <img th:src="@{'/images/' + ${productosPorForma.getImagen()}}" class="img-owl-carousel"
                                          alt="product"/>
                                 </a>
 
                                 <div class="btn-icon-group">
-                                    <a th:href="@{/index/productoAgregar(id=${productosPorForma.id})}"
+                                    <a th:href="@{/index/productoAgregar(id=${productosPorForma.getId()})}"
                                        class="btn-icon btn-add-cart"><i
                                             class="icon-shopping-cart"></i></a>
 
@@ -188,8 +188,8 @@
                             <div class="product-details">
 
                                 <h3 class="product-title pb-2"><a
-                                        th:href="@{'/index/inicio/' + ${productosPorForma.categoria.url} + '/' + ${productosPorForma.id}}"
-                                        th:text="${productosPorForma.nombre}"></a></h3>
+                                        th:href="@{'/index/inicio/' + ${productosPorForma.getProductoCategoria().getUrl()} + '/' + ${productosPorForma.getId()}}"
+                                        th:text="${productosPorForma.getNombre()}"></a></h3>
                             </div>
                         </div>
                     </div>
@@ -214,7 +214,7 @@
 
                     <div class="row m-0 justify-content-around justify-content-lg-between">
                         <div th:each="articulosBlog : ${articulosBlog}" class="card m-0 col-12 col-md-5 col-lg-3 mb-4 p-0">
-                            <img th:src="@{'/images/' + ${articulosBlog}}" class="card-img-top" alt="...">
+                            <img th:src="@{'/images/' + ${articulosBlog.getImagen()}}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h4 class="card-title" th:text="${articulosBlog.titulo}"></h4>
                                 <div class="contenedor-descripcion-blog">

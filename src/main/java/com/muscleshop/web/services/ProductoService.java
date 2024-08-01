@@ -3,6 +3,7 @@ package com.muscleshop.web.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.muscleshop.web.dao.IProductoDao;
@@ -35,13 +36,13 @@ public class ProductoService {
 		productoDao.deleteById(id);
 	}
 
-	public List<Producto> listarProCate(String categoriaUrl) {
+/*	public List<Producto> listarProCate(String categoriaUrl) {
 		return productoDao.findByCategoriaUrl(categoriaUrl);
 	}
 	
 	public List<Producto> listarPorCategoria(ProductoCategoria categoria) {
         return productoDao.findByCategoria(categoria);
-    }
+    }*/
 	
 /*
     public List<Producto> listarPorMenuSub(MenuSub menuSub) {
@@ -49,15 +50,25 @@ public class ProductoService {
     }
 */
 
-    public List<Producto> listarProForma(int productoFormaId){
+/*    public List<Producto> listarProForma(int productoFormaId){
     	return productoDao.findByProductoFormaId(productoFormaId);
     }
-    
+    */
     public List<Producto> buscarProducto(String nombre) {
 		return productoDao.buscarProducto(nombre);
 	}
-	
-	
+
+
+	public List<Producto> obtenerResultado(Integer productoFormaId,Integer estadoId){
+		return productoDao.listarProductosPorForma(productoFormaId, estadoId);
+	}
+
+	public List<Producto> listarProductosPorMenuSubUrl(String menuSubUrl){
+		return productoDao.findProductosByMenuSubUrl(menuSubUrl);
+	}
+
+
+
 
 
 }

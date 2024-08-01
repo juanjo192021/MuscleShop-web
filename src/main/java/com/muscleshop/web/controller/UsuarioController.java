@@ -141,19 +141,19 @@ public class UsuarioController {
             Usuario usuario = usuarioService.buscarUsuario(session.getAttribute("usuario").toString());
             RolPerfil rolPerfil = usuario.getRolPerfil();
             for (Producto producto : proCate) {
-                double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), rolPerfil.getId());
+                /*double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), rolPerfil.getId());*/
                 double precioTachado = proPrecioService.obtenerPrecioTachado(producto.getId(), rolPerfil.getId());
                 int porcentaje = proPrecioService.obtenerPorcentaje(producto.getId(), rolPerfil.getId());
-                precios.put(producto.getId(), precioNormal);
+                /*precios.put(producto.getId(), precioNormal);*/
                 preciosTachados.put(producto.getId(), precioTachado);
                 porcentajes.put(producto.getId(), porcentaje);
             }
         } else {
             for (Producto producto : proCate) {
-                double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), 1);
+                /*double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), 1);*/
                 double precioTachado = proPrecioService.obtenerPrecioTachado(producto.getId(), 1);
                 int porcentaje = proPrecioService.obtenerPorcentaje(producto.getId(), 1);
-                precios.put(producto.getId(), precioNormal);
+                /*precios.put(producto.getId(), precioNormal);*/
                 preciosTachados.put(producto.getId(), precioTachado);
                 porcentajes.put(producto.getId(), porcentaje);
             }

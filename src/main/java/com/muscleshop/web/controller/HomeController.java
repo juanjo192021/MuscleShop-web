@@ -1,12 +1,10 @@
 package com.muscleshop.web.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.muscleshop.web.models.*;
+import com.muscleshop.web.models.dto.ProductoDto;
 import com.muscleshop.web.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -84,15 +82,20 @@ public class HomeController {
 	
 	@Autowired
 	LogosService logosService;
+
+	@Autowired
+	public IProductoAgrupadoService iProductoAgrupadoService;
 	
 	@Autowired
 	CuponService cuponService;
 
 	@Autowired
 	IMarketplaceService iMarketplaceService;
+    @Autowired
+    private ProductoPropiedadDetalleService productoPropiedadDetalleService;
 
 	@ModelAttribute("menu")
-	public List<Menu> categorias() {
+	public List<Menu> menus() {
 		return menuService.listarMenu();
 	}
 
@@ -102,31 +105,34 @@ public class HomeController {
 	}
 
 	@ModelAttribute("footer")
-	public List<Footer> footer() {
+	public List<Footer> footers() {
 		return footerService.listarFooter();
 	}
 
 	@ModelAttribute("header")
-	public Map<Integer, Header> obtenerHeader() {
-		Map<Integer, Header> header = new HashMap<>();
-		for (int i = 1; i <= 5; i++) {
-			Header hea = headerService.listarHeaderID(i);
-			header.put(i, hea);
+	public Map<Integer, Header> headers() {
+		List<Header> headers = headerService.listarHeader();
+
+		/*Se usa el map para poder usar la lista con sus indices[0,1,2,3]*/
+		Map<Integer, Header> headerMap = new HashMap<>();
+
+		for (Header header : headers) {
+			headerMap.put(header.getId(), header);
 		}
-		return header;
+		return headerMap;
 	}
 	
 	@ModelAttribute("logos")
-	public List<Logos> obtenerLogos() {
+	public List<Logos> logos() {
 		return logosService.listarLogos();
 	}
 
 	@ModelAttribute("redesSociales")
-	public List<RedesSociales> obtenerRedes() {
+	public List<RedesSociales> redesSociales() {
 		return redesSocialesService.listarRedes();
 	}
 	
-	@ModelAttribute
+	/*@ModelAttribute
     public void addCommonAttributes(Model model, HttpSession session) {
         List<Producto> proCate = productoService.listarProducto();
 
@@ -161,20 +167,31 @@ public class HomeController {
         model.addAttribute("porcentajes", porcentajes);
         session.setAttribute("precios", precios);
 
-    }
+    }*/
 
-	@GetMapping("/prueba")
+	@Autowired
+	IPropiedadesService iPropiedadesService;
+
+	@GetMapping("/prueba/{menuSubUrl}")
 	@ResponseBody
-	public ResponseEntity<List<Marketplace>> resp(){
-		List<Marketplace> subMenuMarcas = iMarketplaceService.listarMarketplaces();
-		return  ResponseEntity.ok(subMenuMarcas);
+	public ResponseEntity<List<Producto>> resp(@PathVariable String menuSubUrl){
+		List<Producto> productos = productoService.listarProductosPorMenuSubUrl(menuSubUrl);
+		return  ResponseEntity.ok(productos);
 	}
+
+	@GetMapping("/prueba2")
+	@ResponseBody
+	public ResponseEntity<List<ProductoPropiedadDetalle>> respta(){
+		List<ProductoPropiedadDetalle> productos = productoPropiedadDetalleService.findByProductosMenuSubUrl("proteinas",1);
+		return  ResponseEntity.ok(productos);
+	}
+
 	// MENÚS
 	@SuppressWarnings("unchecked")
 	@GetMapping("/inicio")
 	public String Inicio(Model model, HttpSession session) {
 
-		List<Producto> productos = productoService.listarProducto();
+		/*List<Producto> productos = productoService.listarProducto();*/
 
 		List<Banner> banners = bannerService.listarBanner();
 
@@ -188,10 +205,10 @@ public class HomeController {
 
 		List<Popup> popups = popupService.listarPopup();
 
-		/*List<Articulo> articulosBlog = articuloService.listarArticulo();*/
-
 		Integer cantidadArticulos = 3;
-		Page<Articulo> articulosBlog = articuloService.listarArticuloPorPage(cantidadArticulos);
+		List<Articulo>articulosBlog = (articuloService.listarArticulo())
+										.stream()
+										.limit(cantidadArticulos).toList();
 
 		/*{1,Inicio,inicio},
 		{2,Categorias,categorias},
@@ -207,16 +224,15 @@ public class HomeController {
 		List<MenuSub> subMenus = menuSubService.obtenerMenuID(menuId);
 
 		/*[{1,normal},{2,bestsellers},{3,ofertas}]*/
-		List<Producto> productosPorForma = productoService.listarProForma(2);
+		List<Producto> productosPorForma = productoService.obtenerResultado(2,1);
 
 		List<PedidoProductoComentario> comentariosProductos = pedProComService.comentariosMostrables();
 
 		List<Marketplace> marketplaces = iMarketplaceService.listarMarketplaces();
 
 
-		model.addAttribute("productos", productos);
+		/*model.addAttribute("productos", productos);*/
 		model.addAttribute("popup", popups);
-		model.addAttribute("banner", banners);
 		model.addAttribute("bannerMovilTablet",bannerMovilTablet);
 		model.addAttribute("bannerLaptopPc", bannerLaptopPc);
 		model.addAttribute("articulosBlog", articulosBlog);
@@ -251,22 +267,23 @@ public class HomeController {
 	}
 
 	@GetMapping("/inicio/{categoriaUrl}")
-	public String listarProCateInicio(Model model, @PathVariable String categoriaUrl, HttpSession session) {
+	public String listarProCateInicio(Model model, @PathVariable String categoriaUrl) {
 
-		ProductoCategoria proCategoria = proCateService.obtenerUrl(categoriaUrl);
-		List<Producto> proCate = productoService.listarProCate(categoriaUrl);
+		/*ProductoCategoria proCategoria = proCateService.obtenerUrl(categoriaUrl);
+		List<Producto> proCate = productoService.listarProCate(categoriaUrl);*/
+		Menu menu = menuService.listarMenuPorUrl(categoriaUrl);
 
-		model.addAttribute("proCate", proCate);
-		model.addAttribute("proCateUrl", proCategoria);
-		model.addAttribute("nombreCategoria", proCategoria.getNombre());
+		//*model.addAttribute("proCateUrl", menu.getUrl());
+		//model.addAttribute("proCate", proCate);
+		//model.addAttribute("nombreCategoria", menu.getNombre());
+		//*
+		model.addAttribute("menuUrl", menu.getUrl());
+		//
+		model.addAttribute("menuNombre", menu.getNombre());
 
 		return "anonimo/inicioCate";
 	}
-/*
 
-MODIFICAR 22-07-2024
-
-* */
 	@GetMapping("/inicio/{categoriaUrl}/{id}")
 	public String verProductoInicio(@PathVariable("id") int id, @PathVariable String categoriaUrl, Model model,
 			HttpSession session) {
@@ -292,46 +309,52 @@ MODIFICAR 22-07-2024
 		return "anonimo/detalle";
 	}
 
+
 	// MENÚ PRODUCTOS
 	// (Enlaza el header y la vista porProductos/menuProducto pero la url es localhost/index/categorias)
 	//@GetMapping("/categorias")
-	@GetMapping("/suplementos")
-	public String menuProducto(Model model, HttpSession session) {
+	@GetMapping("/{menuUrl}")
+	public String menuProducto(Model model,@PathVariable String menuUrl, HttpSession session) {
 
-		Integer menuId = 2;
-		List<MenuSub> subMenu = menuSubService.obtenerMenuID(menuId);
-		model.addAttribute("subMenu", subMenu);
-		Menu menu = menuService.listarMenuID(menuId);
-		model.addAttribute("cate", menu);
+		Menu menu = menuService.listarMenuPorUrl(menuUrl);
+
+		model.addAttribute("menuCategoria", menu);
 
 		return "porProductos/menuProducto";
 	}
+
     //@GetMapping("/categorias/{MenuSubUrl}")
-	@GetMapping("/suplementos/{MenuSubUrl}")
-	public String productoCategoria(Model model, @PathVariable String MenuSubUrl, HttpSession session) {
+	@GetMapping("/{menuUrl}/{menuSubUrl}")
+	public String productoCategoria(Model model,@PathVariable String menuUrl, @PathVariable String menuSubUrl, HttpSession session) {
 
-		MenuSub menuSub = menuSubService.obtenerUrl(MenuSubUrl);
-		List<ProductoCategoria> proCate = proCateService.listarPorMenuSub(menuSub);
+		//MenuSub menuSub = menuSubService.obtenerUrl(menuSubUrl);
+		//List<ProductoCategoria> proCate = proCateService.listarPorMenuSub(menuSub);
 
-		/*List<Producto> productos = productoService.listarPorMenuSub(menuSub);
-		model.addAttribute("productos", productos);*/
-		
-		Integer menuIdCate = 2;
-		List<MenuSub> subMenuCate = menuSubService.obtenerMenuID(menuIdCate);
-		model.addAttribute("subMenuCate", subMenuCate);
+		List<ProductoPropiedadDetalle> productosPropiedadDetalle = productoPropiedadDetalleService.findByProductosMenuSubUrl(menuSubUrl,1);
 
-		Integer menuId = 3;
-		List<MenuSub> subMenu = menuSubService.obtenerMenuID(menuId);
-		model.addAttribute("subMenu", subMenu);
+		//List<Producto> productos = productoService.listarPorMenuSub(menuSub);
 
-		Integer menuMarcasId = 4;
-		List<MenuSub> subMenumarcas = menuSubService.obtenerMenuID(menuMarcasId);
-		model.addAttribute("subMenumarcas", subMenumarcas);
-		model.addAttribute("menuSub", menuSub);
-		model.addAttribute("proCate", proCate);
+		model.addAttribute("productosPropiedadDetalle", productosPropiedadDetalle);
+		model.addAttribute("menuUrl", menuUrl);
+		model.addAttribute("menuSubUrl", menuSubUrl);
+
+		//Integer menuIdCate = 2;
+		//List<MenuSub> subMenuCate = menuSubService.obtenerMenuID(menuIdCate);
+		//model.addAttribute("subMenuCate", subMenuCate);
+
+		//Integer menuId = 3;
+		//List<MenuSub> subMenu = menuSubService.obtenerMenuID(menuId);
+		//model.addAttribute("subMenu", subMenu);
+
+		//Integer menuMarcasId = 4;
+		//List<MenuSub> subMenumarcas = menuSubService.obtenerMenuID(menuMarcasId);
+		//model.addAttribute("subMenumarcas", subMenumarcas);
+		//model.addAttribute("menuSub", menuSub);
+		//model.addAttribute("proCate", proCate);
 
 		return "porProductos/subMenuProductos";
 	}
+	/*
 	//@GetMapping("/categorias/{MenuSubUrl}/{categoriaUrl}")
 	@GetMapping("/suplementos/{MenuSubUrl}/{categoriaUrl}")
 	public String listarProCate(Model model, HttpSession session, @PathVariable String MenuSubUrl, @PathVariable String categoriaUrl) {
@@ -404,7 +427,7 @@ MODIFICAR 22-07-2024
 		MenuSub menuSub = menuSubService.obtenerUrl(MenuSubUrl);
 
 		/*List<Producto> productos = productoService.listarPorMenuSub(menuSub);
-		model.addAttribute("productos", productos);*/
+		model.addAttribute("productos", productos);//
 
 		model.addAttribute("menuSub", menuSub);
 		model.addAttribute("nombreObjetivo", menuSub.getNombre());
@@ -481,7 +504,7 @@ MODIFICAR 22-07-2024
 		MenuSub menuSub = menuSubService.obtenerUrl(MenuSubUrl);
 
 		/*List<Producto> productos = productoService.listarPorMenuSub(menuSub);
-		model.addAttribute("productos", productos);*/
+		model.addAttribute("productos", productos);//
 
 
 		model.addAttribute("menuSub", menuSub);
@@ -647,28 +670,40 @@ MODIFICAR 22-07-2024
 		artiComService.saveArticuloCom(nuevoComentario);
 		return "redirect:/index/blog/ver-blog/" + id;
 	}
-
+*/
 	// SECCIÓN OFERTAS
 	@GetMapping("/ofertas")
 	public String ofertas(Model model, HttpSession session) {
-		List<Producto> proForma = productoService.listarProForma(2);
-		model.addAttribute("proForma", proForma);
+		List<Producto> productos = productoService.listarProducto();
+		List<Producto> productosAgrupados = productos.stream()
+				.filter(ban -> ban.getAgrupacion().getId() == 2 && ban.getEstado().getId() == 1)//
+				.filter(ban -> ban.getAgrupacion().getId() == 2 && ban.getEstado().getId() == 1)
+				.toList();
+		/*List<Producto> proForma = productoService.listarProForma(2);
+		model.addAttribute("proForma", proForma);*/
+		model.addAttribute("productosAgrupados", productosAgrupados);
 		return "ofertas/menuOfertas";
 	}
-
+	/*
 	@GetMapping("/ofertas/{id}")
 	public String verOfertaID(@PathVariable("id") int id, Model model, HttpSession session) {
+		// Producto por su id
+
+		List<ProductoAgrupado> productos = iProductoAgrupadoService.listarProductosAgrupadosPorIdPadre(id);
+
 		Producto proDetalles = productoService.listarProductoPorID(id);
+
 		List<ProductoPropiedadDetalle> detallePresentacion = productoProDetService.obtenerPorTipoDePropiedad(id, 1);
-		List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
 		List<ProductoPropiedadDetalle> detalleColor = productoProDetService.obtenerPorTipoDePropiedad(id, 2);
+		List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
 		List<ProductoPropiedadDetalle> detalleSabor = productoProDetService.obtenerPorTipoDePropiedad(id, 4);
-        
+
+		model.addAttribute("productos", productos);
+		model.addAttribute("producto", proDetalles);
         model.addAttribute("detallePresentacion", detallePresentacion);
         model.addAttribute("detalleTam", detalleTam);
         model.addAttribute("detalleColor", detalleColor);
         model.addAttribute("detalleSabor", detalleSabor);
-		model.addAttribute("producto", proDetalles);
 
 		return "ofertas/detallesOferta";
 	}
@@ -939,4 +974,7 @@ MODIFICAR 22-07-2024
 
 		return "anonimo/buscar";
 	}
+
+
+	*/
 }

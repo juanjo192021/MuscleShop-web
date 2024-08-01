@@ -1,13 +1,9 @@
 package com.muscleshop.web.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "producto_categoria")
@@ -28,9 +24,12 @@ public class ProductoCategoria {
 	@JoinColumn(name = "menu_sub_id")
 	private MenuSub menuSub;
 
+	@OneToMany(mappedBy = "productoCategoria")
+	@JsonIgnore
+	private List<Producto> productos;
+
 	public ProductoCategoria() {
 	}
-
 	public ProductoCategoria(String nombre, String url, Estado estado, MenuSub menuSub) {
 		super();
 		this.nombre = nombre;
@@ -78,8 +77,12 @@ public class ProductoCategoria {
 	public void setMenuSub(MenuSub menuSub) {
 		this.menuSub = menuSub;
 	}
-	
-	
-	
 
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
+	}
 }

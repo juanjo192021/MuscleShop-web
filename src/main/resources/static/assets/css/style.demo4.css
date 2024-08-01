@@ -277,10 +277,6 @@ blockquote::before {
 	font-weight: bold;
 }
 
-.product-content {
-	background-color: #38d430;
-}
-
 .background-text {
 	background: no-repeat 60%/cover url('/images/banner2.png');
 	height: 200px;

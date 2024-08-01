@@ -1,14 +1,10 @@
 package com.muscleshop.web.models;
 
 import java.io.Serializable;
+import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="agrupacion")
@@ -24,6 +20,9 @@ public class Agrupacion implements Serializable{
 
 	public Agrupacion() {
 	}
+	@OneToMany(mappedBy = "agrupacion")
+	@JsonIgnore
+	private List<Producto> productos;
 
 	public Integer getId() {
 		return id;
@@ -39,5 +38,13 @@ public class Agrupacion implements Serializable{
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
 	}
 }

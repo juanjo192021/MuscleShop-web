@@ -22,11 +22,7 @@ public class MenuService {
 		return menuDao.findById(id).orElse(null);
 	}
 
-	public void saveMenu(Menu menu) {
-		menuDao.save(menu);
-	}
-
-	public void eliminarMenu(Integer id) {
-		menuDao.deleteById(id);
+	public Menu listarMenuPorUrl(String url) {
+		return menuDao.findByUrl(url);
 	}
 }

@@ -5,17 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "producto")
@@ -28,45 +18,51 @@ public class Producto {
 	private String imagen;
 	private String descripcion;
 	private LocalDate fecha;
-/*	private Integer stock;*/
 
-	@OneToOne
-	@JoinColumn(name = "categoria_id")
-	private ProductoCategoria categoria;
-
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "estado_id")
 	private Estado estado;
 
+	@ManyToOne
+	@JoinColumn(name = "categoria_id")
+	private ProductoCategoria productoCategoria;
+
+	@ManyToOne
+	@JoinColumn(name="agrupacion_id", nullable = false)
+	@JsonIgnore
+	private Agrupacion agrupacion;
+
+	@OneToOne(mappedBy  = "producto")
+	@JsonIgnore
+	private ProductoInformacion productoInformacion;
+
 	@OneToMany(mappedBy = "producto")
-	private List<ProductoImagen> productoImg;
+	@JsonIgnore
+	private List<ProductoImagen> productoImagenes;
 	
 	@OneToMany(mappedBy = "producto")
-	private List<ProductoPrecio> productoPre;
-
+	@JsonIgnore
+	private List<ProductoPrecio> productoPrecios;
 
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private List<ProductoMenuSub> productoMenuSub;
+	private List<ProductoMenuSub> productoMenusSub;
 
 	@OneToMany(mappedBy = "producto")
-	private List<ProductoPropiedadDetalle> proPropiDetal ;
+	@JsonIgnore
+	private List<ProductoPropiedadDetalle> productoPropiedadesDetalles ;
 
+	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<ProductoFormaProducto> productoFormasProducto;
 
-	@OneToOne(mappedBy  = "producto")
-	private ProductoInformacion productoInfo;
+	@OneToMany(mappedBy = "productoPadre", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<ProductoAgrupado> productosHijos;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "producto_forma_producto", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "producto_forma_id") })
-	private Set<ProductoForma> productoForma;
-
-	@OneToOne()
-	@JoinColumn(name="agrupacion_id")
-	private Agrupacion agrupacion;
-	
-	public Producto() {
-	}
+	@OneToMany(mappedBy = "productoHijo")
+	@JsonIgnore
+	private List<ProductoAgrupado> productosPadre;
 
 	public Integer getId() {
 		return id;
@@ -108,22 +104,6 @@ public class Producto {
 		this.fecha = fecha;
 	}
 
-	/*public Integer getStock() {
-		return stock;
-	}
-
-	public void setStock(Integer stock) {
-		this.stock = stock;
-	}*/
-
-	public ProductoCategoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(ProductoCategoria categoria) {
-		this.categoria = categoria;
-	}
-
 	public Estado getEstado() {
 		return estado;
 	}
@@ -132,45 +112,12 @@ public class Producto {
 		this.estado = estado;
 	}
 
-	public List<ProductoImagen> getProductoImg() {
-		return productoImg;
+	public ProductoCategoria getProductoCategoria() {
+		return productoCategoria;
 	}
 
-	public void setProductoImg(List<ProductoImagen> productoImg) {
-		this.productoImg = productoImg;
-	}
-
-	public List<ProductoPrecio> getProductoPre() {
-		return productoPre;
-	}
-
-	public Set<ProductoForma> getProductoForma() {
-		return productoForma;
-	}
-
-	public void setProductoForma(Set<ProductoForma> productoForma) {
-		this.productoForma = productoForma;
-	}
-
-	public void setProductoPre(List<ProductoPrecio> productoPre) {
-		this.productoPre = productoPre;
-	}
-
-
-	public List<ProductoPropiedadDetalle> getProPropiDetal() {
-		return proPropiDetal;
-	}
-
-	public void setProPropiDetal(List<ProductoPropiedadDetalle> proPropiDetal) {
-		this.proPropiDetal = proPropiDetal;
-	}
-
-	public ProductoInformacion getProductoInfo() {
-		return productoInfo;
-	}
-
-	public void setProductoInfo(ProductoInformacion productoInfo) {
-		this.productoInfo = productoInfo;
+	public void setProductoCategoria(ProductoCategoria productoCategoria) {
+		this.productoCategoria = productoCategoria;
 	}
 
 	public Agrupacion getAgrupacion() {
@@ -179,5 +126,69 @@ public class Producto {
 
 	public void setAgrupacion(Agrupacion agrupacion) {
 		this.agrupacion = agrupacion;
+	}
+
+	public ProductoInformacion getProductoInformacion() {
+		return productoInformacion;
+	}
+
+	public void setProductoInformacion(ProductoInformacion productoInformacion) {
+		this.productoInformacion = productoInformacion;
+	}
+
+	public List<ProductoImagen> getProductoImagenes() {
+		return productoImagenes;
+	}
+
+	public void setProductoImagenes(List<ProductoImagen> productoImagenes) {
+		this.productoImagenes = productoImagenes;
+	}
+
+	public List<ProductoPrecio> getProductoPrecios() {
+		return productoPrecios;
+	}
+
+	public void setProductoPrecios(List<ProductoPrecio> productoPrecios) {
+		this.productoPrecios = productoPrecios;
+	}
+
+	public List<ProductoMenuSub> getProductoMenusSub() {
+		return productoMenusSub;
+	}
+
+	public void setProductoMenusSub(List<ProductoMenuSub> productoMenusSub) {
+		this.productoMenusSub = productoMenusSub;
+	}
+
+	public List<ProductoPropiedadDetalle> getProductoPropiedadesDetalles() {
+		return productoPropiedadesDetalles;
+	}
+
+	public void setProductoPropiedadesDetalles(List<ProductoPropiedadDetalle> productoPropiedadesDetalles) {
+		this.productoPropiedadesDetalles = productoPropiedadesDetalles;
+	}
+
+	public List<ProductoFormaProducto> getProductoFormasProducto() {
+		return productoFormasProducto;
+	}
+
+	public void setProductoFormasProducto(List<ProductoFormaProducto> productoFormasProducto) {
+		this.productoFormasProducto = productoFormasProducto;
+	}
+
+	public List<ProductoAgrupado> getProductosHijos() {
+		return productosHijos;
+	}
+
+	public void setProductosHijos(List<ProductoAgrupado> productosHijos) {
+		this.productosHijos = productosHijos;
+	}
+
+	public List<ProductoAgrupado> getProductosPadre() {
+		return productosPadre;
+	}
+
+	public void setProductosPadre(List<ProductoAgrupado> productosPadre) {
+		this.productosPadre = productosPadre;
 	}
 }

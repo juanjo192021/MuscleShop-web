@@ -2,6 +2,7 @@ package com.muscleshop.web.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class Articulo {
 	private Estado estado;
 
 	@OneToMany(mappedBy = "articulo")
+	@JsonIgnore
 	private List<ArticuloComentario> articuloCom;
 
 	public Articulo() {

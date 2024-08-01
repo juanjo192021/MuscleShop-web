@@ -21,12 +21,12 @@ public class MenuSub {
 
 	@ManyToOne
 	@JoinColumn(name = "menu_id")
+	@JsonIgnore
 	private Menu menu;
 
 	@OneToOne
 	@JoinColumn(name = "estado_id")
 	private Estado estado;
-
 
 	@OneToMany(mappedBy = "menuSub")
 	@JsonIgnore

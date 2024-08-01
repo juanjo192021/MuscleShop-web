@@ -12,7 +12,7 @@
 		<header th:replace="fragments/header"></header>
 
 		<main class="main">
-			<div class="home-slider slide-animate owl-carousel owl-theme show-nav-hover nav-big text-uppercase"
+			<!--<div class="home-slider slide-animate owl-carousel owl-theme show-nav-hover nav-big text-uppercase"
 				data-owl-options="{
 				'loop': true
 			}">
@@ -20,17 +20,17 @@
 					<img class="slide-bg" th:src="@{'/images/' + ${menuSub.banner}}" width="1903" height="499"
 						alt="slider image">
 				</div>
-				<!-- End .home-slide -->
+
 
 				<div class="home-slide home-slide2 banner banner-md-vw">
 					<img class="slide-bg" style="background-color: #ccc;" width="1903" height="499"
 						th:src="@{'/images/banner2.png'}" alt="slider image">
 				</div>
-				<!-- End .home-slide -->
-			</div>
+
+			</div>-->
 
 			<div class="container">
-				<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
+				<!--<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a>
 						</li>
@@ -38,10 +38,11 @@
 						<li class="breadcrumb-item"><a th:href="@{'/index/categorias/' + ${menuSub.url}}"
 								th:text="${menuSub.nombre}"></a></li>
 					</ol>
-				</nav>
+				</nav>-->
 
 				<div class="row">
-					<div class="col-lg-9 main-content">
+					<!--col-lg-9-->
+					<div class="col-lg-12 main-content">
 						<nav class="toolbox sticky-header" data-sticky-options="{'mobile': true}">
 							<div class="toolbox-left">
 								<a href="category.html#" class="sidebar-toggle">
@@ -69,13 +70,39 @@
 						</nav>
 
 						<div class="row">
-							<div class="col-6 col-sm-4" th:each="pro, i:${productos}">
+							<div class="col-6 col-sm-3" th:each="productosPropiedadDetalle, i:${productosPropiedadDetalle}">
+
+								<div class="card" style="width: 25rem;">
+									<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productosPropiedadDetalle.producto.productoCategoria.url} + '/' + ${productosPropiedadDetalle.producto.id}}">
+										<img class="card-img-top"
+											 th:src="@{'/images/'+${productosPropiedadDetalle.producto.imagen}}" width="280" height="280"
+											 alt="product" />
+									</a>
+									<div class="card-body">
+										<p th:text="${productosPropiedadDetalle.producto.nombre} + ' ' +${productosPropiedadDetalle.propiedadesDetalles.detalles.nombre}"></p>
+										<p th:text="${productosPropiedadDetalle.precio}"></p>
+										<p th:text="${productosPropiedadDetalle.stock}"></p>
+									</div>
+								</div>
+
+								<div class="product-default inner-btn inner-icon inner-icon-inline left-details">
+
+
+									<figure>
+
+									</figure>
+									<!-- Agrupamiento de propiedades y detalles -->
+
+								</div>
+
+
+<!--
 								<div class="product-default inner-btn inner-icon inner-icon-inline left-details"
 									th:each="proCate : ${pro.categoria}">
 									<figure>
 										<a
 											th:href="@{'/index/categorias/' + ${menuSub.url} + '/' + ${proCate.url} + '/' + ${pro.id}}">
-											<img th:src="@{'/images/'} + ${pro.imagen}" width="280" height="280"
+											<img th:src="@{'/images/'+${pro.imagen}}" width="280" height="280"
 												alt="product" />
 										</a>
 										<div class="label-group">
@@ -106,16 +133,17 @@
 											<del class="old-price" th:text="'S/. ' + ${preciosTachados[pro.id]}"></del>
 											<span class="product-price" th:text="'S/. ' + ${precios[pro.id]}"></span>
 										</div>
-										<!-- End .price-box -->
+
 									</div>
-									<!-- End .product-details -->
+
 								</div>
+-->
 
 							</div>
-							<!-- End .col-sm-4 -->
+
 
 						</div>
-						<!-- End .row -->
+
 
 						<nav class="toolbox toolbox-pagination justify-content-end">
 							<ul class="pagination toolbox-item">
@@ -137,17 +165,20 @@
 							</ul>
 						</nav>
 					</div>
-					<!-- End .col-lg-9 -->
 
 					<div class="sidebar-overlay"></div>
-
+					<!--
 					<aside class="sidebar-shop col-lg-3 order-lg-first mobile-sidebar filtros">
 						<div class="sidebar-wrapper">
 							<div class="widget">
 								<div id="accordion1">
-									<h3 class="widget-title pb-4"><a data-toggle="collapse"
-											href="category.html#widget-body-2" role="button" aria-expanded="true"
-											aria-controls="widget-body-2">Categorias</a></h3>
+									<h3 class="widget-title pb-4">
+										<a data-toggle="collapse"
+										   href="category.html#widget-body-2"
+										   role="button"
+										   aria-expanded="true"
+										   aria-controls="widget-body-2">Categorias</a>
+									</h3>
 									<div class="card card-accordion">
 										<a class="card-header" href="element-accordions.html#" data-toggle="collapse"
 											data-target="#collapse1" aria-expanded="true" aria-controls="collapse1"
@@ -155,7 +186,7 @@
 										</a>
 
 										<div id="collapse1" class="collapse show" data-parent="#accordion1">
-											<div class="collapse show" id="widget-category-1">
+											<div class="collapse show" id="widget-category-11">
 												<ul class="cat-sublist">
 													<li th:each="subMenuCate : ${subMenuCate}" class="pb-3">
 														<a th:href="@{'/index/categorias/' + ${subMenuCate.url}}"
@@ -215,7 +246,7 @@
 										<form action="category.html#">
 											<div class="price-slider-wrapper">
 												<div id="price-slider"></div>
-												<!-- End #price-slider -->
+
 											</div>
 											<div
 												class="filter-price-action d-flex align-items-center justify-content-between flex-wrap">
@@ -227,15 +258,15 @@
 
 											</div>
 
-											<!-- End .filter-price-action -->
+
 
 										</form>
 									</div>
-									<!-- End .widget-body -->
+
 								</div>
-								<!-- End .collapse -->
+
 							</div>
-							<!-- End .widget -->
+
 
 							<div class="widget widget-featured recomendaciones">
 								<h3 class="widget-title">Recomendaciones</h3>
@@ -258,20 +289,20 @@
 														<del class="old-price">$59.00</del>
 														<span class="product-price">$49.00</span>
 													</div>
-													<!-- End .price-box -->
+
 												</div>
-												<!-- End .product-details -->
+
 											</div>
 										</div>
 									</div>
-									<!-- End .widget-featured-slider -->
+
 								</div>
 							</div>
 
 						</div>
-						<!-- End .sidebar-wrapper -->
+
 					</aside>
-					<!-- End .col-lg-3 -->
+					-->
 				</div>
 			</div>
 		</main>

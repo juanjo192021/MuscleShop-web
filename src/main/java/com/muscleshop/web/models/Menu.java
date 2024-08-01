@@ -34,7 +34,7 @@ public class Menu {
 	private Estado estado;
 
 	@OneToMany(mappedBy = "menu")
-	@JsonIgnore
+
 	private List<MenuSub> menuSub;
 
 	public Menu() {

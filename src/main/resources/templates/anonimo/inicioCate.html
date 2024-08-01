@@ -17,62 +17,68 @@
 		<header th:replace="fragments/header"></header>
 
 		<main class="main">
-			<div class="container">
+			<div class="container" th:each="menu:${menu}">
 				<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a>
+						<li class="breadcrumb-item">
+							<a th:href="@{/index/inicio}">
+								<i class="icon-home"></i>
+							</a>
 						</li>
-						<li class="breadcrumb-item"><a th:href="@{'/index/inicio/' + ${proCateUrl.url}}"><span
-									th:text="${proCateUrl.nombre}"></span></a></li>
-
-
+						<li class="breadcrumb-item">
+							<a th:href="@{'/index/' + ${menu.getUrl()}}">
+								<span th:text="${menu.getNombre()}"></span>
+							</a>
+						</li>
 					</ol>
 				</nav>
 
-				<p th:text="${nombreCategoria}"></p>
+				<div class="">
+					<img src="">
+				</div>
+				<h1 class="section-title categoriaPro text-center background-text" th:text="${menuNombre}"></h1>
+				<p th:text="${menu.getDescripcion()}"></p>
+				<!--
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6 col-sm-4 col-md-3" th:each="producto, i : ${proCate}">
+                                <div class="product-default inner-btn inner-icon inner-icon-inline left-details">
+                                    <figure>
+                                        <a th:href="@{'/index/inicio/' + ${proCateUrl.url} + '/' + ${producto.id}}">
+                                            <img th:src="@{'/images/'} + ${producto.imagen}" width="280" height="280"
+                                                alt="product" />
+                                        </a>
+                                        <div class="btn-icon-group">
+                                            <a th:href="@{/index/productoAgregar(id=${producto.id})}"
+                                                class="btn-icon btn-add-cart"><i
+                                                    class="icon-shopping-cart"></i></a>
+                                        </div>
+                                        <div class="label-group">
+                                            <div class="product-label label-sale" th:text="${porcentajes[producto.id]} + '%'">
+                                            </div>
+                                        </div>
+                                    </figure>
 
-				<h1 class="section-title categoriaPro text-center background-text" th:text="${nombreCategoria}"></h1>
+                                    <div class="product-details">
+                                        <h3 class="product-title pb-2"> <a
+                                                th:href="@{'/index/inicio/' + ${proCateUrl.url} + '/' + ${producto.id}}"
+                                                th:text="${producto.nombre}"></a>
+                                        </h3>
 
-				<div class="container">
-					<div class="row">
-						<div class="col-6 col-sm-4 col-md-3" th:each="producto, i : ${proCate}">
-							<div class="product-default inner-btn inner-icon inner-icon-inline left-details">
-								<figure>
-									<a th:href="@{'/index/inicio/' + ${proCateUrl.url} + '/' + ${producto.id}}">
-										<img th:src="@{'/images/'} + ${producto.imagen}" width="280" height="280"
-											alt="product" />
-									</a>
-									<div class="btn-icon-group">
-										<a th:href="@{/index/productoAgregar(id=${producto.id})}"
-											class="btn-icon btn-add-cart"><i
-												class="icon-shopping-cart"></i></a>
-									</div>
-									<div class="label-group">
-										<div class="product-label label-sale" th:text="${porcentajes[producto.id]} + '%'">
-										</div>
-									</div>
-								</figure>
+                                        <div class="price-box">
+                                            <del class="old-price" th:text="'S/.' + ${preciosTachados[producto.id]}"></del>
+                                            <span class="product-price" th:text="'S/. ' + ${precios[producto.id]}"></span>
+                                        </div>
+                                    </div>
 
-								<div class="product-details">
-									<h3 class="product-title pb-2"> <a
-											th:href="@{'/index/inicio/' + ${proCateUrl.url} + '/' + ${producto.id}}"
-											th:text="${producto.nombre}"></a>
-									</h3>
-
-									<div class="price-box">
-										<del class="old-price" th:text="'S/.' + ${preciosTachados[producto.id]}"></del>
-										<span class="product-price" th:text="'S/. ' + ${precios[producto.id]}"></span>
-									</div>
-								</div>
-								<!-- End .product-details -->
 							</div>
 
 						</div>
 
-						<!-- End .col-sm-4 -->
+
 
 					</div>
-					<!-- End .row -->
+
 
 					<nav class="toolbox toolbox-pagination justify-content-end">
 						<ul class="pagination toolbox-item">
@@ -93,6 +99,8 @@
 						</ul>
 					</nav>
 				</div>
+
+			-->
 			</div>
 		</main>
 	</div>

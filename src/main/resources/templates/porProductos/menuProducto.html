@@ -12,43 +12,59 @@
 		<header th:replace="fragments/header"></header>
 
 		<main class="main">
-			<div class="container">
-				<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a></li>
-						<li class="breadcrumb-item"><a th:href="@{/index/categorias}">Categorias</a></li>
-					</ol>
-				</nav>
-				<h1 th:each="cate : ${cate}" th:text="${cate.nombre}" class="section-title">Categorias</h1>
-				<p th:text="${cate.descripcion}"></p>
-				<div class="category-banner-container bg-gray">
-					<div class="category-banner banner text-uppercase"
-             			th:style="'background: no-repeat 60%/cover url(' + @{/images/banner/laptop_pc/} + ${cate.imagen} + '); height: 300px;'">
-					</div>
+			<div th:each="menuCategoria:${menuCategoria}">
+				<div class="container">
+					<nav class="breadcrumb-nav py-3"
+						 aria-label="breadcrumb" >
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a th:href="@{/index/inicio}">
+									<i class="icon-home"></i>
+								</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a th:href="@{'/index/'+ ${menuCategoria.getUrl()}}">
+									<span th:text="${menuCategoria.getNombre()}"></span>
+								</a>
+							</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="vw-100">
+					<img th:src="@{'/images/banner/laptop_pc/menu/'+ ${menuCategoria.getImagen()}}"
+						 th:alt="${menuCategoria.getNombre()}">
+				</div>
+				<div class="container">
+					<h1 th:text="${menuCategoria.getNombre()}" class="section-title"></h1>
+					<!--<p th:text="${cate.descripcion}"></p>-->
 				</div>
 
-				<div class="container p-5 mt-4">
-					<div class="row porproducto">
-						<div class="col-12 col-md-6 col-lg-4" th:each="subMenu : ${subMenu}">
+				<div class="container mt-4">
+					<div class="row porproducto" style="justify-content: space-evenly;">
+						<div class="col-12 col-md-6 col-lg-2 p-0 mx-3" th:each="subMenu : ${menuCategoria.getMenuSub()}">
 							<div class="product-default">
 								<figure class="p-0 m-0">
-									<a th:href="@{'/index/categorias/' + ${subMenu.url}}">
-										<img th:src="@{'/images/'} + ${subMenu.imagen}" width="280" height="280"
-											alt="product" />
+									<a th:href="@{'/index/'+${menuCategoria.getUrl()} + '/' + ${subMenu.getUrl()}}">
+										<img th:src="@{'/images/' + ${subMenu.getImagen()}}" width="280" height="280"
+											 alt="product" />
 									</a>
 								</figure>
 
-								<div class="product-content text-center">
-									<h3 class="product-title py-4 text-uppercase"> <a th:href="@{'/index/categorias/' + ${subMenu.url}}"
-									th:text="${subMenu.nombre}"></a>
+								<div class="product-content text-center" style="background-color: #000000; color: #FFFFFF;">
+									<h3 class="product-title py-4 text-uppercase">
+										<a th:href="@{'/index/'+${menuCategoria.getUrl()} + '/' + ${subMenu.getUrl()}}"
+										   th:text="${subMenu.getNombre()}"></a>
 									</h3>
 								</div>
 								<!-- End .product-details -->
 							</div>
 						</div>
-	
+
 					</div>
 				</div>
+
+
+			</div>
 		</main>
 	</div>
 

@@ -1,14 +1,10 @@
 package com.muscleshop.web.models;
 
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "producto_forma")
@@ -18,19 +14,10 @@ public class ProductoForma {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
-	
-	@ManyToMany(mappedBy = "productoForma")
+
+	@OneToMany(mappedBy = "productoForma", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private Set<Producto> producto;
-
-	public ProductoForma() {
-	}
-
-	public ProductoForma(String nombre, Set<Producto> producto) {
-		super();
-		this.nombre = nombre;
-		this.producto = producto;
-	}
+	private List<ProductoFormaProducto> productoFormaProducto;
 
 	public Integer getId() {
 		return id;
@@ -48,14 +35,11 @@ public class ProductoForma {
 		this.nombre = nombre;
 	}
 
-	public Set<Producto> getProducto() {
-		return producto;
+	public List<ProductoFormaProducto> getProductoFormaProducto() {
+		return productoFormaProducto;
 	}
 
-	public void setProducto(Set<Producto> producto) {
-		this.producto = producto;
+	public void setProductoFormaProducto(List<ProductoFormaProducto> productoFormaProducto) {
+		this.productoFormaProducto = productoFormaProducto;
 	}
-	
-	
-
 }

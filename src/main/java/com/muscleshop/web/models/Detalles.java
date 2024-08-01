@@ -1,10 +1,9 @@
 package com.muscleshop.web.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "detalles")
@@ -14,33 +13,32 @@ public class Detalles {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
-	
-	public Detalles() {
-		
-	}
-	
-	public Detalles(String nombre) {
-		super();
-		this.nombre = nombre;
-	}
+
+	@OneToMany(mappedBy = "detalles")
+	@JsonIgnore
+	private List<PropiedadesDetalles> propiedadesDetalles ;
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+	public List<PropiedadesDetalles> getPropiedadesDetalles() {
+		return propiedadesDetalles;
+	}
 
-
-	
-	
-	
-	
-
+	public void setPropiedadesDetalles(List<PropiedadesDetalles> propiedadesDetalles) {
+		this.propiedadesDetalles = propiedadesDetalles;
+	}
 }

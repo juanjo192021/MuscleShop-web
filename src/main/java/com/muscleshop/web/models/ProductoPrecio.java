@@ -17,38 +17,26 @@ public class ProductoPrecio {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private double precio;
-	private double precio_tachado;
-	private Integer porcentaje;
 
+	private double precio;
+
+	private double precio_tachado;
+
+	private Integer porcentaje;
 
 	@ManyToOne
 	@JoinColumn(name = "producto_id")
 	@JsonIgnore
 	private Producto producto;
 
-
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "rol_perfil_id")
 	private RolPerfil rolPerfil;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "estado_id")
 	private Estado estado;
 
-	public ProductoPrecio() {
-	}
-
-	public ProductoPrecio(double precio, double precio_tachado, Integer porcentaje, Producto producto,
-			RolPerfil rolPerfil, Estado estado) {
-		super();
-		this.precio = precio;
-		this.precio_tachado = precio_tachado;
-		this.porcentaje = porcentaje;
-		this.producto = producto;
-		this.rolPerfil = rolPerfil;
-		this.estado = estado;
-	}
 
 	public Integer getId() {
 		return id;

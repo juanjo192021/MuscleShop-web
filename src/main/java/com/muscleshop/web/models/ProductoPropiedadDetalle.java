@@ -20,9 +20,9 @@ public class ProductoPropiedadDetalle {
 	private Double precio;
 	private Integer stock;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "producto_id")
-	@JsonIgnore
+
 	private Producto producto;
 
 	@ManyToOne

@@ -37,4 +37,9 @@ public class MenuSubService {
 	public MenuSub obtenerUrl(String url) {
 		return menuSubDao.findByUrl(url);
 	}
+
+
+	public List<MenuSub> findProductoFormasByMenuSubUrl(String menuSubUrl) {
+		return menuSubDao.findProductoFormasByMenuSubUrl(menuSubUrl);
+	}
 }

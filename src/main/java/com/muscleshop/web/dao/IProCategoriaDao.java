@@ -13,6 +13,4 @@ public interface IProCategoriaDao extends JpaRepository<ProductoCategoria, Integ
     List<ProductoCategoria> findByMenuSub(MenuSub menuSub);
     List<ProductoCategoria> findByMenuSubId(int menuSubId);
 
-
-
 }
