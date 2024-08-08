@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.muscleshop.web.dao.IProCategoriaDao;
+import com.muscleshop.web.dao.IProductoCategoriaDao;
 import com.muscleshop.web.models.MenuSub;
 import com.muscleshop.web.models.ProductoCategoria;
 
@@ -13,33 +13,25 @@ import com.muscleshop.web.models.ProductoCategoria;
 public class ProductoCategoriaService {
 
 	@Autowired
-	private IProCategoriaDao proCateDao;
+	private IProductoCategoriaDao proCateDao;
 
-	public List<ProductoCategoria> listarProCate() {
+	//Listar todos los productos categorías
+	public List<ProductoCategoria> listarProductoCategoria() {
 		return proCateDao.findAll();
 	}
 
-	public ProductoCategoria listarProCateID(Integer id) {
+	//Obtener producto categoría basado en su ID
+	public ProductoCategoria obtenerProductoCategoriaPorId(Integer id) {
 		return proCateDao.findById(id).orElse(null);
 	}
 
-	public void saveProCate(ProductoCategoria proCate) {
-		proCateDao.save(proCate);
+	//Obtener producto categoría basado en su Url
+	public ProductoCategoria obtenerProductoCategoriaPorUrl(String categoriaUrl) {
+		return proCateDao.findByUrl(categoriaUrl);
 	}
 
-	public void eliminarProCate(Integer id) {
-		proCateDao.deleteById(id);
-	}
-
-	public ProductoCategoria obtenerUrl(String url) {
-		return proCateDao.findByUrl(url);
-	}
-	
-	public List<ProductoCategoria> listarPorMenuSub(MenuSub menuSub) {
-        return proCateDao.findByMenuSub(menuSub);
-    }
-	
+	//Obtener producto categoría basado en el ID del submenú
 	public List<ProductoCategoria> listarPorMenuSubId(int menuSubId) {
-        return proCateDao.findByMenuSubId(menuSubId);
+        return proCateDao.findByMenuSub_Id(menuSubId);
     }
 }

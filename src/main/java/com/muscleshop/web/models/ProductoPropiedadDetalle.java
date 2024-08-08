@@ -1,14 +1,9 @@
 package com.muscleshop.web.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "producto_propiedades_detalles")
@@ -22,23 +17,19 @@ public class ProductoPropiedadDetalle {
 
 	@ManyToOne
 	@JoinColumn(name = "producto_id")
-
+	@JsonIgnore
 	private Producto producto;
 
 	@ManyToOne
 	@JoinColumn(name = "propiedades_detalles_id")
 	private PropiedadesDetalles propiedadesDetalles;
 
-	public ProductoPropiedadDetalle() {
-	}
+	@OneToMany(mappedBy = "productoPropiedadDetalle")
+	private List<PropiedadDetalleImagen> propiedadesDetallesImagenes;
 
-	public ProductoPropiedadDetalle(Double precio, Producto producto, PropiedadesDetalles propiedadesDetalles) {
-		super();
-		this.precio = precio;
-		this.producto = producto;
-		this.propiedadesDetalles = propiedadesDetalles;
-	}
-
+	@ManyToOne
+	@JoinColumn(name="estado_id")
+	private Estado estado;
 
 	public Integer getId() {
 		return id;
@@ -80,4 +71,19 @@ public class ProductoPropiedadDetalle {
 		this.stock = stock;
 	}
 
+	public List<PropiedadDetalleImagen> getPropiedadesDetallesImagenes() {
+		return propiedadesDetallesImagenes;
+	}
+
+	public void setPropiedadesDetallesImagenes(List<PropiedadDetalleImagen> propiedadesDetallesImagenes) {
+		this.propiedadesDetallesImagenes = propiedadesDetallesImagenes;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
 }

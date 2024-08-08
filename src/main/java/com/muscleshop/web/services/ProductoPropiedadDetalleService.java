@@ -30,8 +30,12 @@ public class ProductoPropiedadDetalleService {
         return productoProDetDao.findByProductoIdAndPropiedadesDetalles_Propiedades_Id(productoId, tipoPropiedadId);
     }
 
-	public List<ProductoPropiedadDetalle> findByProductosMenuSubUrl(String menuSubUrl, Integer estado){
-		return productoProDetDao.findByProductosMenuSubUrl(menuSubUrl, estado);
+	public List<ProductoPropiedadDetalle> findByMenuSubUrl(String menuSubUrl, Integer estado){
+		return productoProDetDao.findByMenuSubUrl(menuSubUrl, estado);
+	}
+
+	public List<ProductoPropiedadDetalle> findByCategoriaUrl(String categoriaUrl, Integer estado){
+		return productoProDetDao.findByCategoriaUrl(categoriaUrl, estado);
 	}
 
 

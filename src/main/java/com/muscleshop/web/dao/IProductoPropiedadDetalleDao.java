@@ -14,12 +14,10 @@ public interface IProductoPropiedadDetalleDao extends JpaRepository<ProductoProp
     List<ProductoPropiedadDetalle> findByProductoIdAndPropiedadesDetalles_Propiedades_Id(int productoId, int propiedadId);
 
     /*
-    * SELECT * FROM muscleshop.producto_propiedades_detalles  ppd
-join muscleshop.producto p on p.id = ppd.producto_id
-join muscleshop.propiedades_detalles pd on pd.id = ppd.propiedades_detalles_id
-join muscleshop.detalles d on d.id = pd.detalles_id
-where producto_id=1;
-    * */
+     Listar los detalles de las propiedades de un producto por el url del menuSub
+     para poder visualizar los productos con base en sus detalles {presentación, tamaño, sabor, color}
+     */
+
     @Query("select ppd from ProductoPropiedadDetalle ppd " +
             "join PropiedadesDetalles pd on ppd.propiedadesDetalles.id=pd.id " +
             "join Detalles d on pd.detalles.id=d.id " +
@@ -27,6 +25,15 @@ where producto_id=1;
             "join ProductoCategoria  pc on p.productoCategoria.id= pc.id "+
             "join MenuSub ms on pc.menuSub.id=ms.id " +
             "where ms.url=:menuSubUrl and p.estado.id=:estado")
-    List<ProductoPropiedadDetalle> findByProductosMenuSubUrl(@Param("menuSubUrl") String menuSubUrl,
-                                                    @Param("estado") Integer estado);
+    List<ProductoPropiedadDetalle> findByMenuSubUrl(@Param("menuSubUrl") String menuSubUrl,
+                                                            @Param("estado") Integer estado);
+
+    @Query("select ppd from ProductoPropiedadDetalle ppd " +
+            "join PropiedadesDetalles pd on ppd.propiedadesDetalles.id=pd.id " +
+            "join Detalles d on pd.detalles.id=d.id " +
+            "join Producto  p on ppd.producto.id=p.id " +
+            "join ProductoCategoria  pc on p.productoCategoria.id= pc.id "+
+            "where pc.url=:categoriaUrl and p.estado.id=:estado")
+    List<ProductoPropiedadDetalle> findByCategoriaUrl(@Param("categoriaUrl") String categoriaUrl,
+                                                             @Param("estado") Integer estado);
 }

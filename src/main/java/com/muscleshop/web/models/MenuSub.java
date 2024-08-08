@@ -18,10 +18,8 @@ public class MenuSub {
 	private String imagen;
 	private String banner;
 
-
 	@ManyToOne
 	@JoinColumn(name = "menu_id")
-	@JsonIgnore
 	private Menu menu;
 
 	@OneToOne
@@ -35,6 +33,9 @@ public class MenuSub {
 	@OneToMany(mappedBy = "menuSub", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<ProductoMenuSub> productoMenuSub;
+
+	@OneToMany(mappedBy = "menuSub", cascade = CascadeType.ALL)
+	private List<BannerMenuSub> bannerMenuSub;
 
 	public Integer getId() {
 		return id;
@@ -106,6 +107,14 @@ public class MenuSub {
 
 	public void setProductoMenuSub(List<ProductoMenuSub> productoMenuSub) {
 		this.productoMenuSub = productoMenuSub;
+	}
+
+	public List<BannerMenuSub> getBannerMenuSub() {
+		return bannerMenuSub;
+	}
+
+	public void setBannerMenuSub(List<BannerMenuSub> bannerMenuSub) {
+		this.bannerMenuSub = bannerMenuSub;
 	}
 
 	public MenuSub(){}

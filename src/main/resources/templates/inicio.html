@@ -173,7 +173,7 @@
                              th:each="productosPorForma:${productosPorForma}">
                             <figure>
                                 <a th:href="@{'/index/inicio/' + ${productosPorForma.getProductoCategoria().getUrl()} + '/' + ${productosPorForma.getId()}}">
-                                    <img th:src="@{'/images/' + ${productosPorForma.getImagen()}}" class="img-owl-carousel"
+                                    <img th:src="@{'/images/productos/' + ${productosPorForma.getImagen()}}" class="img-owl-carousel"
                                          alt="product"/>
                                 </a>
 
@@ -359,7 +359,7 @@
 
     <!-- Main JS File -->
 
-    <script th:src="@{/assets/js/main.min.js}"></script>
+    <script th:src="@{/assets/js/main.js}"></script>
     <script th:src="@{/assets/js/bootstrap.min.js}"></script>
     <script th:src="@{/assets/js/jquery.slim.min.js}"></script>
     <script>

@@ -20,6 +20,7 @@ section {
     display: inline-block;
     margin: 0 0 64px;
     padding: 0px 10px 10px 10px;
+    color: #000000;
 }
 .section-title::after{
     content: "";
@@ -86,13 +87,16 @@ section {
 }
 
 .product-default .product-title {
-    font-weight: normal;
     font-size: 1.5rem;
     font-family: Poppins, sans-serif;
     line-height: 1.5;
-    letter-spacing: normal;
     margin-bottom: 0.4rem;
     max-width: 100%;
+    color:#004777;
+}
+
+.product-default .product-title a{
+    font-weight: bold;
 }
 
 /*2) SECCION BLOG*/

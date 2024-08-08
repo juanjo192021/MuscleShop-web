@@ -88,6 +88,10 @@
     text-decoration: none;
 }
 
+.header-bottom.sticky-header {
+    background-color: #000000;
+}
+
 
 @media screen and (max-width: 992px){
 
@@ -97,11 +101,11 @@
         padding: 20px 15px;
     }
     .header-top i{
-        font-size: 30px;
+        font-size: 22px;
     }
     .header-top p, .header-top a{
         font-weight: 650;
-        font-size: 17px;
+        font-size: 13px;
         margin: 0 0 0 15px;
         line-height: 1.5;
     }
@@ -118,7 +122,7 @@
         cursor: pointer;
     }
     .header-middle .header-left i{
-        font-size: 40px;
+        font-size: 26px;
     }
 
     .header-middle .header-left img{
@@ -126,27 +130,29 @@
     }
 
     .header-middle .header-right .icon-user-2{
-        font-size: 40px;
+        font-size: 26px;
     }
     .header-middle .header-right .fa-bag-shopping{
-        font-size: 45px;
+        font-size: 31px;
         padding: 5px 0;
     }
 
     .header-middle .header-right .title-header-middle{
-        font-size: 17px;
+        font-size: 13px;
     }
 
     .header-middle .header-right .dropdown-toggle .badge-circle{
         top: 0;
         width: 2rem;
-        font-size: 15px;
-        line-height: 2rem;
+        font-size: 13px;
+        line-height: 1.8rem;
     }
 
 }
 
 @media screen and (max-width: 576px){
+
+    /*1) HEADER TOP*/
     .header-top .items-anuncios p , .header-top .items-anuncios a{
         font-size: 11px;
         margin: 0;
@@ -157,6 +163,8 @@
     .header-top .items-anuncios .fa-whatsapp{
         font-size: 23px;
     }
+
+    /*2) HEADER MIDDLE*/
 
     .header-middle .mobile-menu-toggler {
         padding: 10px 10px 10px 0;
@@ -190,6 +198,9 @@
 }
 
 @media screen and (max-width: 430px){
+
+    /*2) HEADER MIDDLE*/
+
     .header-middle .header-right .dropdown-toggle .badge-circle{
         right: 0;
     }

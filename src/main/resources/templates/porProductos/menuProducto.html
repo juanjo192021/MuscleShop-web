@@ -12,8 +12,8 @@
 		<header th:replace="fragments/header"></header>
 
 		<main class="main">
-			<div th:each="menuCategoria:${menuCategoria}">
-				<div class="container">
+			<div>
+				<!--<div class="container">
 					<nav class="breadcrumb-nav py-3"
 						 aria-label="breadcrumb" >
 						<ol class="breadcrumb">
@@ -23,47 +23,40 @@
 								</a>
 							</li>
 							<li class="breadcrumb-item">
-								<a th:href="@{'/index/'+ ${menuCategoria.getUrl()}}">
-									<span th:text="${menuCategoria.getNombre()}"></span>
+								<a th:href="@{'/index/'+ ${menuDto.url}}">
+									<span th:text="${menuDto.nombre}"></span>
 								</a>
 							</li>
 						</ol>
 					</nav>
-				</div>
+				</div>-->
 				<div class="vw-100">
-					<img th:src="@{'/images/banner/laptop_pc/menu/'+ ${menuCategoria.getImagen()}}"
-						 th:alt="${menuCategoria.getNombre()}">
+					<img th:src="@{'/images/banner/laptop_pc/menu/'+ ${menuDto.imagen}}"
+						 th:alt="${menuDto.nombre}">
 				</div>
-				<div class="container">
-					<h1 th:text="${menuCategoria.getNombre()}" class="section-title"></h1>
-					<!--<p th:text="${cate.descripcion}"></p>-->
-				</div>
+				<section class="container text-center pb-0">
+					<h1 th:text="${menuDto.nombre}" class="section-title"></h1>
 
-				<div class="container mt-4">
-					<div class="row porproducto" style="justify-content: space-evenly;">
-						<div class="col-12 col-md-6 col-lg-2 p-0 mx-3" th:each="subMenu : ${menuCategoria.getMenuSub()}">
-							<div class="product-default">
-								<figure class="p-0 m-0">
-									<a th:href="@{'/index/'+${menuCategoria.getUrl()} + '/' + ${subMenu.getUrl()}}">
-										<img th:src="@{'/images/' + ${subMenu.getImagen()}}" width="280" height="280"
-											 alt="product" />
-									</a>
-								</figure>
-
+					<div class="row m-0" style="justify-content: flex-start;">
+						<div th:each="subMenu : ${menuSubsDto}"
+							 class="col-12 col-md-6 col-lg-3 pb-5" >
+							<figure class="p-0 m-0">
+								<a th:href="@{'/index/'+${menuDto.url} + '/' + ${subMenu.url}}">
+									<img th:src="@{'/images/' + ${subMenu.imagen}}"
+										 th:alt="${subMenu.nombre}" />
+								</a>
+							</figure>
+							<!--<div class="product-default">
 								<div class="product-content text-center" style="background-color: #000000; color: #FFFFFF;">
 									<h3 class="product-title py-4 text-uppercase">
-										<a th:href="@{'/index/'+${menuCategoria.getUrl()} + '/' + ${subMenu.getUrl()}}"
-										   th:text="${subMenu.getNombre()}"></a>
+										<a th:href="@{'/index/'+${menuDto.url} + '/' + ${subMenu.url}}"
+										   th:text="${subMenu.nombre}"></a>
 									</h3>
 								</div>
-								<!-- End .product-details -->
-							</div>
+							</div>-->
 						</div>
-
 					</div>
-				</div>
-
-
+				</section>
 			</div>
 		</main>
 	</div>
@@ -109,7 +102,7 @@
 	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
 
 	<!-- Main JS File -->
-	<script th:src="@{/assets/js/main.min.js}"></script>
+	<script th:src="@{/assets/js/main.js}"></script>
 	<script>
 		// Función para alternar entre los mensajes cada cierto tiempo
 		function alternarMensajes() {

@@ -6,6 +6,5 @@ import com.muscleshop.web.models.Menu;
 import java.util.List;
 
 public interface IMenuDao extends JpaRepository<Menu, Integer> {
-
     Menu findByUrl(String url);
 }

@@ -12142,29 +12142,12 @@ header .separator {
     border-radius: 0 5rem 5rem 0
 }
 
-.header-search-wrapper {
-    display: flex;
-    display: -ms-flexbox;
-    position: absolute;
-    right: -2.3rem;
-    z-index: 999;
-    margin-top: 10px;
-    color: #8d8d8d;
-    box-sizing: content-box;
-    height: 40px;
-    border-radius: 5rem;
-    border: 5px solid #08C
-}
-
 .header-search-wrapper:after {
     display: block;
     clear: both;
     content: ""
 }
 
-.header-search:not(.show) .header-search-wrapper {
-    display: none
-}
 
 .header-search-wrapper .select-custom {
     margin: 0;

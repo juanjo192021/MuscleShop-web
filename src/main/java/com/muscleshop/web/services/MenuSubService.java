@@ -14,32 +14,28 @@ public class MenuSubService {
 	@Autowired
 	private IMenuSubDao menuSubDao;
 
+	//Listar todos los submenus
 	public List<MenuSub> listarMenuSub() {
 		return menuSubDao.findAll();
 	}
 
+	//Obtener Sub Menu por medio del ID del mismo
 	public MenuSub listarMenuSubID(Integer id) {
 		return menuSubDao.findById(id).orElse(null);
 	}
 
-	public void savePopup(MenuSub menuSub) {
-		menuSubDao.save(menuSub);
+	//Listar Sub Menus por medio del ID del menu
+	public List<MenuSub> obtenerMenuSubsPorMenuId(Integer menuID) {
+		return menuSubDao.findByMenu_Id(menuID);
 	}
 
-	public void eliminarMenuSub(Integer id) {
-		menuSubDao.deleteById(id);
-	}
-
-	public List<MenuSub> obtenerMenuID(Integer menuID) {
-		return menuSubDao.findByMenuId(menuID);
-	}
-
-	public MenuSub obtenerUrl(String url) {
+	//Obtener Sub Menu por medio de la url del mismo
+	public MenuSub obtenerMenuSubPorUrl(String url) {
 		return menuSubDao.findByUrl(url);
 	}
 
-
-	public List<MenuSub> findProductoFormasByMenuSubUrl(String menuSubUrl) {
-		return menuSubDao.findProductoFormasByMenuSubUrl(menuSubUrl);
+	// Listar Sub Menus por medio del url del menu
+	public List<MenuSub> obtenerMenuSubsPorMenuUrl(String menuUrl){
+		return menuSubDao.findByMenu_Url(menuUrl);
 	}
 }

@@ -1,5 +1,6 @@
 package com.muscleshop.web.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,6 +12,7 @@ public class ProductoFormaProducto {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="producto_id")
+    @JsonIgnore
     private Producto producto;
 
     @ManyToOne()

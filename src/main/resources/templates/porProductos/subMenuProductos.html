@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head th:replace="fragments/head"></head>
-
+<head>
+	<!--	<title>Inicio</title>-->
+	<th:block th:replace="fragments/head :: global-style"></th:block>
+	<th:block th:replace="fragments/head :: inicio-style"></th:block>
+</head>
 <body>
 	<div class="page-wrapper">
 		<!-- NOTICE -->
@@ -12,40 +14,93 @@
 		<header th:replace="fragments/header"></header>
 
 		<main class="main">
-			<!--<div class="home-slider slide-animate owl-carousel owl-theme show-nav-hover nav-big text-uppercase"
-				data-owl-options="{
-				'loop': true
-			}">
-				<div class="home-slide home-slide1 banner active">
-					<img class="slide-bg" th:src="@{'/images/' + ${menuSub.banner}}" width="1903" height="499"
-						alt="slider image">
+			<!--SECCION CARRUSEL-->
+
+			<section class="p-0" id="section-carousel">
+
+				<!--CARRUSEL MOVIL_TABLET -->
+				<div id="carouselExampleInterval" class="carousel slide carousel-fad h-100 d-block d-lg-none"
+					 data-ride="carousel">
+					<ol class="carousel-indicators">
+						<!-- Indicador para pantallas móviles y tablets -->
+						<li th:each="bannerMovilTablet, stat : ${bannerMenuSubMovilTablet}"
+							th:data-slide-to="${stat.index}"
+							th:classappend="${stat.index == 0} ? 'active' : ''"
+							class="d-block d-lg-none"
+							data-target="#carouselExampleInterval">
+						</li>
+					</ol>
+					<div class="carousel-inner h-100">
+
+						<div th:each="bannerMovilTablet,stat : ${bannerMenuSubMovilTablet}"
+							 th:if="${bannerMovilTablet.tipoDispositivo == 'movil_tablet'}"
+							 th:classappend="${stat.index == 0 } ? 'carousel-item h-100 active' : 'carousel-item h-100'"
+							 data-interval="8000">
+
+							<img class="d-block w-100"
+								 th:src="@{'/images/banner/' + ${bannerMovilTablet.tipoDispositivo} + '/' + ${bannerMovilTablet.imagen}}"
+								 th:alt="${bannerMovilTablet.imagen}">
+						</div>
+
+					</div>
+
+					<button class="carousel-control-prev d-none" type="button" data-target="#carouselExampleInterval"
+							data-slide="prev">
+						<span class="carousel-control-prev-icon fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</button>
+					<button class="carousel-control-next d-none" type="button" data-target="#carouselExampleInterval"
+							data-slide="next">
+						<span class="carousel-control-next-icon fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</button>
 				</div>
+				<!--CARRUSEL LAPTOP-PC-->
+				<div id="carouselExampleIntervalo" class="carousel slide carousel-fad h-100 d-none d-lg-block"
+					 data-ride="carousel">
+					<ol class="carousel-indicators">
 
+						<!-- Indicador para pantallas de laptops y PCs -->
+						<li th:each="bannerLaptopPc, stat : ${bannerMenuSubLaptopPc}"
+							th:data-slide-to="${stat.index}"
+							th:classappend="${stat.index == 0} ? 'active' : ''"
+							class="d-none d-lg-block"
+							data-target="#carouselExampleIntervalo">
+						</li>
+					</ol>
+					<div class="carousel-inner h-100">
+						<div th:each="bannerLaptopPc,stat : ${bannerMenuSubLaptopPc}"
+							 th:if="${bannerLaptopPc.tipoDispositivo == 'laptop_pc'}"
+							 th:classappend="${stat.index == 0 } ? 'carousel-item h-100 active' : 'carousel-item h-100'"
+							 data-interval="8000">
 
-				<div class="home-slide home-slide2 banner banner-md-vw">
-					<img class="slide-bg" style="background-color: #ccc;" width="1903" height="499"
-						th:src="@{'/images/banner2.png'}" alt="slider image">
+							<img class="d-block w-100"
+								 th:src="@{'/images/banner/' + ${bannerLaptopPc.tipoDispositivo} + '/' + ${bannerLaptopPc.imagen}}"
+								 th:alt="${bannerLaptopPc.imagen}">
+						</div>
+					</div>
+
+					<!--d-none d-lg-flex-->
+					<button class="carousel-control-prev" type="button" data-target="#carouselExampleIntervalo"
+							data-slide="prev">
+						<span class="carousel-control-prev-icon fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-target="#carouselExampleIntervalo"
+							data-slide="next">
+						<span class="carousel-control-next-icon fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</button>
 				</div>
-
-			</div>-->
+			</section>
 
 			<div class="container">
-				<!--<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a>
-						</li>
-						<li class="breadcrumb-item"><a th:href="@{/index/categorias}">Categorias</a></li>
-						<li class="breadcrumb-item"><a th:href="@{'/index/categorias/' + ${menuSub.url}}"
-								th:text="${menuSub.nombre}"></a></li>
-					</ol>
-				</nav>-->
 
 				<div class="row">
-					<!--col-lg-9-->
 					<div class="col-lg-12 main-content">
 						<nav class="toolbox sticky-header" data-sticky-options="{'mobile': true}">
 							<div class="toolbox-left">
-								<a href="category.html#" class="sidebar-toggle">
+								<a href="category.html#" class="sidebar-toggle" style="display: flex !important;">
 									<svg data-name="Layer 3" id="Layer_3" viewBox="0 0 32 32"
 										xmlns="http://www.w3.org/2000/svg">
 										<line x1="15" x2="26" y1="9" y2="9" class="cls-1"></line>
@@ -63,88 +118,66 @@
 											d="M16.5,22.92A2.6,2.6,0,0,1,14,25.5a2.6,2.6,0,0,1-2.5-2.58,2.5,2.5,0,0,1,5,0Z"
 											class="cls-2"></path>
 									</svg>
-									<span>Filter</span>
+									<span>Filtro</span>
 								</a>
 
 							</div>
 						</nav>
 
-						<div class="row">
-							<div class="col-6 col-sm-3" th:each="productosPropiedadDetalle, i:${productosPropiedadDetalle}">
-
-								<div class="card" style="width: 25rem;">
-									<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productosPropiedadDetalle.producto.productoCategoria.url} + '/' + ${productosPropiedadDetalle.producto.id}}">
-										<img class="card-img-top"
-											 th:src="@{'/images/'+${productosPropiedadDetalle.producto.imagen}}" width="280" height="280"
-											 alt="product" />
-									</a>
-									<div class="card-body">
-										<p th:text="${productosPropiedadDetalle.producto.nombre} + ' ' +${productosPropiedadDetalle.propiedadesDetalles.detalles.nombre}"></p>
-										<p th:text="${productosPropiedadDetalle.precio}"></p>
-										<p th:text="${productosPropiedadDetalle.stock}"></p>
-									</div>
-								</div>
+						<div class="row m-0 justify-content-around">
+							<div class="col-4 col-md-3 col-lg-2 mx-2" th:each="productos : ${productos}">
 
 								<div class="product-default inner-btn inner-icon inner-icon-inline left-details">
-
-
 									<figure>
-
-									</figure>
-									<!-- Agrupamiento de propiedades y detalles -->
-
-								</div>
-
-
-<!--
-								<div class="product-default inner-btn inner-icon inner-icon-inline left-details"
-									th:each="proCate : ${pro.categoria}">
-									<figure>
-										<a
-											th:href="@{'/index/categorias/' + ${menuSub.url} + '/' + ${proCate.url} + '/' + ${pro.id}}">
-											<img th:src="@{'/images/'+${pro.imagen}}" width="280" height="280"
-												alt="product" />
+										<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/' + ${productos.id}}">
+											<img th:src="@{'/images/productos/'+${productos.imagen}}"
+												alt="product" style="height: 180px;"/>
 										</a>
-										<div class="label-group">
-											<div class="product-label label-sale"
-												th:text="${porcentajes[pro.id]} + '%'"></div>
-										</div>
 										<div class="btn-icon-group">
-											<a th:href="@{/index/productoAgregar(id=${pro.id})}"
-												class="btn-icon btn-add-cart"><i class="icon-shopping-cart"></i></a>
-
+											<a th:href="@{/index/productoAgregar(id=${productos.id})}"
+												class="btn-icon btn-add-cart">
+												<i class="icon-shopping-cart"></i>
+											</a>
 										</div>
 									</figure>
-
-									<div class="product-details">
-										<div class="category-wrap">
+									<div class="product-details" style="display: block">
+										<!--<div class="category-wrap">
 											<div class="category-list" th:each="proCate : ${pro.categoria}">
 												<a th:href="@{'/index/categorias/' + ${menuSub.url} + '/' + ${proCate.url}}"
 													class="product-category" th:text="${proCate.nombre}"></a>
 											</div>
-										</div>
-
-										<h3 class="product-title pb-2"> <a
-												th:href="@{'/index/categorias/' + ${menuSub.url} + '/' + ${proCate.url} + '/' + ${pro.id}}"
-												th:text="${pro.nombre}"></a>
+										</div>-->
+										<h3 class="product-title" style="font-size: 15px;">
+											<a th:href="@{'/index/' + ${menuUrl} + '/' +${productos.urlMenuMarca} + '/' + ${productos.urlMarca}}"
+											   th:text="${productos.nombreMarca}">
+											</a>
 										</h3>
-
+										<p style="margin-bottom: 5px;">
+											<!--<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/' + ${productos.id}}"
+											   th:text="${productos.nombre}">
+											</a>-->
+											<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl}}"
+											   th:text="${productos.nombreMenuSub}">
+											</a>
+										</p>
+										<p style="margin-bottom: 5px;">
+											<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/' + ${productos.id}}"
+											   th:text="${productos.nombre}">
+											</a>
+										</p>
+										<p style="margin-bottom: 5px;"
+										   th:text="${productos.detalleModificado} == '' ? 'No hay sabor' : ${productos.detalleModificado} "></p>
+										<p style="margin-bottom: 5px;"
+										   th:text="${productos.detalleNombre}"></p>
 										<div class="price-box">
-											<del class="old-price" th:text="'S/. ' + ${preciosTachados[pro.id]}"></del>
-											<span class="product-price" th:text="'S/. ' + ${precios[pro.id]}"></span>
+											<!--<del class="old-price" th:text="'S/. ' + ${preciosTachados[pro.id]}"></del>-->
+											<del class="old-price" th:text="'S/. ' + ${productos.precio}"></del>
+											<span class="product-price" th:text="'S/. ' + ${productos.precio}"></span>
 										</div>
-
 									</div>
-
 								</div>
--->
-
 							</div>
-
-
 						</div>
-
-
 						<nav class="toolbox toolbox-pagination justify-content-end">
 							<ul class="pagination toolbox-item">
 								<li class="page-item disabled">
@@ -167,8 +200,8 @@
 					</div>
 
 					<div class="sidebar-overlay"></div>
-					<!--
-					<aside class="sidebar-shop col-lg-3 order-lg-first mobile-sidebar filtros">
+
+					<aside class="sidebar-shop order-lg-first mobile-sidebar filtros">
 						<div class="sidebar-wrapper">
 							<div class="widget">
 								<div id="accordion1">
@@ -177,20 +210,55 @@
 										   href="category.html#widget-body-2"
 										   role="button"
 										   aria-expanded="true"
-										   aria-controls="widget-body-2">Categorias</a>
+										   aria-controls="widget-body-2"
+										>Filtrado</a>
 									</h3>
 									<div class="card card-accordion">
-										<a class="card-header" href="element-accordions.html#" data-toggle="collapse"
-											data-target="#collapse1" aria-expanded="true" aria-controls="collapse1"
-											th:text="${menuSub.nombre}">
+										<a class="card-header"
+										   href="element-accordions.html#"
+										   data-toggle="collapse"
+										   data-target="#collapse1"
+										   aria-expanded="true"
+										   aria-controls="collapse1"
+										   th:text="${nombreMenuSub}">
 										</a>
-
-										<div id="collapse1" class="collapse show" data-parent="#accordion1">
-											<div class="collapse show" id="widget-category-11">
+										<div id="collapse1" class="collapse show"
+											 data-parent="#accordion1">
+											<div class="collapse show"
+												 id="widget-category-11">
 												<ul class="cat-sublist">
-													<li th:each="subMenuCate : ${subMenuCate}" class="pb-3">
+													<!--<li th:each="subMenuCate : ${subMenuCate}" class="pb-3">
 														<a th:href="@{'/index/categorias/' + ${subMenuCate.url}}"
 															th:text="${subMenuCate.nombre}"></a>
+													</li>-->
+													<li th:each="categoriasMenuSub : ${categoriasMenuSub}"
+														class="pb-3">
+														<a th:href="@{'/index/' + ${menuUrl} + '/' + ${menuSubUrl} + '/' + ${categoriasMenuSub.url}}"
+														   th:text="${categoriasMenuSub.nombre}"></a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card card-accordion">
+										<a class="card-header"
+										   href="element-accordions.html#"
+										   data-toggle="collapse"
+										   data-target="#collapse4"
+										   aria-expanded="true"
+										   aria-controls="collapse4"
+										   th:text="'Otras categorías'">
+										</a>
+										<div id="collapse4" class="collapse" data-parent="#accordion1">
+											<div class="collapse show" id="widget-category-15">
+												<ul class="cat-sublist">
+													<!--<li th:each="subMenuCate : ${subMenuCate}" class="pb-3">
+														<a th:href="@{'/index/categorias/' + ${subMenuCate.url}}"
+															th:text="${subMenuCate.nombre}"></a>
+													</li>-->
+													<li th:each="otrasCategoriasMenuSubs : ${otrasCategoriasMenuSubs}" class="pb-3">
+														<a th:href="@{'/index/' + ${menuUrl} + '/' + ${otrasCategoriasMenuSubs.url}}"
+														   th:text="${otrasCategoriasMenuSubs.nombre}"></a>
 													</li>
 												</ul>
 											</div>
@@ -198,17 +266,28 @@
 									</div>
 
 									<div class="card card-accordion">
-										<a class="card-header collapsed" href="element-accordions.html#"
-											data-toggle="collapse" data-target="#collapse2" aria-expanded="true"
-											aria-controls="collapse2">
+										<a class="card-header collapsed"
+										   href="element-accordions.html#"
+										   data-toggle="collapse"
+										   data-target="#collapse2"
+										   aria-expanded="true"
+										   aria-controls="collapse2">
 											Por Objetivos
 										</a>
-										<div id="collapse2" class="collapse" data-parent="#accordion1">
-											<div class="collapse show" id="widget-category-1">
+										<div id="collapse2"
+											 class="collapse"
+											 data-parent="#accordion1">
+											<div class="collapse show"
+												 id="widget-category-1">
 												<ul class="cat-sublist">
-													<li th:each="subMenu : ${subMenu}" class="pb-3">
+													<!--<li th:each="subMenu : ${subMenu}" class="pb-3">
 														<a th:href="@{'/index/objetivo/' + ${subMenu.url}}"
 															th:text="${subMenu.nombre}"></a>
+													</li>-->
+													<li th:each="porObjetivos:${porObjetivos}"
+														class="pb-3">
+														<a th:href="@{'/index/' + ${porObjetivos.urlMenu} + '/' + ${porObjetivos.url}}"
+														   th:text="${porObjetivos.nombre}"></a>
 													</li>
 												</ul>
 											</div>
@@ -219,14 +298,13 @@
 										<a class="card-header collapsed" href="element-accordions.html#"
 											data-toggle="collapse" data-target="#collapse3" aria-expanded="true"
 											aria-controls="collapse3">
-											Marcas
+											Por  Marcas
 										</a>
-
 										<div id="collapse3" class="collapse" data-parent="#accordion1">
 											<ul class="cat-sublist">
-												<li th:each="subMenumarcas : ${subMenumarcas}" class="pb-3">
-													<a th:href="@{'/index/marcas/' + ${subMenumarcas.url}}"
-														th:text="${subMenumarcas.nombre}"></a>
+												<li th:each="porMarcas:${porMarcas}" class="pb-3">
+													<a th:href="@{'/index/' + ${porMarcas.urlMenu} + '/' + ${porMarcas.url}}"
+													   th:text="${porMarcas.nombre}"></a>
 												</li>
 											</ul>
 										</div>
@@ -243,10 +321,27 @@
 
 								<div class="collapse show" id="widget-body-3">
 									<div class="widget-body pb-0">
-										<form action="category.html#">
+
+										<!--url.com/ID?id=caracteristica-->
+										<form action="#" th:action="@{/index/{menuUrl}/{menuSubUrl}(menuUrl=${menuUrl}, menuSubUrl=${menuSubUrl})}" method="get">
 											<div class="price-slider-wrapper">
 												<div id="price-slider"></div>
+											</div>
+											<div class="filter-price-action d-flex align-items-center justify-content-between flex-wrap">
+												<div class="filter-price-text">
+													Precio:
+													<span id="filter-price-range"></span>
+													<input name="minPrecio" type="hidden" id="input-select">
+													<input name="maxPrecio" type="hidden" id="input-number">
+													<input name="propiedadNombre" type="hidden" value="Presentación">
+												</div>
+												<button type="submit" class="btn btn-primary">Consultar</button>
+											</div>
+										</form>
+										<!--<a th:href="@{/category/edit/{id}(id=${category.idCategory})}">view</a>-->
 
+											<!--<div class="price-slider-wrapper">
+												<div id="price-slider"></div>
 											</div>
 											<div
 												class="filter-price-action d-flex align-items-center justify-content-between flex-wrap">
@@ -254,23 +349,14 @@
 													Precio:
 													<span id="filter-price-range"></span>
 												</div>
-												<button type="submit" class="btn btn-primary">Consultar</button>
+												<button class="btn btn-primary" id="btn-aplicar-filtros">Consultar</button>
+											</div>-->
 
-											</div>
-
-
-
-										</form>
 									</div>
-
 								</div>
-
 							</div>
-
-
 							<div class="widget widget-featured recomendaciones">
 								<h3 class="widget-title">Recomendaciones</h3>
-
 								<div class="widget-body">
 									<div class="owl-carousel widget-featured-products">
 										<div class="featured-col">
@@ -284,32 +370,23 @@
 												<div class="product-details">
 													<h3 class="product-title pb-2"> <a href="product.html">Ejemplo
 															Producto</a></h3>
-
 													<div class="price-box">
 														<del class="old-price">$59.00</del>
 														<span class="product-price">$49.00</span>
 													</div>
-
 												</div>
-
 											</div>
 										</div>
 									</div>
-
 								</div>
 							</div>
-
 						</div>
-
 					</aside>
-					-->
 				</div>
 			</div>
 		</main>
 
-
 	</div>
-
 
 
 	<!-- FOOTER-->
@@ -345,6 +422,7 @@
 	<script data-cfasync="false"
 		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
 	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
 	<script th:src="@{/assets/js/plugins.min.js}"></script>
@@ -352,7 +430,7 @@
 	<script th:src="@{/assets/js/nouislider.min.js}"></script>
 
 	<!-- Main JS File -->
-	<script th:src="@{/assets/js/main.min.js}"></script>
+	<script th:src="@{/assets/js/main.js}"></script>
 	<script>
 		function alternarMensajes() {
 			var message1 = document.getElementById('message1');
@@ -402,6 +480,39 @@
 		}
 
 		alternarMensajes();
+
+
+/*		const html5Slider= document.getElementById('price-slider');
+
+		const select = document.getElementById('input-select');
+		const inputNumber = document.getElementById('input-number');
+
+		html5Slider.noUiSlider.on('update', function (values, handle) {
+
+			const value = values[handle];
+
+			if (handle) {
+				inputNumber.value = value;
+			} else {
+				select.value = value;
+			}
+		});
+
+		select.addEventListener('change', function () {
+			html5Slider.noUiSlider.set([this.value, null]);
+		});
+
+		inputNumber.addEventListener('change', function () {
+			html5Slider.noUiSlider.set([null, this.value]);
+		});*/
+
+		/*$("#btn-aplicar-filtros").click( function(){
+			const minPrecio = $('.noUi-handle-lower').attr('aria-valuetext');
+			const maxPrecio = $('.noUi-handle-upper').attr('aria-valuetext');
+			console.log(parseInt(minPrecio));
+			console.log(parseInt(maxPrecio));
+		});*/
+
 	</script>
 </body>
 

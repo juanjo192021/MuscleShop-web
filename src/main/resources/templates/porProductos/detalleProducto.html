@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="fragments/head">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<head>
+	<!--	<title>Inicio</title>-->
+	<th:block th:replace="fragments/head :: global-style"></th:block>
+	<th:block th:replace="fragments/head :: inicio-style"></th:block>
+	<th:block th:replace="fragments/head :: anonimo-detalle-style"></th:block>
 </head>
-
 <body>
 	<div class="page-wrapper pb-0 mb-0">
 
@@ -16,9 +17,20 @@
 		<header th:replace="fragments/header"></header>
 
 		<!-- MAIN-->
-		<main class="main" style="background-color: #f8f8f8;">
+		<main class="main" style="background-color: #FFFFFF;">
 			<div class="container">
-				<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
+				<!--<div th:each="producto:${producto}">
+					<h1 th:text="${producto.nombre}"></h1>
+				</div>
+				<form>
+					<div th:each="entry : ${agrupacionDetalles}">
+						<label th:for="${entry.key}" th:text="${entry.key} + ':'"></label>
+						<select th:id="${entry.key}" th:name="${entry.key}">
+							<option th:each="detalle : ${entry.value}" th:text="${detalle}"></option>
+						</select>
+					</div>
+				</form>-->
+				<!--<nav aria-label="breadcrumb" class="breadcrumb-nav py-3">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a th:href="@{/index/inicio}"><i class="icon-home"></i></a>
 						</li>
@@ -33,29 +45,30 @@
 								th:text="${producto.nombre}"></a></li>
 
 					</ol>
-				</nav>
+				</nav>-->
 
 				<div class="product-single-container product-single-default">
-					<div class="cart-message d-none">
-						<strong class="single-cart-notice" th:text="${producto.nombre}"></strong>
-						<span>ha sido agregado al carrito.</span>
-					</div>
+				<div class="cart-message d-none">
+					<strong class="single-cart-notice" th:text="${producto.nombre}"></strong>
+					<span>ha sido agregado al carrito.</span>
+				</div>
 
-					<div class="row">
+					<div class="row"
+						 th:each="producto:${producto}">
 						<div class="col-lg-5 col-md-6 product-single-gallery">
 							<div class="product-slider-container">
-								<div class="label-group">
+								<!--<div class="label-group">
 									<div class="product-label label-sale" th:text="${porcentajes[producto.id]} + '%'">
 									</div>
-								</div>
+								</div>-->
 								<div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
-									<div class="product-item" th:each="imagen : ${producto.productoImg}">
+									<div class="product-item" th:each="imagen : ${producto.productoImagenes}">
 										<img class="product-single-image" th:src="@{'/images/' + ${imagen.nombre}}"
 											th:data-zoom-image="@{'/images/' + ${imagen.nombre}}" width="468"
 											height="468" alt="product" />
 									</div>
 								</div>
-								<!-- End .product-single-carousel -->
+
 
 								<span class="prod-full-screen">
 									<i class="icon-plus"></i>
@@ -63,14 +76,14 @@
 							</div>
 
 							<div class="prod-thumbnail owl-dots">
-								<div class="owl-dot" th:each="imagen : ${producto.productoImg}">
+								<div class="owl-dot" th:each="imagen : ${producto.productoImagenes}">
 									<img th:src="@{'/images/' + ${imagen.nombre}}" width="110" height="110"
 										alt="product-thumbnail" />
 								</div>
 
 							</div>
 						</div>
-						<!-- End .product-single-gallery -->
+
 
 						<div class="col-lg-7 col-md-6 product-single-details pt-4">
 
@@ -85,14 +98,37 @@
 								</div>
 								<hr class="large-divider my-3 pb-4">
 								<div class="price-box">
-									<span class="old-price" th:text="'S/. ' + ${preciosTachados[producto.id]}"></span>
+									<!--<span class="old-price" th:text="'S/. ' + ${producto.}"></span>-->
+									<span class="old-price" th:text="'S/. 1500'"></span>
+									<!--<span id="precioProducto" class="new-price"
+										th:text="'S/. ' + ${precios[producto.id]}"></span>-->
 									<span id="precioProducto" class="new-price"
-										th:text="'S/. ' + ${precios[producto.id]}"></span>
+										th:text="'S/. 1200'"></span>
 								</div>
-								<!-- End .price-box -->
+
 								<hr class="divider my-4">
 
-								<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleColor)}">
+								<div class="product-single-filter"
+									 th:each="entry : ${agrupacionDetalles}">
+									<label th:for="${entry.key}" th:text="${entry.key} + ':'"></label>
+									<select class="form-select"
+											aria-label="Large select example"
+											th:id="${entry.key}"
+											th:name="${entry.key}">
+										<option th:each="detalle : ${entry.value}"
+												th:text="${detalle}"
+												href="javascript:;"
+												class="d-flex align-items-center justify-content-center"
+												th:attr="data-id=${detalle}">
+										<!--<option th:each="detalle : ${entry.value}"
+												th:text="${detalle}"
+												href="javascript:;"
+												class="d-flex align-items-center justify-content-center"
+												th:attr="data-id=${detalle.propiedadesDetalles.detalles.id}">-->
+										</option>
+									</select>
+								</div>
+								<!--<div class="product-single-filter" th:if="${not #lists.isEmpty(detalleColor)}">
 									<label class="font2">Colores:</label>
 									<ul class="config-size-list config-color-list config-filter-list">
 										<li th:each="color : ${detalleColor}">
@@ -101,9 +137,9 @@
 												th:attr="data-id=${color.propiedadesDetalles.detalles.id}"></a>
 										</li>
 									</ul>
-								</div>
+								</div>-->
 
-								<div class="product-single-filter" th:if="${not #lists.isEmpty(detallePresentacion)}">
+								<!--<div class="product-single-filter" th:if="${not #lists.isEmpty(detallePresentacion)}">
 									<label class="font2">Presentación:</label>
 									<select class="form-select" aria-label="Large select example">
 										<option selected>Seleccionar </option>
@@ -140,22 +176,21 @@
 												th:attr="data-id=${sab.propiedadesDetalles.detalles.id}">
 										</option>
 									</select>								
-								</div>
+								</div>-->
 
 								<div class="product-action">
 									<div class="product-single-qty p-0">
 										<input class="horizontal-quantity form-control" type="text" id="cantidad"
 											name="cantidad" value="1" autocomplete="off">
 									</div>
-									<!-- End .product-single-qty -->
+
 									<button type="submit" class="btn butt btn-light agregar-pro">AGREGAR
 										PRODUCTO</button>
 
 								</div>
-								<!-- End .product-action -->
+
 							</form>
 
-							<!-- End .product-action -->
 
 							<hr class="divider mb-0 mt-0">
 
@@ -168,7 +203,7 @@
 									<a class="mx-4"><img th:src="@{/images/diners.png}" width="60px" height="60px"></a>
 									<a><img th:src="@{/images/amex.png}" width="35px" height="35px"></a>
 								</div>
-								<!-- End .social-icons -->
+
 							</div>
 							<div class="my-5 p-5 text-center stock-message">
 								<p>¡Ingresa tu correo electónico para recibir notificaciones sobre el stock de este
@@ -182,14 +217,15 @@
 										style="background-color:#2ca326; border: none;" value="Notificarme">
 								</form>
 							</div>
-							<!-- End .product single-share -->
+
 						</div>
-						<!-- End .product-single-details -->
+
 					</div>
 				</div>
+
 			</div>
 
-			<section style="background-color: rgb(41, 169, 35);">
+			<!--<section style="background-color: rgb(41, 169, 35);">
 				<div class="container-fluid px-5">
 					<div class="row" th:each="info : ${producto.productoInfo}">
 						<div class="col-lg-7 col-md-6">
@@ -344,9 +380,9 @@
 						</div>
 
 					</div>
-					<!-- End .featured-proucts -->
+					&lt;!&ndash; End .featured-proucts &ndash;&gt;
 				</div>
-			</section>
+			</section>-->
 		</main>
 
 		<!-- FOOTER-->
@@ -381,15 +417,17 @@
 
 	<!-- Plugins JS File -->
 	<script data-cfasync="false"
-		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+			th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
 	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
 	<script th:src="@{/assets/js/plugins.min.js}"></script>
 	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+	<script th:src="@{/assets/js/nouislider.min.js}"></script>
 
 	<!-- Main JS File -->
-	<script th:src="@{/assets/js/main.min.js}"></script>
+	<script th:src="@{/assets/js/main.js}"></script>
 	
 	<script>
 		function alternarMensajes() {

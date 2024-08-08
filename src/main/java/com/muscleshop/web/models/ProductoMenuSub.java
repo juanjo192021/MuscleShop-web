@@ -1,5 +1,6 @@
 package com.muscleshop.web.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class ProductoMenuSub implements Serializable {
 
     @ManyToOne()
     @JoinColumn(name="producto_id")
+    @JsonIgnore
     private Producto producto;
 
     @ManyToOne()

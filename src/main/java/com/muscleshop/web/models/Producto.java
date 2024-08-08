@@ -29,15 +29,12 @@ public class Producto {
 
 	@ManyToOne
 	@JoinColumn(name="agrupacion_id", nullable = false)
-	@JsonIgnore
 	private Agrupacion agrupacion;
 
 	@OneToOne(mappedBy  = "producto")
-	@JsonIgnore
 	private ProductoInformacion productoInformacion;
 
 	@OneToMany(mappedBy = "producto")
-	@JsonIgnore
 	private List<ProductoImagen> productoImagenes;
 	
 	@OneToMany(mappedBy = "producto")
@@ -45,15 +42,13 @@ public class Producto {
 	private List<ProductoPrecio> productoPrecios;
 
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
-	@JsonIgnore
 	private List<ProductoMenuSub> productoMenusSub;
 
 	@OneToMany(mappedBy = "producto")
-	@JsonIgnore
+	//@JsonIgnore
 	private List<ProductoPropiedadDetalle> productoPropiedadesDetalles ;
 
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
-	@JsonIgnore
 	private List<ProductoFormaProducto> productoFormasProducto;
 
 	@OneToMany(mappedBy = "productoPadre", cascade = CascadeType.ALL)

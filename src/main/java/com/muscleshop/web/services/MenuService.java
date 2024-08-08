@@ -22,7 +22,7 @@ public class MenuService {
 		return menuDao.findById(id).orElse(null);
 	}
 
-	public Menu listarMenuPorUrl(String url) {
+	public Menu obtenerMenuPorUrl(String url) {
 		return menuDao.findByUrl(url);
 	}
 }

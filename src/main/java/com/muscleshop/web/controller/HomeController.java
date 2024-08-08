@@ -4,7 +4,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.muscleshop.web.models.*;
-import com.muscleshop.web.models.dto.ProductoDto;
+import com.muscleshop.web.models.dto.MenuDto;
+import com.muscleshop.web.models.dto.MenuSubDto;
+import com.muscleshop.web.models.dto.ProductoCategoriaDto;
+import com.muscleshop.web.models.dto.ProductoItemsDto;
 import com.muscleshop.web.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -93,16 +96,20 @@ public class HomeController {
 	IMarketplaceService iMarketplaceService;
     @Autowired
     private ProductoPropiedadDetalleService productoPropiedadDetalleService;
+    @Autowired
+    private ProductoCategoriaService productoCategoriaService;
 
-	@ModelAttribute("menu")
+
+	//Modelos para el menu de la barra Header Bottom
+	@ModelAttribute("menusHeader")
 	public List<Menu> menus() {
 		return menuService.listarMenu();
 	}
 
-	@ModelAttribute("productos")
+/*	@ModelAttribute("productos")
 	public List<Producto> productos() {
 		return productoService.listarProducto();
-	}
+	}*/
 
 	@ModelAttribute("footer")
 	public List<Footer> footers() {
@@ -122,7 +129,7 @@ public class HomeController {
 		return headerMap;
 	}
 	
-	@ModelAttribute("logos")
+	@ModelAttribute("logosTienda")
 	public List<Logos> logos() {
 		return logosService.listarLogos();
 	}
@@ -172,17 +179,36 @@ public class HomeController {
 	@Autowired
 	IPropiedadesService iPropiedadesService;
 
-	@GetMapping("/prueba/{menuSubUrl}")
+	@GetMapping("/prueba")
 	@ResponseBody
-	public ResponseEntity<List<Producto>> resp(@PathVariable String menuSubUrl){
-		List<Producto> productos = productoService.listarProductosPorMenuSubUrl(menuSubUrl);
+	public ResponseEntity<MenuSub> resp(){
+		 MenuSub productos= menuSubService.listarMenuSubID(1);
 		return  ResponseEntity.ok(productos);
 	}
 
 	@GetMapping("/prueba2")
 	@ResponseBody
-	public ResponseEntity<List<ProductoPropiedadDetalle>> respta(){
-		List<ProductoPropiedadDetalle> productos = productoPropiedadDetalleService.findByProductosMenuSubUrl("proteinas",1);
+	public ResponseEntity<List<MenuSubDto>> respta(){
+		List<MenuSub> subCategoriasMenuSub = menuSubService.obtenerMenuSubsPorMenuId(2);
+		List<MenuSubDto> otrasCategoriasMenuSubsDto = subCategoriasMenuSub.stream()
+				.map(otrasCategoriasMenuSubs -> {
+					MenuSubDto menuSubDto = new MenuSubDto();
+					menuSubDto.setId(otrasCategoriasMenuSubs.getId());
+					menuSubDto.setNombre(otrasCategoriasMenuSubs.getNombre());
+					menuSubDto.setUrl(otrasCategoriasMenuSubs.getUrl());
+					menuSubDto.setImagen(otrasCategoriasMenuSubs.getImagen());
+					menuSubDto.setBanner(otrasCategoriasMenuSubs.getBanner());
+					menuSubDto.setNombreMenu(otrasCategoriasMenuSubs.getMenu().getNombre());
+					menuSubDto.setUrlMenu(otrasCategoriasMenuSubs.getMenu().getUrl());
+					menuSubDto.setEstado(otrasCategoriasMenuSubs.getEstado().getNombre());
+					return menuSubDto;
+				}).toList();
+		return ResponseEntity.ok(otrasCategoriasMenuSubsDto);
+	}
+	@GetMapping("/prueba3")
+	@ResponseBody
+	public ResponseEntity<List<ProductoItemsDto>> respues(){
+		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorMenuSubId(0.0,200.0, 1, 1);
 		return  ResponseEntity.ok(productos);
 	}
 
@@ -220,8 +246,8 @@ public class HomeController {
 
 		// Si es 2 se mostrara otro contenido
 
-		Integer menuId = 3;
-		List<MenuSub> subMenus = menuSubService.obtenerMenuID(menuId);
+		Integer menuId = 5;
+		List<MenuSub> subMenus = menuSubService.obtenerMenuSubsPorMenuId(menuId);
 
 		/*[{1,normal},{2,bestsellers},{3,ofertas}]*/
 		List<Producto> productosPorForma = productoService.obtenerResultado(2,1);
@@ -271,132 +297,327 @@ public class HomeController {
 
 		/*ProductoCategoria proCategoria = proCateService.obtenerUrl(categoriaUrl);
 		List<Producto> proCate = productoService.listarProCate(categoriaUrl);*/
-		Menu menu = menuService.listarMenuPorUrl(categoriaUrl);
+		/*Menu menu = menuService.listarMenuPorUrl(categoriaUrl);*/
 
 		//*model.addAttribute("proCateUrl", menu.getUrl());
 		//model.addAttribute("proCate", proCate);
 		//model.addAttribute("nombreCategoria", menu.getNombre());
 		//*
-		model.addAttribute("menuUrl", menu.getUrl());
+		/*model.addAttribute("menuUrl", menu.getUrl());
 		//
-		model.addAttribute("menuNombre", menu.getNombre());
+		model.addAttribute("menuNombre", menu.getNombre());*/
 
 		return "anonimo/inicioCate";
 	}
 
-	@GetMapping("/inicio/{categoriaUrl}/{id}")
-	public String verProductoInicio(@PathVariable("id") int id, @PathVariable String categoriaUrl, Model model,
-			HttpSession session) {
+/*@GetMapping("/inicio/{categoriaUrl}/{id}")
+public String verProductoInicio(@PathVariable("id") int id, @PathVariable String categoriaUrl, Model model,
+		HttpSession session) {
 
-		ProductoCategoria procate = proCateService.obtenerUrl(categoriaUrl);
+	ProductoCategoria procate = proCateService.obtenerUrl(categoriaUrl);
 
-		Producto proDetalles = productoService.listarProductoPorID(id);
+	Producto proDetalles = productoService.listarProductoPorID(id);
 
-		List<ProductoPropiedadDetalle> detallePresentacion = productoProDetService.obtenerPorTipoDePropiedad(id, 1);
-		List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
-		List<ProductoPropiedadDetalle> detalleColor = productoProDetService.obtenerPorTipoDePropiedad(id, 2);
-		List<ProductoPropiedadDetalle> detalleSabor = productoProDetService.obtenerPorTipoDePropiedad(id, 4);
-        
-        model.addAttribute("detallePresentacion", detallePresentacion);
-        model.addAttribute("detalleTam", detalleTam);
-        model.addAttribute("detalleColor", detalleColor);
-        model.addAttribute("detalleSabor", detalleSabor);
-		
-		model.addAttribute("proCateUrl", procate);
-		model.addAttribute("producto", proDetalles);
-		
+	List<ProductoPropiedadDetalle> detallePresentacion = productoProDetService.obtenerPorTipoDePropiedad(id, 1);
+	List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
+	List<ProductoPropiedadDetalle> detalleColor = productoProDetService.obtenerPorTipoDePropiedad(id, 2);
+	List<ProductoPropiedadDetalle> detalleSabor = productoProDetService.obtenerPorTipoDePropiedad(id, 4);
 
-		return "anonimo/detalle";
-	}
+	model.addAttribute("detallePresentacion", detallePresentacion);
+	model.addAttribute("detalleTam", detalleTam);
+	model.addAttribute("detalleColor", detalleColor);
+	model.addAttribute("detalleSabor", detalleSabor);
+
+	model.addAttribute("proCateUrl", procate);
+	model.addAttribute("producto", proDetalles);
 
 
-	// MENÚ PRODUCTOS
-	// (Enlaza el header y la vista porProductos/menuProducto pero la url es localhost/index/categorias)
-	//@GetMapping("/categorias")
+	return "anonimo/detalle";
+}*/
+
 	@GetMapping("/{menuUrl}")
 	public String menuProducto(Model model,@PathVariable String menuUrl, HttpSession session) {
 
-		Menu menu = menuService.listarMenuPorUrl(menuUrl);
+		Menu menu = menuService.obtenerMenuPorUrl(menuUrl);
+		MenuDto menuDto = new MenuDto();
+		menuDto.setId(menu.getId());
+		menuDto.setNombre(menu.getNombre());
+		menuDto.setImagen(menu.getImagen());
+		menuDto.setUrl(menu.getUrl());
+		menuDto.setNombreMenuTipo(menu.getMenuTipo().getNombre());
+		menuDto.setEstado(menu.getEstado().getNombre());
 
-		model.addAttribute("menuCategoria", menu);
+		List<MenuSub> menuSubs = menuSubService.obtenerMenuSubsPorMenuId(menu.getId());
+		List<MenuSubDto> menuSubsDto = menuSubs.stream()
+				.map(menuSub -> {
+					MenuSubDto dto = new MenuSubDto();
+					dto.setId(menuSub.getId());
+					dto.setNombre(menuSub.getNombre());
+					dto.setUrl(menuSub.getUrl());
+					dto.setImagen(menuSub.getImagen());
+					dto.setBanner(menuSub.getBanner());
+					dto.setNombreMenu(menuSub.getMenu().getNombre());
+					dto.setUrlMenu(menuSub.getMenu().getUrl());
+					dto.setEstado(menuSub.getEstado().getNombre());
+					return dto;
+				})
+				.toList();
 
+		model.addAttribute("menuDto", menuDto);
+		model.addAttribute("menuSubsDto", menuSubsDto);
 		return "porProductos/menuProducto";
 	}
 
     //@GetMapping("/categorias/{MenuSubUrl}")
 	@GetMapping("/{menuUrl}/{menuSubUrl}")
-	public String productoCategoria(Model model,@PathVariable String menuUrl, @PathVariable String menuSubUrl, HttpSession session) {
+	public String productoCategoria(Model model,
+									@PathVariable String menuUrl,
+									@PathVariable String menuSubUrl,
+									@RequestParam(required = false) Double minPrecio,
+									@RequestParam(required = false) Double maxPrecio,
+									@RequestParam(required = false) String propiedadNombre,
+									HttpSession session) {
 
-		//MenuSub menuSub = menuSubService.obtenerUrl(menuSubUrl);
-		//List<ProductoCategoria> proCate = proCateService.listarPorMenuSub(menuSub);
+		Integer propiedadesId=0;
+		if(propiedadNombre == null){
+			propiedadesId = 0;
+		} else if(propiedadNombre.equals("Presentación")){
+			propiedadesId = 1;
+		} else if (propiedadNombre.equals("Tamaños")) {
+			propiedadesId = 4;
+		}
 
-		List<ProductoPropiedadDetalle> productosPropiedadDetalle = productoPropiedadDetalleService.findByProductosMenuSubUrl(menuSubUrl,1);
 
-		//List<Producto> productos = productoService.listarPorMenuSub(menuSub);
+		Menu menu = menuService.obtenerMenuPorUrl(menuUrl);
+		MenuSub menuSub = menuSubService.obtenerMenuSubPorUrl(menuSubUrl);
 
-		model.addAttribute("productosPropiedadDetalle", productosPropiedadDetalle);
-		model.addAttribute("menuUrl", menuUrl);
-		model.addAttribute("menuSubUrl", menuSubUrl);
+		List<BannerMenuSub> bannerMovilTablet = (menuSub.getBannerMenuSub()).stream()
+				.filter(ban -> "movil_tablet".equals(ban.getTipoDispositivo()))
+				.toList();
 
-		//Integer menuIdCate = 2;
-		//List<MenuSub> subMenuCate = menuSubService.obtenerMenuID(menuIdCate);
-		//model.addAttribute("subMenuCate", subMenuCate);
+		List<BannerMenuSub> bannerLaptopPc =(menuSub.getBannerMenuSub()).stream()
+				.filter(ban-> "laptop_pc".equals(ban.getTipoDispositivo()))
+				.toList();
 
-		//Integer menuId = 3;
-		//List<MenuSub> subMenu = menuSubService.obtenerMenuID(menuId);
-		//model.addAttribute("subMenu", subMenu);
+		List<ProductoCategoria> categoriasMenuSub= productoCategoriaService.listarPorMenuSubId(menuSub.getId());
+		List<ProductoCategoriaDto> categoriasMenuSubDto = categoriasMenuSub.stream()
+														.map(categorias -> {
+															ProductoCategoriaDto categoriaDto = new ProductoCategoriaDto();
+															categoriaDto.setId(categorias.getId());
+															categoriaDto.setNombre(categorias.getNombre());
+															categoriaDto.setUrl(categorias.getUrl());
+															categoriaDto.setNombreMenuSub(categorias.getMenuSub().getNombre());
+															categoriaDto.setUrlMenuSub(categorias.getMenuSub().getUrl());
+															categoriaDto.setNombreMenu(categorias.getMenuSub().getMenu().getNombre());
+															categoriaDto.setUrlMenu(categorias.getMenuSub().getMenu().getUrl());
+															categoriaDto.setEstado(categorias.getEstado().getNombre());
+															return categoriaDto;
+														})
+														.toList();
 
-		//Integer menuMarcasId = 4;
-		//List<MenuSub> subMenumarcas = menuSubService.obtenerMenuID(menuMarcasId);
-		//model.addAttribute("subMenumarcas", subMenumarcas);
-		//model.addAttribute("menuSub", menuSub);
-		//model.addAttribute("proCate", proCate);
+		List<MenuSub> otrasCategorias = menuSubService.obtenerMenuSubsPorMenuId(menu.getId());
+		List<MenuSubDto> otrasCategoriasDto = otrasCategorias.stream()
+													.map(oc -> {
+														MenuSubDto menuSubDto = new MenuSubDto();
+														menuSubDto.setId(oc.getId());
+														menuSubDto.setNombre(oc.getNombre());
+														menuSubDto.setUrl(oc.getUrl());
+														menuSubDto.setImagen(oc.getImagen());
+														menuSubDto.setBanner(oc.getBanner());
+														menuSubDto.setNombreMenu(oc.getMenu().getNombre());
+														menuSubDto.setUrlMenu(oc.getMenu().getUrl());
+														menuSubDto.setEstado(oc.getEstado().getNombre());
+														return menuSubDto;
+													}).toList();
+
+		List<MenuSub> porObjetivos = menuSubService.obtenerMenuSubsPorMenuId(5);
+		List<MenuSubDto> porObjetivosDto = porObjetivos.stream()
+										.map(po -> {
+											MenuSubDto menuSubDto = new MenuSubDto();
+											menuSubDto.setId(po.getId());
+											menuSubDto.setNombre(po.getNombre());
+											menuSubDto.setUrl(po.getUrl());
+											menuSubDto.setImagen(po.getImagen());
+											menuSubDto.setBanner(po.getBanner());
+											menuSubDto.setNombreMenu(po.getMenu().getNombre());
+											menuSubDto.setUrlMenu(po.getMenu().getUrl());
+											menuSubDto.setEstado(po.getEstado().getNombre());
+											return menuSubDto;
+										}).toList();
+
+		List<MenuSub> porMarcas = menuSubService.obtenerMenuSubsPorMenuId(6);
+		List<MenuSubDto> porMarcasDto = porMarcas.stream()
+									.map(pm -> {
+										MenuSubDto menuSubDto = new MenuSubDto();
+										menuSubDto.setId(pm.getId());
+										menuSubDto.setNombre(pm.getNombre());
+										menuSubDto.setUrl(pm.getUrl());
+										menuSubDto.setImagen(pm.getImagen());
+										menuSubDto.setBanner(pm.getBanner());
+										menuSubDto.setNombreMenu(pm.getMenu().getNombre());
+										menuSubDto.setUrlMenu(pm.getMenu().getUrl());
+										menuSubDto.setEstado(pm.getEstado().getNombre());
+										return menuSubDto;
+									}).toList();
+
+		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorMenuSubId(minPrecio, maxPrecio, menuSub.getId(),propiedadesId );
+
+		model.addAttribute("nombreMenuSub", menuSub.getNombre());
+		/*model.addAttribute("bannerMenuSub", menuSub.getBanner());*/
+		model.addAttribute("bannerMenuSubMovilTablet",bannerMovilTablet);
+		model.addAttribute("bannerMenuSubLaptopPc", bannerLaptopPc);
+		model.addAttribute("categoriasMenuSub",categoriasMenuSubDto);
+		model.addAttribute("otrasCategoriasMenuSubs",otrasCategoriasDto);
+		model.addAttribute("porObjetivos",porObjetivosDto);
+		model.addAttribute("porMarcas",porMarcasDto);
+		model.addAttribute("productos",productos);
 
 		return "porProductos/subMenuProductos";
 	}
-	/*
+
 	//@GetMapping("/categorias/{MenuSubUrl}/{categoriaUrl}")
-	@GetMapping("/suplementos/{MenuSubUrl}/{categoriaUrl}")
-	public String listarProCate(Model model, HttpSession session, @PathVariable String MenuSubUrl, @PathVariable String categoriaUrl) {
+	@GetMapping("/{menuUrl}/{menuSubUrl}/{categoriaUrl}")
+	public String listarProCate(Model model,
+								HttpSession session,
+								@PathVariable String menuUrl,
+								@PathVariable String menuSubUrl,
+								@PathVariable String categoriaUrl,
+								@RequestParam(required = false) Double minPrecio,
+								@RequestParam(required = false) Double maxPrecio,
+								@RequestParam(required = false) String propiedadNombre) {
 
-		MenuSub menuSub = menuSubService.obtenerUrl(MenuSubUrl);
-		ProductoCategoria proCategoria = proCateService.obtenerUrl(categoriaUrl);
-		List<Producto> proCate = productoService.listarProCate(categoriaUrl);
+		Integer propiedadesId=0;
+		if(propiedadNombre == null){
+			propiedadesId = 0;
+		} else if(propiedadNombre.equals("Presentación")){
+			propiedadesId = 1;
+		} else if (propiedadNombre.equals("Tamaños")) {
+			propiedadesId = 4;
+		}
 
-		model.addAttribute("proCate", proCate);
-		model.addAttribute("menuSub", menuSub);
-		model.addAttribute("proCateUrl", proCategoria);
-		model.addAttribute("nombreCategoria", proCategoria.getNombre());
+		Menu menu = menuService.obtenerMenuPorUrl(menuUrl);
+		MenuSub menuSub = menuSubService.obtenerMenuSubPorUrl(menuSubUrl);
+
+		List<ProductoCategoria> categoriasMenuSub= productoCategoriaService.listarPorMenuSubId(menuSub.getId());
+		List<ProductoCategoriaDto> categoriasMenuSubDto = categoriasMenuSub.stream()
+				.map(categorias -> {
+					ProductoCategoriaDto categoriaDto = new ProductoCategoriaDto();
+					categoriaDto.setId(categorias.getId());
+					categoriaDto.setNombre(categorias.getNombre());
+					categoriaDto.setUrl(categorias.getUrl());
+					categoriaDto.setNombreMenuSub(categorias.getMenuSub().getNombre());
+					categoriaDto.setUrlMenuSub(categorias.getMenuSub().getUrl());
+					categoriaDto.setNombreMenu(categorias.getMenuSub().getMenu().getNombre());
+					categoriaDto.setUrlMenu(categorias.getMenuSub().getMenu().getUrl());
+					categoriaDto.setEstado(categorias.getEstado().getNombre());
+					return categoriaDto;
+				})
+				.toList();
+
+		List<MenuSub> otrasCategorias = menuSubService.obtenerMenuSubsPorMenuId(menu.getId());
+		List<MenuSubDto> otrasCategoriasDto = otrasCategorias.stream()
+				.map(oc -> {
+					MenuSubDto menuSubDto = new MenuSubDto();
+					menuSubDto.setId(oc.getId());
+					menuSubDto.setNombre(oc.getNombre());
+					menuSubDto.setUrl(oc.getUrl());
+					menuSubDto.setImagen(oc.getImagen());
+					menuSubDto.setBanner(oc.getBanner());
+					menuSubDto.setNombreMenu(oc.getMenu().getNombre());
+					menuSubDto.setUrlMenu(oc.getMenu().getUrl());
+					menuSubDto.setEstado(oc.getEstado().getNombre());
+					return menuSubDto;
+				}).toList();
+
+		List<MenuSub> porObjetivos = menuSubService.obtenerMenuSubsPorMenuId(5);
+		List<MenuSubDto> porObjetivosDto = porObjetivos.stream()
+				.map(po -> {
+					MenuSubDto menuSubDto = new MenuSubDto();
+					menuSubDto.setId(po.getId());
+					menuSubDto.setNombre(po.getNombre());
+					menuSubDto.setUrl(po.getUrl());
+					menuSubDto.setImagen(po.getImagen());
+					menuSubDto.setBanner(po.getBanner());
+					menuSubDto.setNombreMenu(po.getMenu().getNombre());
+					menuSubDto.setUrlMenu(po.getMenu().getUrl());
+					menuSubDto.setEstado(po.getEstado().getNombre());
+					return menuSubDto;
+				}).toList();
+
+		List<MenuSub> porMarcas = menuSubService.obtenerMenuSubsPorMenuId(6);
+		List<MenuSubDto> porMarcasDto = porMarcas.stream()
+				.map(pm -> {
+					MenuSubDto menuSubDto = new MenuSubDto();
+					menuSubDto.setId(pm.getId());
+					menuSubDto.setNombre(pm.getNombre());
+					menuSubDto.setUrl(pm.getUrl());
+					menuSubDto.setImagen(pm.getImagen());
+					menuSubDto.setBanner(pm.getBanner());
+					menuSubDto.setNombreMenu(pm.getMenu().getNombre());
+					menuSubDto.setUrlMenu(pm.getMenu().getUrl());
+					menuSubDto.setEstado(pm.getEstado().getNombre());
+					return menuSubDto;
+				}).toList();
+
+		ProductoCategoria productoCategoria = productoCategoriaService.obtenerProductoCategoriaPorUrl(categoriaUrl);
+
+		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorCategoriaId(minPrecio,maxPrecio,productoCategoria.getId(), propiedadesId);
+
+		model.addAttribute("nombreMenuSub", menuSub.getNombre());
+		model.addAttribute("bannerMenuSub", menuSub.getBanner());
+		model.addAttribute("categoriasMenuSub",categoriasMenuSubDto);
+		model.addAttribute("otrasCategoriasMenuSubs",otrasCategoriasDto);
+		model.addAttribute("porObjetivos",porObjetivosDto);
+		model.addAttribute("porMarcas",porMarcasDto);
+		model.addAttribute("productos",productos);
+
 		return "porProductos/categoriaPro";
 	}
+
 	//@GetMapping("/categorias/{MenuSubUrl}/{categoriaUrl}/{id}")
-	@GetMapping("/suplementos/{MenuSubUrl}/{categoriaUrl}/{id}")
-	public String verProducto(@PathVariable("id") int id, @PathVariable("MenuSubUrl") String MenuSubUrl,
+	@GetMapping("/suplementos/{MenuSubUrl}/{categoriaUrl}/{productoId}")
+	public String verProducto(@PathVariable("productoId") int productoId, @PathVariable("MenuSubUrl") String MenuSubUrl,
 			@PathVariable String categoriaUrl, Model model, HttpSession session) {
 
-		MenuSub menuSub = menuSubService.obtenerUrl(MenuSubUrl);
-		ProductoCategoria procate = proCateService.obtenerUrl(categoriaUrl);
+		/*MenuSub menuSub = menuSubService.obtenerUrl(MenuSubUrl);*/
+		ProductoCategoria procate = proCateService.obtenerProductoCategoriaPorUrl(categoriaUrl);
 
-		Producto proDetalles = productoService.listarProductoPorID(id);
+		Producto proDetalles = productoService.listarProductoPorID(productoId);
 
+		Producto producto = productoService.listarProductoPorID(productoId);
+		// Organizar los detalles en un mapa
+		Map<String, List<String>> agrupacionDetalles = new LinkedHashMap<>();
+		for (ProductoPropiedadDetalle ppd : producto.getProductoPropiedadesDetalles()) {
+			String propiedad = ppd.getPropiedadesDetalles().getPropiedades().getNombre();
+			String detalle = ppd.getPropiedadesDetalles().getDetalles().getNombre();
+
+			if (!agrupacionDetalles.containsKey(propiedad)) {
+				agrupacionDetalles.put(propiedad, new ArrayList<>());
+			}
+			agrupacionDetalles.get(propiedad).add(detalle);
+		}
+
+		/*
 		List<ProductoPropiedadDetalle> detallePresentacion = productoProDetService.obtenerPorTipoDePropiedad(id, 1);
 		List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
 		List<ProductoPropiedadDetalle> detalleColor = productoProDetService.obtenerPorTipoDePropiedad(id, 2);
 		List<ProductoPropiedadDetalle> detalleSabor = productoProDetService.obtenerPorTipoDePropiedad(id, 4);
+
         
         model.addAttribute("detallePresentacion", detallePresentacion);
         model.addAttribute("detalleTam", detalleTam);
         model.addAttribute("detalleColor", detalleColor);
         model.addAttribute("detalleSabor", detalleSabor);
-
-		model.addAttribute("menuSub", menuSub);
-		model.addAttribute("menuSub", menuSub);
-		model.addAttribute("proCateUrl", procate);
-		model.addAttribute("producto", proDetalles);
+		*/
+		/*model.addAttribute("menuSub", menuSub);*/
+		model.addAttribute("producto", producto);
+		model.addAttribute("agrupacionDetalles", agrupacionDetalles);
+		/*model.addAttribute("proCateUrl", procate);
+		model.addAttribute("producto", proDetalles);*/
 
 		return "porProductos/detalleProducto";
 	}
-
+	/*
 	// MENÚ POR OBJETIVOS
 	@GetMapping("/objetivo")
 	public String menuObjetivos(Model model, HttpSession session) {
@@ -462,7 +683,7 @@ public class HomeController {
 		List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
 		List<ProductoPropiedadDetalle> detalleColor = productoProDetService.obtenerPorTipoDePropiedad(id, 2);
 		List<ProductoPropiedadDetalle> detalleSabor = productoProDetService.obtenerPorTipoDePropiedad(id, 4);
-        
+
         model.addAttribute("detallePresentacion", detallePresentacion);
         model.addAttribute("detalleTam", detalleTam);
         model.addAttribute("detalleColor", detalleColor);
@@ -541,7 +762,7 @@ public class HomeController {
 		List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
 		List<ProductoPropiedadDetalle> detalleColor = productoProDetService.obtenerPorTipoDePropiedad(id, 2);
 		List<ProductoPropiedadDetalle> detalleSabor = productoProDetService.obtenerPorTipoDePropiedad(id, 4);
-        
+
         model.addAttribute("detallePresentacion", detallePresentacion);
         model.addAttribute("detalleTam", detalleTam);
         model.addAttribute("detalleColor", detalleColor);
@@ -618,7 +839,7 @@ public class HomeController {
 		List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
 		List<ProductoPropiedadDetalle> detalleColor = productoProDetService.obtenerPorTipoDePropiedad(id, 2);
 		List<ProductoPropiedadDetalle> detalleSabor = productoProDetService.obtenerPorTipoDePropiedad(id, 4);
-        
+
         model.addAttribute("detallePresentacion", detallePresentacion);
         model.addAttribute("detalleTam", detalleTam);
         model.addAttribute("detalleColor", detalleColor);
@@ -631,7 +852,7 @@ public class HomeController {
 
 		return "lifestyle/detalleProLife";
 	}
-
+*/
 	// MENÚ BLOG
 	@GetMapping("/blog")
 	public String blog(HttpSession session, Model model) {
@@ -670,7 +891,7 @@ public class HomeController {
 		artiComService.saveArticuloCom(nuevoComentario);
 		return "redirect:/index/blog/ver-blog/" + id;
 	}
-*/
+
 	// SECCIÓN OFERTAS
 	@GetMapping("/ofertas")
 	public String ofertas(Model model, HttpSession session) {
@@ -747,7 +968,7 @@ public class HomeController {
 		
 		return "anonimo/carrito";
 	}
-
+*/
 	// MÉTODO PARA AGREGAR PRODUCTOS AL CARRITO
 	@SuppressWarnings("unchecked")
 	@PostMapping("/productoAgregar")
@@ -836,7 +1057,7 @@ public class HomeController {
 	        session.setAttribute("totalCarrito", Math.round(totalCart * 100.00) / 100.00);
 	    }
 	    
-	    
+
 
 		String referer = request.getHeader("referer");
 		return "redirect:" + referer;
@@ -974,7 +1195,4 @@ public class HomeController {
 
 		return "anonimo/buscar";
 	}
-
-
-	*/
 }
