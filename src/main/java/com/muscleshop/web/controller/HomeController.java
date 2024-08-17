@@ -4,10 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.muscleshop.web.models.*;
-import com.muscleshop.web.models.dto.MenuDto;
-import com.muscleshop.web.models.dto.MenuSubDto;
-import com.muscleshop.web.models.dto.ProductoCategoriaDto;
-import com.muscleshop.web.models.dto.ProductoItemsDto;
+import com.muscleshop.web.models.dto.*;
 import com.muscleshop.web.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -79,25 +76,25 @@ public class HomeController {
 
 	@Autowired
 	HeaderService headerService;
-	
+
 	@Autowired
 	ProductoPropiedadDetalleService productoProDetService;
-	
+
 	@Autowired
 	LogosService logosService;
 
 	@Autowired
 	public IProductoAgrupadoService iProductoAgrupadoService;
-	
+
 	@Autowired
 	CuponService cuponService;
 
 	@Autowired
 	IMarketplaceService iMarketplaceService;
-    @Autowired
-    private ProductoPropiedadDetalleService productoPropiedadDetalleService;
-    @Autowired
-    private ProductoCategoriaService productoCategoriaService;
+	@Autowired
+	private ProductoPropiedadDetalleService productoPropiedadDetalleService;
+	@Autowired
+	private ProductoCategoriaService productoCategoriaService;
 
 
 	//Modelos para el menu de la barra Header Bottom
@@ -128,7 +125,7 @@ public class HomeController {
 		}
 		return headerMap;
 	}
-	
+
 	@ModelAttribute("logosTienda")
 	public List<Logos> logos() {
 		return logosService.listarLogos();
@@ -181,35 +178,23 @@ public class HomeController {
 
 	@GetMapping("/prueba")
 	@ResponseBody
-	public ResponseEntity<MenuSub> resp(){
-		 MenuSub productos= menuSubService.listarMenuSubID(1);
-		return  ResponseEntity.ok(productos);
+	public ResponseEntity<ProductoCarritoDto> resp() {
+		ProductoCarritoDto producto = productoService.obtenerProductoPorProductoPropiedadId(15);
+		return ResponseEntity.ok(producto);
 	}
 
 	@GetMapping("/prueba2")
 	@ResponseBody
-	public ResponseEntity<List<MenuSubDto>> respta(){
-		List<MenuSub> subCategoriasMenuSub = menuSubService.obtenerMenuSubsPorMenuId(2);
-		List<MenuSubDto> otrasCategoriasMenuSubsDto = subCategoriasMenuSub.stream()
-				.map(otrasCategoriasMenuSubs -> {
-					MenuSubDto menuSubDto = new MenuSubDto();
-					menuSubDto.setId(otrasCategoriasMenuSubs.getId());
-					menuSubDto.setNombre(otrasCategoriasMenuSubs.getNombre());
-					menuSubDto.setUrl(otrasCategoriasMenuSubs.getUrl());
-					menuSubDto.setImagen(otrasCategoriasMenuSubs.getImagen());
-					menuSubDto.setBanner(otrasCategoriasMenuSubs.getBanner());
-					menuSubDto.setNombreMenu(otrasCategoriasMenuSubs.getMenu().getNombre());
-					menuSubDto.setUrlMenu(otrasCategoriasMenuSubs.getMenu().getUrl());
-					menuSubDto.setEstado(otrasCategoriasMenuSubs.getEstado().getNombre());
-					return menuSubDto;
-				}).toList();
-		return ResponseEntity.ok(otrasCategoriasMenuSubsDto);
+	public ResponseEntity<ProductoPropiedadDetalle> respta() {
+		ProductoPropiedadDetalle a = productoPropiedadDetalleService.obtenerProductoPropiedadDetallePorVariaciones(9, 12, 8);
+		return ResponseEntity.ok(a);
 	}
+
 	@GetMapping("/prueba3")
 	@ResponseBody
-	public ResponseEntity<List<ProductoItemsDto>> respues(){
-		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorMenuSubId(0.0,200.0, 1, 1);
-		return  ResponseEntity.ok(productos);
+	public ResponseEntity<List<ProductoItemsDto>> respues() {
+		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorMenuSubId(0.0, 200.0, 1, 1);
+		return ResponseEntity.ok(productos);
 	}
 
 	// MENÚS
@@ -226,15 +211,15 @@ public class HomeController {
 				.collect(Collectors.toList());
 
 		List<Banner> bannerLaptopPc = banners.stream()
-				.filter(ban-> "laptop_pc".equals(ban.getTipoDispositivo()))
+				.filter(ban -> "laptop_pc".equals(ban.getTipoDispositivo()))
 				.collect(Collectors.toList());
 
 		List<Popup> popups = popupService.listarPopup();
 
 		Integer cantidadArticulos = 3;
-		List<Articulo>articulosBlog = (articuloService.listarArticulo())
-										.stream()
-										.limit(cantidadArticulos).toList();
+		List<Articulo> articulosBlog = (articuloService.listarArticulo())
+				.stream()
+				.limit(cantidadArticulos).toList();
 
 		/*{1,Inicio,inicio},
 		{2,Categorias,categorias},
@@ -250,7 +235,7 @@ public class HomeController {
 		List<MenuSub> subMenus = menuSubService.obtenerMenuSubsPorMenuId(menuId);
 
 		/*[{1,normal},{2,bestsellers},{3,ofertas}]*/
-		List<Producto> productosPorForma = productoService.obtenerResultado(2,1);
+		List<Producto> productosPorForma = productoService.obtenerResultado(2, 1);
 
 		List<PedidoProductoComentario> comentariosProductos = pedProComService.comentariosMostrables();
 
@@ -259,7 +244,7 @@ public class HomeController {
 
 		/*model.addAttribute("productos", productos);*/
 		model.addAttribute("popup", popups);
-		model.addAttribute("bannerMovilTablet",bannerMovilTablet);
+		model.addAttribute("bannerMovilTablet", bannerMovilTablet);
 		model.addAttribute("bannerLaptopPc", bannerLaptopPc);
 		model.addAttribute("articulosBlog", articulosBlog);
 		model.addAttribute("subMenu", subMenus);
@@ -336,7 +321,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 }*/
 
 	@GetMapping("/{menuUrl}")
-	public String menuProducto(Model model,@PathVariable String menuUrl, HttpSession session) {
+	public String menuProducto(Model model, @PathVariable String menuUrl, HttpSession session) {
 
 		Menu menu = menuService.obtenerMenuPorUrl(menuUrl);
 		MenuDto menuDto = new MenuDto();
@@ -368,7 +353,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 		return "porProductos/menuProducto";
 	}
 
-    //@GetMapping("/categorias/{MenuSubUrl}")
+	//@GetMapping("/categorias/{MenuSubUrl}")
 	@GetMapping("/{menuUrl}/{menuSubUrl}")
 	public String productoCategoria(Model model,
 									@PathVariable String menuUrl,
@@ -378,99 +363,104 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 									@RequestParam(required = false) String propiedadNombre,
 									HttpSession session) {
 
-		Integer propiedadesId=0;
-		if(propiedadNombre == null){
-			propiedadesId = 0;
-		} else if(propiedadNombre.equals("Presentación")){
-			propiedadesId = 1;
-		} else if (propiedadNombre.equals("Tamaños")) {
-			propiedadesId = 4;
-		}
 
+		Integer propiedadesId = 0;
+		String nombrePropiedad = null;
 
 		Menu menu = menuService.obtenerMenuPorUrl(menuUrl);
+		if (menu.getId() == null) {
+			propiedadesId = 0;
+			nombrePropiedad = "";
+		} else if (menu.getId() == 2 || menu.getId() == 5) {
+			propiedadesId = 1;
+			nombrePropiedad = "Presentación";
+		} else if (propiedadNombre.equals("Tamaños")) {
+			propiedadesId = 4;
+			nombrePropiedad = "Tamaños";
+		}
 		MenuSub menuSub = menuSubService.obtenerMenuSubPorUrl(menuSubUrl);
 
 		List<BannerMenuSub> bannerMovilTablet = (menuSub.getBannerMenuSub()).stream()
 				.filter(ban -> "movil_tablet".equals(ban.getTipoDispositivo()))
 				.toList();
 
-		List<BannerMenuSub> bannerLaptopPc =(menuSub.getBannerMenuSub()).stream()
-				.filter(ban-> "laptop_pc".equals(ban.getTipoDispositivo()))
+		List<BannerMenuSub> bannerLaptopPc = (menuSub.getBannerMenuSub()).stream()
+				.filter(ban -> "laptop_pc".equals(ban.getTipoDispositivo()))
 				.toList();
 
-		List<ProductoCategoria> categoriasMenuSub= productoCategoriaService.listarPorMenuSubId(menuSub.getId());
+		List<ProductoCategoria> categoriasMenuSub = productoCategoriaService.listarPorMenuSubId(menuSub.getId());
 		List<ProductoCategoriaDto> categoriasMenuSubDto = categoriasMenuSub.stream()
-														.map(categorias -> {
-															ProductoCategoriaDto categoriaDto = new ProductoCategoriaDto();
-															categoriaDto.setId(categorias.getId());
-															categoriaDto.setNombre(categorias.getNombre());
-															categoriaDto.setUrl(categorias.getUrl());
-															categoriaDto.setNombreMenuSub(categorias.getMenuSub().getNombre());
-															categoriaDto.setUrlMenuSub(categorias.getMenuSub().getUrl());
-															categoriaDto.setNombreMenu(categorias.getMenuSub().getMenu().getNombre());
-															categoriaDto.setUrlMenu(categorias.getMenuSub().getMenu().getUrl());
-															categoriaDto.setEstado(categorias.getEstado().getNombre());
-															return categoriaDto;
-														})
-														.toList();
+				.map(categorias -> {
+					ProductoCategoriaDto categoriaDto = new ProductoCategoriaDto();
+					categoriaDto.setId(categorias.getId());
+					categoriaDto.setNombre(categorias.getNombre());
+					categoriaDto.setUrl(categorias.getUrl());
+					categoriaDto.setNombreMenuSub(categorias.getMenuSub().getNombre());
+					categoriaDto.setUrlMenuSub(categorias.getMenuSub().getUrl());
+					categoriaDto.setNombreMenu(categorias.getMenuSub().getMenu().getNombre());
+					categoriaDto.setUrlMenu(categorias.getMenuSub().getMenu().getUrl());
+					categoriaDto.setEstado(categorias.getEstado().getNombre());
+					return categoriaDto;
+				})
+				.toList();
 
 		List<MenuSub> otrasCategorias = menuSubService.obtenerMenuSubsPorMenuId(menu.getId());
 		List<MenuSubDto> otrasCategoriasDto = otrasCategorias.stream()
-													.map(oc -> {
-														MenuSubDto menuSubDto = new MenuSubDto();
-														menuSubDto.setId(oc.getId());
-														menuSubDto.setNombre(oc.getNombre());
-														menuSubDto.setUrl(oc.getUrl());
-														menuSubDto.setImagen(oc.getImagen());
-														menuSubDto.setBanner(oc.getBanner());
-														menuSubDto.setNombreMenu(oc.getMenu().getNombre());
-														menuSubDto.setUrlMenu(oc.getMenu().getUrl());
-														menuSubDto.setEstado(oc.getEstado().getNombre());
-														return menuSubDto;
-													}).toList();
+				.map(oc -> {
+					MenuSubDto menuSubDto = new MenuSubDto();
+					menuSubDto.setId(oc.getId());
+					menuSubDto.setNombre(oc.getNombre());
+					menuSubDto.setUrl(oc.getUrl());
+					menuSubDto.setImagen(oc.getImagen());
+					menuSubDto.setBanner(oc.getBanner());
+					menuSubDto.setNombreMenu(oc.getMenu().getNombre());
+					menuSubDto.setUrlMenu(oc.getMenu().getUrl());
+					menuSubDto.setEstado(oc.getEstado().getNombre());
+					return menuSubDto;
+				}).toList();
 
 		List<MenuSub> porObjetivos = menuSubService.obtenerMenuSubsPorMenuId(5);
 		List<MenuSubDto> porObjetivosDto = porObjetivos.stream()
-										.map(po -> {
-											MenuSubDto menuSubDto = new MenuSubDto();
-											menuSubDto.setId(po.getId());
-											menuSubDto.setNombre(po.getNombre());
-											menuSubDto.setUrl(po.getUrl());
-											menuSubDto.setImagen(po.getImagen());
-											menuSubDto.setBanner(po.getBanner());
-											menuSubDto.setNombreMenu(po.getMenu().getNombre());
-											menuSubDto.setUrlMenu(po.getMenu().getUrl());
-											menuSubDto.setEstado(po.getEstado().getNombre());
-											return menuSubDto;
-										}).toList();
+				.map(po -> {
+					MenuSubDto menuSubDto = new MenuSubDto();
+					menuSubDto.setId(po.getId());
+					menuSubDto.setNombre(po.getNombre());
+					menuSubDto.setUrl(po.getUrl());
+					menuSubDto.setImagen(po.getImagen());
+					menuSubDto.setBanner(po.getBanner());
+					menuSubDto.setNombreMenu(po.getMenu().getNombre());
+					menuSubDto.setUrlMenu(po.getMenu().getUrl());
+					menuSubDto.setEstado(po.getEstado().getNombre());
+					return menuSubDto;
+				}).toList();
 
 		List<MenuSub> porMarcas = menuSubService.obtenerMenuSubsPorMenuId(6);
 		List<MenuSubDto> porMarcasDto = porMarcas.stream()
-									.map(pm -> {
-										MenuSubDto menuSubDto = new MenuSubDto();
-										menuSubDto.setId(pm.getId());
-										menuSubDto.setNombre(pm.getNombre());
-										menuSubDto.setUrl(pm.getUrl());
-										menuSubDto.setImagen(pm.getImagen());
-										menuSubDto.setBanner(pm.getBanner());
-										menuSubDto.setNombreMenu(pm.getMenu().getNombre());
-										menuSubDto.setUrlMenu(pm.getMenu().getUrl());
-										menuSubDto.setEstado(pm.getEstado().getNombre());
-										return menuSubDto;
-									}).toList();
+				.map(pm -> {
+					MenuSubDto menuSubDto = new MenuSubDto();
+					menuSubDto.setId(pm.getId());
+					menuSubDto.setNombre(pm.getNombre());
+					menuSubDto.setUrl(pm.getUrl());
+					menuSubDto.setImagen(pm.getImagen());
+					menuSubDto.setBanner(pm.getBanner());
+					menuSubDto.setNombreMenu(pm.getMenu().getNombre());
+					menuSubDto.setUrlMenu(pm.getMenu().getUrl());
+					menuSubDto.setEstado(pm.getEstado().getNombre());
+					return menuSubDto;
+				}).toList();
 
-		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorMenuSubId(minPrecio, maxPrecio, menuSub.getId(),propiedadesId );
+		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorMenuSubId(minPrecio, maxPrecio, menuSub.getId(), propiedadesId);
 
 		model.addAttribute("nombreMenuSub", menuSub.getNombre());
 		/*model.addAttribute("bannerMenuSub", menuSub.getBanner());*/
-		model.addAttribute("bannerMenuSubMovilTablet",bannerMovilTablet);
+		model.addAttribute("bannerMenuSubMovilTablet", bannerMovilTablet);
 		model.addAttribute("bannerMenuSubLaptopPc", bannerLaptopPc);
-		model.addAttribute("categoriasMenuSub",categoriasMenuSubDto);
-		model.addAttribute("otrasCategoriasMenuSubs",otrasCategoriasDto);
-		model.addAttribute("porObjetivos",porObjetivosDto);
-		model.addAttribute("porMarcas",porMarcasDto);
-		model.addAttribute("productos",productos);
+		model.addAttribute("categoriasMenuSub", categoriasMenuSubDto);
+		model.addAttribute("otrasCategoriasMenuSubs", otrasCategoriasDto);
+		model.addAttribute("porObjetivos", porObjetivosDto);
+		model.addAttribute("porMarcas", porMarcasDto);
+		model.addAttribute("nombrePropiedad", nombrePropiedad);
+		model.addAttribute("productos", productos);
 
 		return "porProductos/subMenuProductos";
 	}
@@ -486,19 +476,30 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 								@RequestParam(required = false) Double maxPrecio,
 								@RequestParam(required = false) String propiedadNombre) {
 
-		Integer propiedadesId=0;
-		if(propiedadNombre == null){
+		Integer propiedadesId = 0;
+		String nombrePropiedad = null;
+/*		if(propiedadNombre == null){
 			propiedadesId = 0;
 		} else if(propiedadNombre.equals("Presentación")){
 			propiedadesId = 1;
 		} else if (propiedadNombre.equals("Tamaños")) {
 			propiedadesId = 4;
-		}
+		}*/
 
 		Menu menu = menuService.obtenerMenuPorUrl(menuUrl);
+		if (menu.getId() == null) {
+			propiedadesId = 0;
+			nombrePropiedad = "";
+		} else if (menu.getId() == 2 || menu.getId() == 5) {
+			propiedadesId = 1;
+			nombrePropiedad = "Presentación";
+		} else if (propiedadNombre.equals("Tamaños")) {
+			propiedadesId = 4;
+			nombrePropiedad = "Tamaños";
+		}
 		MenuSub menuSub = menuSubService.obtenerMenuSubPorUrl(menuSubUrl);
 
-		List<ProductoCategoria> categoriasMenuSub= productoCategoriaService.listarPorMenuSubId(menuSub.getId());
+		List<ProductoCategoria> categoriasMenuSub = productoCategoriaService.listarPorMenuSubId(menuSub.getId());
 		List<ProductoCategoriaDto> categoriasMenuSubDto = categoriasMenuSub.stream()
 				.map(categorias -> {
 					ProductoCategoriaDto categoriaDto = new ProductoCategoriaDto();
@@ -561,62 +562,112 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 
 		ProductoCategoria productoCategoria = productoCategoriaService.obtenerProductoCategoriaPorUrl(categoriaUrl);
 
-		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorCategoriaId(minPrecio,maxPrecio,productoCategoria.getId(), propiedadesId);
+		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorCategoriaId(minPrecio, maxPrecio, productoCategoria.getId(), propiedadesId);
 
 		model.addAttribute("nombreMenuSub", menuSub.getNombre());
 		model.addAttribute("bannerMenuSub", menuSub.getBanner());
-		model.addAttribute("categoriasMenuSub",categoriasMenuSubDto);
-		model.addAttribute("otrasCategoriasMenuSubs",otrasCategoriasDto);
-		model.addAttribute("porObjetivos",porObjetivosDto);
-		model.addAttribute("porMarcas",porMarcasDto);
-		model.addAttribute("productos",productos);
+		model.addAttribute("categoriasMenuSub", categoriasMenuSubDto);
+		model.addAttribute("otrasCategoriasMenuSubs", otrasCategoriasDto);
+		model.addAttribute("porObjetivos", porObjetivosDto);
+		model.addAttribute("porMarcas", porMarcasDto);
+		model.addAttribute("nombrePropiedad", nombrePropiedad);
+		model.addAttribute("productos", productos);
 
 		return "porProductos/categoriaPro";
 	}
 
+	// Método para verificar si la lista contiene un nombre específico
+	private boolean containsNombre(List<Detalles> lista, String nombre) {
+		for (Detalles detalle : lista) {
+			if (detalle.getNombre().equals(nombre)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	//@GetMapping("/categorias/{MenuSubUrl}/{categoriaUrl}/{id}")
-	@GetMapping("/suplementos/{MenuSubUrl}/{categoriaUrl}/{productoId}")
-	public String verProducto(@PathVariable("productoId") int productoId, @PathVariable("MenuSubUrl") String MenuSubUrl,
-			@PathVariable String categoriaUrl, Model model, HttpSession session) {
+	@GetMapping("/{menuUrl}/{MenuSubUrl}/{categoriaUrl}/detalleProducto")
+	public String verProducto(@PathVariable String menuUrl,
+							  @PathVariable String MenuSubUrl,
+							  @PathVariable String categoriaUrl,
+							  @RequestParam int productoId,
+							  @RequestParam(required = false) String detalleNombre,
+							  @RequestParam(required = false) String detalleModificado,
+							  Model model,
+							  HttpSession session) {
 
-		/*MenuSub menuSub = menuSubService.obtenerUrl(MenuSubUrl);*/
-		ProductoCategoria procate = proCateService.obtenerProductoCategoriaPorUrl(categoriaUrl);
-
-		Producto proDetalles = productoService.listarProductoPorID(productoId);
 
 		Producto producto = productoService.listarProductoPorID(productoId);
-		// Organizar los detalles en un mapa
-		Map<String, List<String>> agrupacionDetalles = new LinkedHashMap<>();
-		for (ProductoPropiedadDetalle ppd : producto.getProductoPropiedadesDetalles()) {
-			String propiedad = ppd.getPropiedadesDetalles().getPropiedades().getNombre();
-			String detalle = ppd.getPropiedadesDetalles().getDetalles().getNombre();
 
-			if (!agrupacionDetalles.containsKey(propiedad)) {
-				agrupacionDetalles.put(propiedad, new ArrayList<>());
+		List<PropiedadDetalleImagen> propiedadesDetallesImagenes = new ArrayList<>();
+		for (ProductoPropiedadDetalle dtl : producto.getProductoPropiedadesDetalles()) {
+
+			for (PropiedadDetalleImagen pdi : dtl.getPropiedadesDetallesImagenes()) {
+				PropiedadDetalleImagen propiedadDetalleImagen = new PropiedadDetalleImagen();
+				propiedadDetalleImagen.setId(pdi.getId());
+				propiedadDetalleImagen.setNombre(pdi.getNombre());
+				propiedadesDetallesImagenes.add(propiedadDetalleImagen);
 			}
-			agrupacionDetalles.get(propiedad).add(detalle);
+		}
+		// Inicializar listas para cada propiedad
+		List<Detalles> listaDetallesPresentacion = new ArrayList<>();
+		List<Detalles> listaDetallesColor = new ArrayList<>();
+		List<Detalles> listaDetallesTamanio = new ArrayList<>();
+		List<Detalles> listaDetallesSabor = new ArrayList<>();
+
+		for (ProductoPropiedadDetalle detalle : producto.getProductoPropiedadesDetalles()) {
+			String presentacionNombre = detalle.getPropiedadesDetalles().getDetalles().getNombre();
+			Detalles presentacion = new Detalles();
+			presentacion.setId(detalle.getPropiedadesDetalles().getDetalles().getId());
+			presentacion.setNombre(presentacionNombre);
+
+			String saborNombre = detalle.getPropiedadesDetalles2().getDetalles().getNombre();
+			Detalles sabor = new Detalles();
+			sabor.setId(detalle.getPropiedadesDetalles2().getDetalles().getId());
+			sabor.setNombre(saborNombre);
+
+			// Agregar Presentación si no está en la lista
+			if (!containsNombre(listaDetallesPresentacion, presentacionNombre)) {
+				listaDetallesPresentacion.add(presentacion);
+			}
+
+			// Agregar Sabor si no está en la lista
+			if (!containsNombre(listaDetallesSabor, saborNombre)) {
+				listaDetallesSabor.add(sabor);
+			}
 		}
 
-		/*
-		List<ProductoPropiedadDetalle> detallePresentacion = productoProDetService.obtenerPorTipoDePropiedad(id, 1);
-		List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
-		List<ProductoPropiedadDetalle> detalleColor = productoProDetService.obtenerPorTipoDePropiedad(id, 2);
-		List<ProductoPropiedadDetalle> detalleSabor = productoProDetService.obtenerPorTipoDePropiedad(id, 4);
 
-        
-        model.addAttribute("detallePresentacion", detallePresentacion);
-        model.addAttribute("detalleTam", detalleTam);
-        model.addAttribute("detalleColor", detalleColor);
-        model.addAttribute("detalleSabor", detalleSabor);
-		*/
-		/*model.addAttribute("menuSub", menuSub);*/
 		model.addAttribute("producto", producto);
-		model.addAttribute("agrupacionDetalles", agrupacionDetalles);
-		/*model.addAttribute("proCateUrl", procate);
-		model.addAttribute("producto", proDetalles);*/
+
+		model.addAttribute("propiedadesDetallesImagenes", propiedadesDetallesImagenes);
+
+		model.addAttribute("detalleNombre", detalleNombre);
+		model.addAttribute("detalleModificado", detalleModificado);
+
+		model.addAttribute("agrupacionDetallesPresentacion", listaDetallesPresentacion);
+		model.addAttribute("agrupacionDetallesColor", listaDetallesColor);
+		model.addAttribute("agrupacionDetallesTamanio", listaDetallesTamanio);
+		model.addAttribute("agrupacionDetallesSabor", listaDetallesSabor);
 
 		return "porProductos/detalleProducto";
 	}
+
+	@GetMapping("/buscarPropiedadDetalleImagen")
+	@ResponseBody
+	public ResponseEntity<ProductoPropiedadDetalle> buscarPropiedadDetalleImagen(Integer productoId,
+																				 Integer presentacion,
+																				 Integer sabor) {
+		ProductoPropiedadDetalle a = productoPropiedadDetalleService.obtenerProductoPropiedadDetallePorVariaciones(productoId,
+				presentacion,
+				sabor);
+		if (a == null) {
+			return ResponseEntity.ofNullable(a);
+		}
+		return ResponseEntity.ok(a);
+	}
+
 	/*
 	// MENÚ POR OBJETIVOS
 	@GetMapping("/objetivo")
@@ -877,7 +928,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 
 	@PostMapping("/blog/agregar-comentario/{id}")
 	public String agregarComentario(@PathVariable("id") int id, @RequestParam("nombre") String nombre,
-			@RequestParam("comentario") String comentario, HttpSession session) {
+									@RequestParam("comentario") String comentario, HttpSession session) {
 		Articulo articulo = articuloService.listarArticuloID(id);
 
 		ArticuloComentario nuevoComentario = new ArticuloComentario();
@@ -896,15 +947,16 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 	@GetMapping("/ofertas")
 	public String ofertas(Model model, HttpSession session) {
 		List<Producto> productos = productoService.listarProducto();
-		List<Producto> productosAgrupados = productos.stream()
+		/*List<Producto> productosAgrupados = productos.stream()
 				.filter(ban -> ban.getAgrupacion().getId() == 2 && ban.getEstado().getId() == 1)//
 				.filter(ban -> ban.getAgrupacion().getId() == 2 && ban.getEstado().getId() == 1)
-				.toList();
+				.toList();*/
 		/*List<Producto> proForma = productoService.listarProForma(2);
 		model.addAttribute("proForma", proForma);*/
-		model.addAttribute("productosAgrupados", productosAgrupados);
+		model.addAttribute("productosAgrupados", productos);
 		return "ofertas/menuOfertas";
 	}
+
 	/*
 	@GetMapping("/ofertas/{id}")
 	public String verOfertaID(@PathVariable("id") int id, Model model, HttpSession session) {
@@ -928,100 +980,45 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 
 		return "ofertas/detallesOferta";
 	}
-
+*/
 	// CARRITO DE COMPRAS
 	@GetMapping("/carrito")
 	public String carrito(Model model, HttpSession session) {
 
 		List<Producto> proCate = productoService.listarProducto();
 
-		Map<Integer, Double> precios    = new HashMap<>();
+		Map<Integer, Double> precios = new HashMap<>();
 		Map<Integer, Double> preciosTachados = new HashMap<>();
 		Map<Integer, Integer> porcentajes = new HashMap<>();
-		
+
 		if (session.getAttribute("usuario") != null) {
-		    Usuario usuario = usuarioService.buscarUsuario(session.getAttribute("usuario").toString());
-		    RolPerfil rolPerfil = usuario.getRolPerfil();
-		    for (Producto producto : proCate) {
-		        double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), rolPerfil.getId());
-		        double precioTachado = proPrecioService.obtenerPrecioTachado(producto.getId(), rolPerfil.getId());
-		        int porcentaje = proPrecioService.obtenerPorcentaje(producto.getId(), rolPerfil.getId());
-		        precios.put(producto.getId(), precioNormal);
-		        preciosTachados.put(producto.getId(), precioTachado);
-		        porcentajes.put(producto.getId(), porcentaje);
-		    }
+			Usuario usuario = usuarioService.buscarUsuario(session.getAttribute("usuario").toString());
+			RolPerfil rolPerfil = usuario.getRolPerfil();
+			for (Producto producto : proCate) {
+				double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), rolPerfil.getId());
+				double precioTachado = proPrecioService.obtenerPrecioTachado(producto.getId(), rolPerfil.getId());
+				int porcentaje = proPrecioService.obtenerPorcentaje(producto.getId(), rolPerfil.getId());
+				precios.put(producto.getId(), precioNormal);
+				preciosTachados.put(producto.getId(), precioTachado);
+				porcentajes.put(producto.getId(), porcentaje);
+			}
 		} else {
-		    for (Producto producto : proCate) {
-		        double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), 1); 
-		        double precioTachado = proPrecioService.obtenerPrecioTachado(producto.getId(), 1);
-		        int porcentaje = proPrecioService.obtenerPorcentaje(producto.getId(), 1);
-		        precios.put(producto.getId(), precioNormal);
-		        preciosTachados.put(producto.getId(), precioTachado);
-		        porcentajes.put(producto.getId(), porcentaje);
-		    }
+			for (Producto producto : proCate) {
+				double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), 1);
+				double precioTachado = proPrecioService.obtenerPrecioTachado(producto.getId(), 1);
+				int porcentaje = proPrecioService.obtenerPorcentaje(producto.getId(), 1);
+				precios.put(producto.getId(), precioNormal);
+				preciosTachados.put(producto.getId(), precioTachado);
+				porcentajes.put(producto.getId(), porcentaje);
+			}
 		}
-		
+
 		model.addAttribute("precios", precios);
 		model.addAttribute("preciosTachados", preciosTachados);
 		model.addAttribute("porcentajes", porcentajes);
-		
-		
+
+
 		return "anonimo/carrito";
-	}
-*/
-	// MÉTODO PARA AGREGAR PRODUCTOS AL CARRITO
-	@SuppressWarnings("unchecked")
-	@PostMapping("/productoAgregar")
-	public String agregarProducto(HttpServletRequest request, HttpSession session,
-			@RequestParam(name = "id", required = false) int id,
-			@RequestParam(name = "cantidad", required = false, defaultValue = "1") int cantidad,
-	        @RequestParam(name = "idPresentacion", required = false) Integer idPresentacion,
-			RedirectAttributes ra) {
-		
-
-		Producto producto = productoService.listarProductoPorID(id);
-		ProductoPropiedadDetalle productoPropiedadDetalle = null;
-
-		if (idPresentacion != null) {
-	        productoPropiedadDetalle = productoProDetService.listarPorID(idPresentacion);
-	    }
-		
-		List<PedidoProducto> carrito = (List<PedidoProducto>) session.getAttribute("carrito");
-
-		PedidoProducto pedidoProducto = new PedidoProducto();
-		pedidoProducto.setProducto(producto);
-		pedidoProducto.setCantidad(cantidad);
-		if (productoPropiedadDetalle != null) {
-		    pedidoProducto.setProductoProDetal(productoPropiedadDetalle);
-		}
-		carrito.add(pedidoProducto);
-		session.setAttribute("carrito", carrito);
-		
-		double precioProducto;
-
-	    if (productoPropiedadDetalle != null && productoPropiedadDetalle.getPrecio() != null) {
-	        precioProducto = productoPropiedadDetalle.getPrecio();
-	    } else {
-	    	Map<Integer, Double> precios = (Map<Integer, Double>) session.getAttribute("precios");
-	        if (precios != null && precios.containsKey(id)) {
-	            precioProducto = precios.get(id);
-	            double subtotal = precioProducto * cantidad;
-	    		pedidoProducto.setSub_total(subtotal);
-
-	    		double totalCart = 0.0;
-	    		for (PedidoProducto pedidoProd : carrito) {
-	    			totalCart += pedidoProd.getSub_total();
-	    		}
-
-	    		session.setAttribute("totalCarrito", Math.round(totalCart * 100.00) / 100.00);
-	    		System.out.println("Recuperando precio del producto con ID: " + id);
-
-	   	     System.out.println("Precio del producto: " + precioProducto);
-	        }
-	    }
-
-		String referer = request.getHeader("referer");
-		return "redirect:" + referer;
 	}
 
 	// MÉTODO PARA AGREGAR PRODUCTOS AL CARRITO
@@ -1033,31 +1030,36 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 			RedirectAttributes ra) {
 
 		Producto producto = productoService.listarProductoPorID(id);
+		ProductoCarritoDto productoCarritoDto = productoService.obtenerProductoPorProductoPropiedadId(id);
 
-		List<PedidoProducto> carrito = (List<PedidoProducto>) session.getAttribute("carrito");
+		List<PedidoProductoDto> carrito = (List<PedidoProductoDto>) session.getAttribute("carrito");
 
-		PedidoProducto pedidoProducto = new PedidoProducto();
-		pedidoProducto.setProducto(producto);
+		PedidoProductoDto pedidoProducto = new PedidoProductoDto();
+		pedidoProducto.setProductoCarrito(productoCarritoDto);
 		pedidoProducto.setCantidad(cantidad);
 		carrito.add(pedidoProducto);
 		session.setAttribute("carrito", carrito);
-		
-	    Map<Integer, Double> precios = (Map<Integer, Double>) session.getAttribute("precios");
+
+		double precioUnitario = productoCarritoDto.getPrecio();
+		double subTotales = precioUnitario * cantidad;
+		pedidoProducto.setSub_total(subTotales);
+		double totalCart = 0.0;
+		for (PedidoProductoDto pedidoProd : carrito) {
+			totalCart += pedidoProd.getSub_total();
+		}
+		session.setAttribute("totalCarrito", Math.round(totalCart * 100.00) / 100.00);
+	    /*Map<Integer, Double> precios = (Map<Integer, Double>) session.getAttribute("precios");
 	    if (precios != null && precios.containsKey(id)) {
 	        double precioProducto = precios.get(id);
 	        double subtotal = precioProducto * cantidad;
 	        pedidoProducto.setSub_total(subtotal);
 
 	        double totalCart = 0.0;
-	        for (PedidoProducto pedidoProd : carrito) {
+	        for (PedidoProductoDto pedidoProd : carrito) {
 	            totalCart += pedidoProd.getSub_total();
-	            
-	            
 	        }
 	        session.setAttribute("totalCarrito", Math.round(totalCart * 100.00) / 100.00);
-	    }
-	    
-
+	    }*/
 
 		String referer = request.getHeader("referer");
 		return "redirect:" + referer;
@@ -1115,14 +1117,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 	    String referer = request.getHeader("referer");
 	    return "redirect:" + referer;
 	}
-	
-	//CUPONES
-	@SuppressWarnings("unchecked")
-	@ModelAttribute("cupon")
-	public String comprobar() {
-		String prueba = "unaPrueba";
-		return prueba;
-	}
+
 	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/cupon")

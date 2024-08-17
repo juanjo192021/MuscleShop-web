@@ -38,5 +38,9 @@ public class ProductoPropiedadDetalleService {
 		return productoProDetDao.findByCategoriaUrl(categoriaUrl, estado);
 	}
 
+	public ProductoPropiedadDetalle obtenerProductoPropiedadDetallePorVariaciones(Integer productoId, Integer propiedadesDetallesId, Integer propiedadesDetallesId2){
+		return productoProDetDao.findByPropiedadesDetallesAndProductoId(productoId, propiedadesDetallesId, propiedadesDetallesId2);
+	}
+
 
 }

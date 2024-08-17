@@ -34,6 +34,8 @@ public interface IProductoDao extends JpaRepository<Producto, Integer> {
     // Listar productos por url de la categoría: va según la escala ProductoCategoria.id
     List<Producto> findByProductoCategoria_Id(Integer categoriaId);
 
+    Producto findByProductoPropiedadesDetalles_Id(Integer propiedadesDetallesId);
+
     //Filtrar una lista de productos por precio mínimo, precio máximo, id del submenú y id de sus propiedades
     @Query("SELECT p FROM Producto p " +
             "join ProductoCategoria pc on p.productoCategoria.id=pc.id " +
@@ -49,8 +51,7 @@ public interface IProductoDao extends JpaRepository<Producto, Integer> {
                                                    @Param("propiedadesId") Integer propiedadesId);
 
     //Filtrar una lista de productos por precio mínimo, precio máximo, id de la categoría y id de sus propiedades
-    //"join ProductoCategoria pc on p.productoCategoria.id=pc.id " +
-    //            "join MenuSub ms on pc.menuSub.id=ms.id " +
+
     @Query("SELECT p FROM Producto p " +
             "join ProductoPropiedadDetalle ppd on p.id=ppd.producto.id " +
             "join PropiedadesDetalles pd on ppd.propiedadesDetalles.id=pd.id " +

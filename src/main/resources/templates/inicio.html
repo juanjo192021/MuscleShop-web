@@ -172,7 +172,7 @@
                         <div class="product-default inner-btn inner-icon inner-icon-inline left-details m-0"
                              th:each="productosPorForma:${productosPorForma}">
                             <figure>
-                                <a th:href="@{'/index/inicio/' + ${productosPorForma.getProductoCategoria().getUrl()} + '/' + ${productosPorForma.getId()}}">
+                                <a th:href="@{'/index/' + ${productosPorForma.getProductoCategoria().getMenuSub().getMenu().getUrl()} + '/'+ ${productosPorForma.getProductoCategoria().getMenuSub().getUrl()} + '/'  + ${productosPorForma.getProductoCategoria().getUrl()} + '/detalleProducto'(productoId=${productosPorForma.getId()})}">
                                     <img th:src="@{'/images/productos/' + ${productosPorForma.getImagen()}}" class="img-owl-carousel"
                                          alt="product"/>
                                 </a>

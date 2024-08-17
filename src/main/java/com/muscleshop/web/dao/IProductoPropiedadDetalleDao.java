@@ -35,5 +35,13 @@ public interface IProductoPropiedadDetalleDao extends JpaRepository<ProductoProp
             "join ProductoCategoria  pc on p.productoCategoria.id= pc.id "+
             "where pc.url=:categoriaUrl and p.estado.id=:estado")
     List<ProductoPropiedadDetalle> findByCategoriaUrl(@Param("categoriaUrl") String categoriaUrl,
-                                                             @Param("estado") Integer estado);
+                                                      @Param("estado") Integer estado);
+
+
+    @Query("select ppd from ProductoPropiedadDetalle ppd " +
+            "join PropiedadDetalleImagen pdi on ppd.id=pdi.productoPropiedadDetalle.id " +
+            "where ppd.producto.id=:productoId and ppd.propiedadesDetalles.id =:propiedadesDetallesId and ppd.propiedadesDetalles2.id=:propiedadesDetallesId2")
+    ProductoPropiedadDetalle findByPropiedadesDetallesAndProductoId(@Param("productoId") Integer productoId,
+                                                                    @Param("propiedadesDetallesId") Integer propiedadesDetallesId,
+                                                                    @Param("propiedadesDetallesId2") Integer propiedadesDetallesId2);
 }

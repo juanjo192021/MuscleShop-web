@@ -41,4 +41,12 @@ public class Detalles {
 	public void setPropiedadesDetalles(List<PropiedadesDetalles> propiedadesDetalles) {
 		this.propiedadesDetalles = propiedadesDetalles;
 	}
+
+	public Detalles() {}
+
+	public Detalles(Integer id, String nombre, List<PropiedadesDetalles> propiedadesDetalles) {
+		this.id = id;
+		this.nombre = nombre;
+		this.propiedadesDetalles = propiedadesDetalles;
+	}
 }

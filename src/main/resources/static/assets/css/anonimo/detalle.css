@@ -1,4 +1,15 @@
+.container-img-thumbs{
+    display: flex;
+    flex-wrap: wrap;
+}
 
+.thumbnail-link{
+    cursor: pointer;
+    flex-basis: 25%;
+}
+.img-thumbs{
+    width: 80px;
+}
 .product-single-details .product-title {
     padding-bottom: 25px;
     margin: 0;

@@ -67,13 +67,15 @@
 							</div>
 						</nav>
 
-						<div class="row m-0 justify-content-around">
-							<div class="col-6 col-sm-2 mx-2" th:each="productos : ${productos}">
+						<!--justify-content-around-->
+						<div class="d-flex flex-row flex-wrap">
+							<div th:each="productos : ${productos}" style="flex-basis: 20%;max-width: 20%;padding: 0 30px;">
 
 								<div class="product-default inner-btn inner-icon inner-icon-inline left-details">
 									<figure>
-										<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/' + ${productos.id}}">
-											<img th:src="@{'/images/productos/'+${productos.imagen}}"
+										<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria}+ '/detalleProducto'(productoId=${productos.id}, detalleNombre=${productos.detalleNombre},detalleModificado=${productos.detalleModificado})}">
+											<!--th:src="@{'/images/productos/'+${productos.imagen}}"-->
+											<img src="https://res.cloudinary.com/dhgkb17i4/image/upload/v1723795997/PRUEBA/ob6rmsghgpmjy9sllbee.png"
 												 alt="product" style="height: 180px;"/>
 										</a>
 										<div class="btn-icon-group">

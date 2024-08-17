@@ -6,27 +6,18 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "producto_agrupado")
 public class ProductoAgrupado {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-/*    @ManyToOne
-    @JoinColumn(name = "producto_padre_id", nullable = false)
-    @JsonIgnore
-    private Producto productoPadre;
-
-    *//*Tener mapeado esto*//*
     @ManyToOne
-    @JoinColumn(name = "producto_hijo_id", nullable = false)
-    @JsonIgnore
-    private Producto productoHijo;*/
-    @ManyToOne
-    @JoinColumn(name = "producto_padre_id")
-    private Producto productoPadre;
+    @JoinColumn(name = "agrupacion_id")
+    private Agrupacion agrupacion;
 
     @ManyToOne
-    @JoinColumn(name = "producto_hijo_id")
-    private Producto productoHijo;
+    @JoinColumn(name = "producto_id")
+    private Producto producto;
 
     public Integer getId() {
         return id;
@@ -36,19 +27,19 @@ public class ProductoAgrupado {
         this.id = id;
     }
 
-    public Producto getProductoPadre() {
-        return productoPadre;
+    public Agrupacion getAgrupacion() {
+        return agrupacion;
     }
 
-    public void setProductoPadre(Producto productoPadre) {
-        this.productoPadre = productoPadre;
+    public void setAgrupacion(Agrupacion agrupacion) {
+        this.agrupacion = agrupacion;
     }
 
-    public Producto getProductoHijo() {
-        return productoHijo;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setProductoHijo(Producto productoHijo) {
-        this.productoHijo = productoHijo;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 }

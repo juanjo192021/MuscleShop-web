@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.muscleshop.web.models.*;
+import com.muscleshop.web.models.dto.ProductoCarritoDto;
 import com.muscleshop.web.models.dto.ProductoItemsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -57,8 +58,33 @@ public class ProductoService {
 		return productoDao.listarProductosPorForma(productoFormaId, estadoId);
 	}
 
-	public List<Producto> prueba(Integer menuSubId){
-		return productoDao.findByProductoCategoria_MenuSub_Id(menuSubId);
+	public ProductoCarritoDto obtenerProductoPorProductoPropiedadId(Integer id) {
+		Producto producto = productoDao.findByProductoPropiedadesDetalles_Id(id);
+		ProductoCarritoDto productoCarritoDto = new ProductoCarritoDto();
+		for (ProductoPropiedadDetalle ppd : producto.getProductoPropiedadesDetalles()) {
+			if(ppd.getId() == id){
+				/*
+				*     private int productoId;
+						private int productoPropiedadDetalleId;
+						private String nombreProducto;
+						private String imagenProducto;
+						private String nombrePropiedadDetalle;
+						private String nombrePropiedadDetalle2;
+						private Integer cantidadProducto;
+						private Double precio;
+						private Double precioReducido;
+				* */
+				productoCarritoDto.setProductoId(producto.getId());
+				productoCarritoDto.setProductoPropiedadDetalleId(ppd.getId());
+				productoCarritoDto.setNombreProducto(producto.getNombre());
+				productoCarritoDto.setImagenProducto(ppd.getImagen());
+				productoCarritoDto.setNombrePropiedadDetalle(ppd.getPropiedadesDetalles().getDetalles().getNombre());
+				productoCarritoDto.setNombrePropiedadDetalle2(ppd.getPropiedadesDetalles2().getDetalles().getNombre());
+				productoCarritoDto.setPrecio(ppd.getPrecio());
+				productoCarritoDto.setPrecioReducido(ppd.getPrecioReducido());
+			}
+		}
+		return productoCarritoDto;
 	}
 
 	public List<ProductoItemsDto> listarProductosIndividualesPorMenuSubId(Double minPrecio, Double maxPrecio, Integer menuSubId, Integer propiedadesId) {
@@ -90,7 +116,34 @@ public class ProductoService {
 
 		List<ProductoItemsDto> productosIndividuales = new ArrayList<>();
 
-		for (Producto producto : productos) {
+		for(Producto producto: productos){
+			for(ProductoPropiedadDetalle ppd : producto.getProductoPropiedadesDetalles()){
+				ProductoItemsDto nuevoProducto = new ProductoItemsDto();
+				nuevoProducto.setId(producto.getId());
+				nuevoProducto.setNombre(producto.getNombre());
+				nuevoProducto.setImagen(ppd.getImagen().isEmpty() ? producto.getImagen() : ppd.getImagen());
+				nuevoProducto.setNombreCategoria(producto.getProductoCategoria().getNombre());
+				nuevoProducto.setUrlCategoria(producto.getProductoCategoria().getUrl());
+				nuevoProducto.setNombreMenuSub(producto.getProductoCategoria().getMenuSub().getNombre());
+				nuevoProducto.setUrlMenuSub(producto.getProductoCategoria().getMenuSub().getUrl());
+				nuevoProducto.setProductoPropiedadDetalleId(ppd.getId());
+				nuevoProducto.setPrecio(ppd.getPrecio());
+				nuevoProducto.setPrecioReducido(ppd.getPrecioReducido());
+				nuevoProducto.setStock(ppd.getStock());
+				nuevoProducto.setDetalleNombre(ppd.getPropiedadesDetalles().getDetalles().getNombre());
+				nuevoProducto.setDetalleModificado(ppd.getPropiedadesDetalles2() == null ? "Sin sabor" : ppd.getPropiedadesDetalles2().getDetalles().getNombre());
+				nuevoProducto.setPropiedadNombre(ppd.getPropiedadesDetalles().getPropiedades().getNombre());
+				for(ProductoMenuSub pms : ppd.getProducto().getProductoMenusSub()){
+					if(pms.getMenuSub().getMenu().getId() == 6){
+						nuevoProducto.setNombreMarca(pms.getMenuSub().getNombre());
+						nuevoProducto.setUrlMarca(pms.getMenuSub().getUrl());
+						nuevoProducto.setUrlMenuMarca(pms.getMenuSub().getMenu().getUrl());
+					}
+				}
+				productosIndividuales.add(nuevoProducto);
+			}
+		}
+		/*for (Producto producto : productos) {
 			String nombreProducto = producto.getNombre();
 			String imagenProducto = producto.getImagen();
 
@@ -220,7 +273,7 @@ public class ProductoService {
 					}
 				}
 			}
-		}
+		}*/
 		return productosIndividuales;
 	}
 

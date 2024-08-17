@@ -130,29 +130,33 @@
 										<div class="product" th:each="pedidoPro : ${session.carrito}">
 											<div class="product-details">
 												<h4 class="product-title">
-													<a href="product.html" th:text="${pedidoPro.producto.nombre}"></a>
+													<a href="product.html" th:text="${pedidoPro.productoCarrito.nombreProducto}"></a>
 												</h4>
-
 												<span class="cart-product-info">
-											<span class="cart-product-detail" th:if="${pedidoPro.productoPropiedadDetalle != null}"
-												  th:text="${pedidoPro.productoPropiedadDetalle.propiedadesDetalles.detalles.nombre} + ' × '"></span>
-											<span class="cart-product-qty" th:text="${pedidoPro.cantidad}"></span>
-											<span class="cart-product-qty" th:if="${pedidoPro.productoPropiedadDetalle != null}"
-												  th:text="' × S/. ' + ${pedidoPro.productoPropiedadDetalle.precio}"></span>
-											<span class="cart-product-qty"
-												  th:unless="${pedidoPro.productoPropiedadDetalle != null}"
-												  th:text="' × S/. ' + ${precios[pedidoPro.producto.id]}"></span>
-										</span>
+
+													<!--<span class="cart-product-detail" th:if="${pedidoPro.productoPropiedadDetalle != null}"
+														  th:text="${pedidoPro.productoPropiedadDetalle.propiedadesDetalles.detalles.nombre} + ' × '"></span>-->
+													<span class="cart-product-qty d-block" th:text="${pedidoPro.productoCarrito.nombrePropiedadDetalle}"></span>
+													<span class="cart-product-qty d-block" th:text="${pedidoPro.productoCarrito.nombrePropiedadDetalle2}"></span>
+													<span class="cart-product-qty" th:text="${pedidoPro.cantidad}"></span>
+
+													<span class="cart-product-qty" th:if="${pedidoPro.productoCarrito != null}"
+														  th:text="' × S/. ' + ${pedidoPro.productoCarrito.precio}"></span>
+
+													<!--<span class="cart-product-qty"
+														  th:unless="${pedidoPro.productoCarrito != null}"
+														  th:text="' × S/. ' + ${pedidoPro.productoCarrito.precio}"></span>-->
+												</span>
 											</div>
 											<!-- End .product-details -->
 
 											<figure class="product-image-container">
 												<a href="product.html" class="product-image">
-													<img th:src="@{'/images/' + ${pedidoPro.producto.imagen}}" alt="product"
+													<img th:src="@{'/images/productos/' + ${pedidoPro.productoCarrito.imagenProducto}}" alt="product"
 														 width="80" height="80">
 												</a>
 
-												<a th:href="@{/index/carrito/eliminarProducto/{id} (id = ${pedidoPro.producto.id})}"
+												<a th:href="@{/index/carrito/eliminarProducto/{id} (id = ${pedidoPro.productoCarrito.productoPropiedadDetalleId})}"
 												   class="btn-remove" title="Remove Product"><span>×</span></a>
 											</figure>
 										</div>

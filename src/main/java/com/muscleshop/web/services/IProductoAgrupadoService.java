@@ -7,5 +7,5 @@ import java.util.List;
 public interface IProductoAgrupadoService {
     List<ProductoAgrupado> listarProductosAgrupados();
 
-    List<ProductoAgrupado> listarProductosAgrupadosPorIdPadre(Integer idPadre);
+    /*List<ProductoAgrupado> listarProductosAgrupadosPorIdPadre(Integer idPadre);*/
 }

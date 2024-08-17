@@ -11,5 +11,5 @@ public interface IProductoAgrupadoDao extends JpaRepository<ProductoAgrupado, In
 
     // Buscar productos agrupados basados en su producto_padre_id
 
-    List<ProductoAgrupado> findByProductoPadreId(Integer productoPadreId);
+    /*List<ProductoAgrupado> findByProductoPadreId(Integer productoPadreId);*/
 }

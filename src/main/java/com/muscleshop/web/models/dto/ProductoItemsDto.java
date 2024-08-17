@@ -10,7 +10,9 @@ public class ProductoItemsDto {
     private String urlCategoria;
     private String nombreMenuSub;
     private String urlMenuSub;
+    private Integer productoPropiedadDetalleId;
     private Double precio;
+    private Double precioReducido;
     private Integer stock;
     private String detalleNombre;
     private String detalleModificado;
@@ -75,12 +77,28 @@ public class ProductoItemsDto {
         this.urlMenuSub = urlMenuSub;
     }
 
+    public Integer getProductoPropiedadDetalleId() {
+        return productoPropiedadDetalleId;
+    }
+
+    public void setProductoPropiedadDetalleId(Integer productoPropiedadDetalleId) {
+        this.productoPropiedadDetalleId = productoPropiedadDetalleId;
+    }
+
     public Double getPrecio() {
         return precio;
     }
 
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public Double getPrecioReducido() {
+        return precioReducido;
+    }
+
+    public void setPrecioReducido(Double precioReducido) {
+        this.precioReducido = precioReducido;
     }
 
     public Integer getStock() {
@@ -94,6 +112,7 @@ public class ProductoItemsDto {
     public String getDetalleNombre() {
         return detalleNombre;
     }
+
     public void setDetalleNombre(String detalleNombre) {
         this.detalleNombre = detalleNombre;
     }

@@ -18,6 +18,8 @@ public class Producto {
 	private String imagen;
 	private String descripcion;
 	private LocalDate fecha;
+	private String mostrar;
+	private Integer prioridad;
 
 	@ManyToOne
 	@JoinColumn(name = "estado_id")
@@ -27,9 +29,10 @@ public class Producto {
 	@JoinColumn(name = "categoria_id")
 	private ProductoCategoria productoCategoria;
 
-	@ManyToOne
+
+/*	@ManyToOne
 	@JoinColumn(name="agrupacion_id", nullable = false)
-	private Agrupacion agrupacion;
+	private Agrupacion agrupacion;*/
 
 	@OneToOne(mappedBy  = "producto")
 	private ProductoInformacion productoInformacion;
@@ -51,13 +54,13 @@ public class Producto {
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	private List<ProductoFormaProducto> productoFormasProducto;
 
-	@OneToMany(mappedBy = "productoPadre", cascade = CascadeType.ALL)
+/*	@OneToMany(mappedBy = "productoPadre", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<ProductoAgrupado> productosHijos;
 
 	@OneToMany(mappedBy = "productoHijo")
 	@JsonIgnore
-	private List<ProductoAgrupado> productosPadre;
+	private List<ProductoAgrupado> productosPadre;*/
 
 	public Integer getId() {
 		return id;
@@ -107,6 +110,22 @@ public class Producto {
 		this.estado = estado;
 	}
 
+	public String getMostrar() {
+		return mostrar;
+	}
+
+	public void setMostrar(String mostrar) {
+		this.mostrar = mostrar;
+	}
+
+	public Integer getPrioridad() {
+		return prioridad;
+	}
+
+	public void setPrioridad(Integer prioridad) {
+		this.prioridad = prioridad;
+	}
+
 	public ProductoCategoria getProductoCategoria() {
 		return productoCategoria;
 	}
@@ -115,13 +134,13 @@ public class Producto {
 		this.productoCategoria = productoCategoria;
 	}
 
-	public Agrupacion getAgrupacion() {
+/*	public Agrupacion getAgrupacion() {
 		return agrupacion;
 	}
 
 	public void setAgrupacion(Agrupacion agrupacion) {
 		this.agrupacion = agrupacion;
-	}
+	}*/
 
 	public ProductoInformacion getProductoInformacion() {
 		return productoInformacion;
@@ -171,7 +190,7 @@ public class Producto {
 		this.productoFormasProducto = productoFormasProducto;
 	}
 
-	public List<ProductoAgrupado> getProductosHijos() {
+/*	public List<ProductoAgrupado> getProductosHijos() {
 		return productosHijos;
 	}
 
@@ -185,5 +204,5 @@ public class Producto {
 
 	public void setProductosPadre(List<ProductoAgrupado> productosPadre) {
 		this.productosPadre = productosPadre;
-	}
+	}*/
 }

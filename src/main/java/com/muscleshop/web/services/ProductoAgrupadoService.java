@@ -18,8 +18,8 @@ public class ProductoAgrupadoService implements IProductoAgrupadoService {
         return iProductoAgrupadoDao.findAll();
     }
 
-    @Override
+/*    @Override
     public List<ProductoAgrupado> listarProductosAgrupadosPorIdPadre(Integer productoPadreId) {
         return iProductoAgrupadoDao.findByProductoPadreId(productoPadreId);
-    }
+    }*/
 }
