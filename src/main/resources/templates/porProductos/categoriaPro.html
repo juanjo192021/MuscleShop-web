@@ -79,7 +79,7 @@
 												 alt="product" style="height: 180px;"/>
 										</a>
 										<div class="btn-icon-group">
-											<a th:href="@{/index/productoAgregar(id=${productos.id})}"
+											<a th:href="@{/index/productoAgregar(id=${productos.productoPropiedadDetalleId})}"
 											   class="btn-icon btn-add-cart">
 												<i class="icon-shopping-cart"></i>
 											</a>
@@ -93,7 +93,7 @@
 											</div>
 										</div>-->
 										<h3 class="product-title" style="font-size: 15px;">
-											<a th:href="@{'/index/' + ${menuUrl} + '/' +${productos.urlMenuMarca} + '/' + ${productos.urlMarca}}"
+											<a th:href="@{'/index/' + ${productos.urlMenuMarca} + '/' + ${productos.urlMarca}}"
 											   th:text="${productos.nombreMarca}">
 											</a>
 										</h3>
@@ -117,7 +117,7 @@
 										<div class="price-box">
 											<!--<del class="old-price" th:text="'S/. ' + ${preciosTachados[pro.id]}"></del>-->
 											<del class="old-price" th:text="'S/. ' + ${productos.precio}"></del>
-											<span class="product-price" th:text="'S/. ' + ${productos.precio}"></span>
+											<span class="product-price" th:text="'S/. ' + ${productos.precioReducido}"></span>
 										</div>
 									</div>
 								</div>
@@ -277,7 +277,6 @@
 													<span id="filter-price-range"></span>
 													<input name="minPrecio" type="hidden" id="input-select">
 													<input name="maxPrecio" type="hidden" id="input-number">
-													<input name="propiedadNombre" type="hidden" value="Presentación">
 												</div>
 												<button type="submit" class="btn btn-primary">Consultar</button>
 											</div>

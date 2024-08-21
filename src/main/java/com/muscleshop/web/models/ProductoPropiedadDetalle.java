@@ -30,7 +30,6 @@ public class ProductoPropiedadDetalle {
 
 	@ManyToOne
 	@JoinColumn(name = "producto_id")
-	@JsonIgnore
 	private Producto producto;
 
 	@ManyToOne

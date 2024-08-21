@@ -112,24 +112,30 @@ public class UsuarioController {
 	
 	@Autowired
 	LogosService logosService;
-	
-	@ModelAttribute("logos")
-	public List<Logos> obtenerLogos() {
+
+	//Modelo para el logo de la tienda
+	@ModelAttribute("logosTienda")
+	public List<Logos> logos() {
 		return logosService.listarLogos();
 	}
-	
 
-	@ModelAttribute("menu")
-	public List<Menu> categorias() {
+	@ModelAttribute("header")
+	public Map<Integer, Header> obtenerHeader() {
+		Map<Integer, Header> header = new HashMap<>();
+		for (int i = 1; i <= 5; i++) {
+			Header hea = headerService.listarHeaderID(i);
+			header.put(i, hea);
+		}
+		return header;
+	}
+
+	//Modelos para el menu de la barra Header Bottom
+	@ModelAttribute("menusHeader")
+	public List<Menu> menus() {
 		return menuService.listarMenu();
 	}
 
-	@ModelAttribute("productos")
-	public List<Producto> productos() {
-		return productoService.listarProducto();
-	}
-	
-	@ModelAttribute
+	/*@ModelAttribute
     public void addCommonAttributes(Model model, HttpSession session) {
         List<Producto> proCate = productoService.listarProducto();
 
@@ -141,19 +147,19 @@ public class UsuarioController {
             Usuario usuario = usuarioService.buscarUsuario(session.getAttribute("usuario").toString());
             RolPerfil rolPerfil = usuario.getRolPerfil();
             for (Producto producto : proCate) {
-                /*double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), rolPerfil.getId());*/
+                *//*double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), rolPerfil.getId());*//*
                 double precioTachado = proPrecioService.obtenerPrecioTachado(producto.getId(), rolPerfil.getId());
                 int porcentaje = proPrecioService.obtenerPorcentaje(producto.getId(), rolPerfil.getId());
-                /*precios.put(producto.getId(), precioNormal);*/
+                *//*precios.put(producto.getId(), precioNormal);*//*
                 preciosTachados.put(producto.getId(), precioTachado);
                 porcentajes.put(producto.getId(), porcentaje);
             }
         } else {
             for (Producto producto : proCate) {
-                /*double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), 1);*/
+                *//*double precioNormal = proPrecioService.obtenerPrecioProducto(producto.getId(), 1);*//*
                 double precioTachado = proPrecioService.obtenerPrecioTachado(producto.getId(), 1);
                 int porcentaje = proPrecioService.obtenerPorcentaje(producto.getId(), 1);
-                /*precios.put(producto.getId(), precioNormal);*/
+                *//*precios.put(producto.getId(), precioNormal);*//*
                 preciosTachados.put(producto.getId(), precioTachado);
                 porcentajes.put(producto.getId(), porcentaje);
             }
@@ -164,27 +170,17 @@ public class UsuarioController {
         model.addAttribute("porcentajes", porcentajes);
         session.setAttribute("precios", precios);
 
-    }
-	
+    }*/
+
 	@ModelAttribute("footer")
-	public List<Footer> footer() {
+	public List<Footer> footers() {
 		return footerService.listarFooter();
 	}
-	
-	@ModelAttribute("header")
-    public Map<Integer, Header> obtenerHeader() {
-        Map<Integer, Header> header = new HashMap<>();
-        for (int i = 1; i <= 5; i++) {
-        	Header hea = headerService.listarHeaderID(i);
-            header.put(i, hea);
-        }
-        return header;
-    }
-	
+
 	@ModelAttribute("redesSociales")
-    public List<RedesSociales> obtenerRedes(){
+	public List<RedesSociales> redesSociales() {
 		return redesSocialesService.listarRedes();
-    }
+	}
 
 	@GetMapping("/mi-cuenta")
 	public String miCuenta(HttpSession session, Model model) {

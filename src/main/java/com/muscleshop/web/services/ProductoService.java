@@ -87,14 +87,14 @@ public class ProductoService {
 		return productoCarritoDto;
 	}
 
-	public List<ProductoItemsDto> listarProductosIndividualesPorMenuSubId(Double minPrecio, Double maxPrecio, Integer menuSubId, Integer propiedadesId) {
+	public List<ProductoItemsDto> listarProductosIndividualesPorMenuSubId(Double minPrecio, Double maxPrecio, Integer menuSubId) {
 
 		List<Producto> productos = new ArrayList<>();
 		if(minPrecio == null && maxPrecio == null){
 			productos = productoDao.findByProductoCategoria_MenuSub_Id(menuSubId);
 		}
 		if(minPrecio != null && maxPrecio != null){
-			productos = productoDao.findByPrecioBetweenAndMenuSubId(minPrecio, maxPrecio, menuSubId, propiedadesId);
+			productos = productoDao.findByPrecioBetweenAndMenuSubId(minPrecio, maxPrecio, menuSubId);
 		}
 		return listarProductosItemsModificados(productos);
 	}
@@ -106,7 +106,7 @@ public class ProductoService {
 			productos = productoDao.findByProductoCategoria_Id(categoriaId);
 		}
 		if(minPrecio != null && maxPrecio != null){
-			productos = productoDao.findByPrecioBetweenAndCategoriaId(minPrecio, maxPrecio, categoriaId, propiedadesId);
+			productos = productoDao.findByPrecioBetweenAndCategoriaId(minPrecio, maxPrecio, categoriaId);
 		}
 
 		return listarProductosItemsModificados(productos);

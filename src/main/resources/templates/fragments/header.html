@@ -141,7 +141,7 @@
 													<span class="cart-product-qty" th:text="${pedidoPro.cantidad}"></span>
 
 													<span class="cart-product-qty" th:if="${pedidoPro.productoCarrito != null}"
-														  th:text="' × S/. ' + ${pedidoPro.productoCarrito.precio}"></span>
+														  th:text="' × S/. ' + ${pedidoPro.productoCarrito.precioReducido}"></span>
 
 													<!--<span class="cart-product-qty"
 														  th:unless="${pedidoPro.productoCarrito != null}"

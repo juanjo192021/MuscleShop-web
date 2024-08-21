@@ -6719,18 +6719,6 @@ figure .porto-loading-icon {
     transition: box-shadow 0.3s ease-in-out
 }
 
-.product-default a {
-    color: inherit;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis
-}
-
-.product-default a:hover {
-    color: #08C;
-    text-decoration: none
-}
-
 .product-default figure {
     display: flex;
     justify-content: center;

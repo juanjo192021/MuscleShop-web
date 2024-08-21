@@ -1,26 +1,16 @@
 package com.muscleshop.web.controller;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.muscleshop.web.models.*;
 import com.muscleshop.web.models.dto.*;
 import com.muscleshop.web.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.muscleshop.web.models.ProductoPropiedadDetalle;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,16 +23,16 @@ public class HomeController {
 	ProductoService productoService;
 
 	@Autowired
-	BannerService bannerService;
+	IBannerService bannerService;
 
 	@Autowired
-	PopupService popupService;
+	IPopupService popupService;
 
 	@Autowired
 	MenuService menuService;
 
 	@Autowired
-	ArticuloService articuloService;
+	IArticuloService articuloService;
 
 	@Autowired
 	ArticuloComService artiComService;
@@ -91,26 +81,17 @@ public class HomeController {
 
 	@Autowired
 	IMarketplaceService iMarketplaceService;
+
 	@Autowired
 	private ProductoPropiedadDetalleService productoPropiedadDetalleService;
+
 	@Autowired
 	private ProductoCategoriaService productoCategoriaService;
 
-
-	//Modelos para el menu de la barra Header Bottom
-	@ModelAttribute("menusHeader")
-	public List<Menu> menus() {
-		return menuService.listarMenu();
-	}
-
-/*	@ModelAttribute("productos")
-	public List<Producto> productos() {
-		return productoService.listarProducto();
-	}*/
-
-	@ModelAttribute("footer")
-	public List<Footer> footers() {
-		return footerService.listarFooter();
+	//Modelo para el logo de la tienda
+	@ModelAttribute("logosTienda")
+	public List<Logos> logos() {
+		return logosService.listarLogos();
 	}
 
 	@ModelAttribute("header")
@@ -126,9 +107,20 @@ public class HomeController {
 		return headerMap;
 	}
 
-	@ModelAttribute("logosTienda")
-	public List<Logos> logos() {
-		return logosService.listarLogos();
+	//Modelos para el menu de la barra Header Bottom
+	@ModelAttribute("menusHeader")
+	public List<Menu> menus() {
+		return menuService.listarMenu();
+	}
+
+/*	@ModelAttribute("productos")
+	public List<Producto> productos() {
+		return productoService.listarProducto();
+	}*/
+
+	@ModelAttribute("footer")
+	public List<Footer> footers() {
+		return footerService.listarFooter();
 	}
 
 	@ModelAttribute("redesSociales")
@@ -193,7 +185,7 @@ public class HomeController {
 	@GetMapping("/prueba3")
 	@ResponseBody
 	public ResponseEntity<List<ProductoItemsDto>> respues() {
-		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorMenuSubId(0.0, 200.0, 1, 1);
+		List<ProductoItemsDto> productos = productoProDetService.listarProductosIndividualesPorMenuSubId(null, null, 1);
 		return ResponseEntity.ok(productos);
 	}
 
@@ -204,22 +196,21 @@ public class HomeController {
 
 		/*List<Producto> productos = productoService.listarProducto();*/
 
-		List<Banner> banners = bannerService.listarBanner();
+		Integer estadoId = 1;
+		List<Banner> banners = bannerService.listarBanners(estadoId);
 
 		List<Banner> bannerMovilTablet = banners.stream()
 				.filter(ban -> "movil_tablet".equals(ban.getTipoDispositivo()))
-				.collect(Collectors.toList());
+				.toList();
 
 		List<Banner> bannerLaptopPc = banners.stream()
 				.filter(ban -> "laptop_pc".equals(ban.getTipoDispositivo()))
-				.collect(Collectors.toList());
+				.toList();
 
-		List<Popup> popups = popupService.listarPopup();
+		List<Popup> popups = popupService.listarPopups(estadoId);
 
 		Integer cantidadArticulos = 3;
-		List<Articulo> articulosBlog = (articuloService.listarArticulo())
-				.stream()
-				.limit(cantidadArticulos).toList();
+		List<Articulo> articulosBlog = articuloService.listarArticulosPorCantidad(cantidadArticulos, estadoId);
 
 		/*{1,Inicio,inicio},
 		{2,Categorias,categorias},
@@ -360,14 +351,14 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 									@PathVariable String menuSubUrl,
 									@RequestParam(required = false) Double minPrecio,
 									@RequestParam(required = false) Double maxPrecio,
-									@RequestParam(required = false) String propiedadNombre,
 									HttpSession session) {
 
 
-		Integer propiedadesId = 0;
-		String nombrePropiedad = null;
+
 
 		Menu menu = menuService.obtenerMenuPorUrl(menuUrl);
+/*		Integer propiedadesId = 0;
+		String nombrePropiedad = null;
 		if (menu.getId() == null) {
 			propiedadesId = 0;
 			nombrePropiedad = "";
@@ -377,7 +368,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 		} else if (propiedadNombre.equals("Tamaños")) {
 			propiedadesId = 4;
 			nombrePropiedad = "Tamaños";
-		}
+		}*/
 		MenuSub menuSub = menuSubService.obtenerMenuSubPorUrl(menuSubUrl);
 
 		List<BannerMenuSub> bannerMovilTablet = (menuSub.getBannerMenuSub()).stream()
@@ -449,7 +440,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 					return menuSubDto;
 				}).toList();
 
-		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorMenuSubId(minPrecio, maxPrecio, menuSub.getId(), propiedadesId);
+		List<ProductoItemsDto> productos = productoProDetService.listarProductosIndividualesPorMenuSubId(minPrecio, maxPrecio, menuSub.getId());
 
 		model.addAttribute("nombreMenuSub", menuSub.getNombre());
 		/*model.addAttribute("bannerMenuSub", menuSub.getBanner());*/
@@ -459,7 +450,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 		model.addAttribute("otrasCategoriasMenuSubs", otrasCategoriasDto);
 		model.addAttribute("porObjetivos", porObjetivosDto);
 		model.addAttribute("porMarcas", porMarcasDto);
-		model.addAttribute("nombrePropiedad", nombrePropiedad);
+		/*model.addAttribute("nombrePropiedad", nombrePropiedad);*/
 		model.addAttribute("productos", productos);
 
 		return "porProductos/subMenuProductos";
@@ -473,30 +464,9 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 								@PathVariable String menuSubUrl,
 								@PathVariable String categoriaUrl,
 								@RequestParam(required = false) Double minPrecio,
-								@RequestParam(required = false) Double maxPrecio,
-								@RequestParam(required = false) String propiedadNombre) {
-
-		Integer propiedadesId = 0;
-		String nombrePropiedad = null;
-/*		if(propiedadNombre == null){
-			propiedadesId = 0;
-		} else if(propiedadNombre.equals("Presentación")){
-			propiedadesId = 1;
-		} else if (propiedadNombre.equals("Tamaños")) {
-			propiedadesId = 4;
-		}*/
+								@RequestParam(required = false) Double maxPrecio) {
 
 		Menu menu = menuService.obtenerMenuPorUrl(menuUrl);
-		if (menu.getId() == null) {
-			propiedadesId = 0;
-			nombrePropiedad = "";
-		} else if (menu.getId() == 2 || menu.getId() == 5) {
-			propiedadesId = 1;
-			nombrePropiedad = "Presentación";
-		} else if (propiedadNombre.equals("Tamaños")) {
-			propiedadesId = 4;
-			nombrePropiedad = "Tamaños";
-		}
 		MenuSub menuSub = menuSubService.obtenerMenuSubPorUrl(menuSubUrl);
 
 		List<ProductoCategoria> categoriasMenuSub = productoCategoriaService.listarPorMenuSubId(menuSub.getId());
@@ -562,7 +532,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 
 		ProductoCategoria productoCategoria = productoCategoriaService.obtenerProductoCategoriaPorUrl(categoriaUrl);
 
-		List<ProductoItemsDto> productos = productoService.listarProductosIndividualesPorCategoriaId(minPrecio, maxPrecio, productoCategoria.getId(), propiedadesId);
+		List<ProductoItemsDto> productos = productoProDetService.listarProductosIndividualesPorCategoriaId(minPrecio, maxPrecio, productoCategoria.getId());
 
 		model.addAttribute("nombreMenuSub", menuSub.getNombre());
 		model.addAttribute("bannerMenuSub", menuSub.getBanner());
@@ -570,7 +540,6 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 		model.addAttribute("otrasCategoriasMenuSubs", otrasCategoriasDto);
 		model.addAttribute("porObjetivos", porObjetivosDto);
 		model.addAttribute("porMarcas", porMarcasDto);
-		model.addAttribute("nombrePropiedad", nombrePropiedad);
 		model.addAttribute("productos", productos);
 
 		return "porProductos/categoriaPro";
@@ -1040,7 +1009,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 		carrito.add(pedidoProducto);
 		session.setAttribute("carrito", carrito);
 
-		double precioUnitario = productoCarritoDto.getPrecio();
+		double precioUnitario = productoCarritoDto.getPrecioReducido();
 		double subTotales = precioUnitario * cantidad;
 		pedidoProducto.setSub_total(subTotales);
 		double totalCart = 0.0;

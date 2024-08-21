@@ -9,24 +9,14 @@ import com.muscleshop.web.dao.IPopupDao;
 import com.muscleshop.web.models.Popup;
 
 @Service
-public class PopupService {
+public class PopupService implements IPopupService {
 
 	@Autowired
 	private IPopupDao popupDao;
 
-	public List<Popup> listarPopup() {
-		return popupDao.findAll();
+	public List<Popup> listarPopups(Integer estadoId) {
+		/*return popupDao.findAllByEstado_Id(estadoId);*/
+		return  popupDao.findAll();
 	}
 
-	public Popup listarPopupID(Integer id) {
-		return popupDao.findById(id).orElse(null);
-	}
-
-	public void savePopup(Popup popup) {
-		popupDao.save(popup);
-	}
-
-	public void eliminarPopup(Integer id) {
-		popupDao.deleteById(id);
-	}
 }

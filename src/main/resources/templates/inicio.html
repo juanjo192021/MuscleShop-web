@@ -163,7 +163,7 @@
                                 'nav': true,
                                 'loop': true,
                                 'responsive': {
-                                    '0': {'items': 1},
+                                    '0': {'items': 2},
                                     '768': {'items': 2},
                                     '992': {'items': 4}
                                     }
@@ -187,9 +187,10 @@
 
                             <div class="product-details">
 
-                                <h3 class="product-title pb-2"><a
-                                        th:href="@{'/index/inicio/' + ${productosPorForma.getProductoCategoria().getUrl()} + '/' + ${productosPorForma.getId()}}"
-                                        th:text="${productosPorForma.getNombre()}"></a></h3>
+                                <h3 class="product-title pb-2">
+                                    <a th:href="@{'/index/inicio/' + ${productosPorForma.getProductoCategoria().getUrl()} + '/' + ${productosPorForma.getId()}}"
+                                       th:text="${productosPorForma.getNombre()}"></a>
+                                </h3>
                             </div>
                         </div>
                     </div>
@@ -218,7 +219,7 @@
                             <div class="card-body">
                                 <h4 class="card-title" th:text="${articulosBlog.titulo}"></h4>
                                 <div class="contenedor-descripcion-blog">
-                                    <p class="card-text" th:text="${articulosBlog.descripcion}"></p>
+                                    <p class="card-text" th:utext="${articulosBlog.descripcion}"></p>
                                 </div>
                                 <a th:href="@{'/index/blog/ver-blog/' + ${articulosBlog.id}}" class="card-link"
                                    style="text-decoration: none;">Leer más ...</a>
@@ -348,7 +349,7 @@
             th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
 
     <!--Para toda la web-->
-    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-3.7.1.min.js}"></script>
 
     <!--Para Filtrar y Ordenar una Lista => https://isotope.metafizzy.co/-->
     <script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>

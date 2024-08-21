@@ -42,24 +42,22 @@ public interface IProductoDao extends JpaRepository<Producto, Integer> {
             "join MenuSub ms on pc.menuSub.id=ms.id " +
             "join ProductoPropiedadDetalle ppd on p.id=ppd.producto.id " +
             "join PropiedadesDetalles pd on ppd.propiedadesDetalles.id=pd.id " +
-            "where (ppd.precio BETWEEN :minPrecio and :maxPrecio) " +
-            "and ms.id=:menuSubId " +
-            "and pd.propiedades.id=:propiedadesId")
+            "left join PropiedadesDetalles pd2 on ppd.propiedadesDetalles2.id=pd2.id " +
+            "where (ppd.precioReducido BETWEEN :minPrecio and :maxPrecio) " +
+            "and ms.id=:menuSubId ")
     List<Producto> findByPrecioBetweenAndMenuSubId(@Param("minPrecio") Double minPrecio,
                                                    @Param("maxPrecio") Double maxPrecio,
-                                                   @Param("menuSubId") Integer menuSubId,
-                                                   @Param("propiedadesId") Integer propiedadesId);
+                                                   @Param("menuSubId") Integer menuSubId);
 
     //Filtrar una lista de productos por precio mínimo, precio máximo, id de la categoría y id de sus propiedades
 
     @Query("SELECT p FROM Producto p " +
             "join ProductoPropiedadDetalle ppd on p.id=ppd.producto.id " +
             "join PropiedadesDetalles pd on ppd.propiedadesDetalles.id=pd.id " +
-            "where (ppd.precio BETWEEN :precioMin and :precioMax) " +
-            "and p.productoCategoria.id =:productoCategoriaId " +
-            "and pd.propiedades.id=:propiedadesId")
+            "left join PropiedadesDetalles pd2 on ppd.propiedadesDetalles2.id=pd2.id " +
+            "where (ppd.precioReducido BETWEEN :precioMin and :precioMax) " +
+            "and p.productoCategoria.id =:productoCategoriaId")
     List<Producto> findByPrecioBetweenAndCategoriaId(@Param("precioMin") Double precioMin,
                                                              @Param("precioMax") Double precioMax,
-                                                             @Param("productoCategoriaId") Integer productoCategoriaId,
-                                                             @Param("propiedadesId") Integer propiedadesId);
+                                                             @Param("productoCategoriaId") Integer productoCategoriaId);
 }

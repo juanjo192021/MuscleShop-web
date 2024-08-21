@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="fragments/head"></head>
+<head>
+	<!--	<title>Inicio</title>-->
+	<th:block th:replace="fragments/head :: global-style"></th:block>
+	<th:block th:replace="fragments/head :: inicio-style"></th:block>
+</head>
 
 <body style="background-color: #f8f8f8;">
 	<div class="page-wrapper">
@@ -13,6 +17,7 @@
 		<header th:replace="fragments/header"></header>
 
 		<main class="main">
+			<!--<h1>Hola</h1>-->
 			<div class="container mi-cuenta d-flex flex-column align-items-center p-5 mt-3">
 				<nav aria-label="breadcrumb" class="breadcrumb-nav">
 					<div class="container">
@@ -40,13 +45,13 @@
 
 						<div class="col-md-4 mb-3">
 							<label for="login-password3">Apellidos</label>
-							<input type="text" class="form-input form-wide" id="login-password3" disabled
+							<input type="text" class="form-input form-wide" id="login-password37" disabled
 								th:placeholder="${session.usuarioPerfil.apellidos}" />
 						</div>
 
 						<div class="col-md-4 mb-3">
 							<label for="login-password3">Teléfono</label>
-							<input type="text" class="form-input form-wide" id="login-password3" disabled
+							<input type="text" class="form-input form-wide" id="login-password7" disabled
 								th:placeholder="${session.usuarioPerfil.telefono}" />
 						</div>
 					</div>
@@ -70,7 +75,6 @@
 								<button type="submit" class="btn btn-dark btn-md">Cerrar Sesión</button>
 							</form>
 
-							<!-- Botón para abrir el modal -->
 							<button type="button" class="btn btn-success btn-md d-inline-block" data-toggle="modal"
 								data-target="#exampleModal">
 								Editar </button>
@@ -78,13 +82,12 @@
 					</div>
 				</div>
 			</div>
-
-		</main><!-- End .main -->
+		</main>
 	</div>
 
 
 
-	<!-- Modal -->
+
 	<div class="modal fade modal-editar-perfil" id="exampleModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -118,9 +121,6 @@
 		</div>
 	</div>
 
-
-
-
 	<!-- FOOTER-->
 	<footer th:replace="fragments/footer"></footer>
 
@@ -152,15 +152,18 @@
 
 	<!-- Plugins JS File -->
 	<script data-cfasync="false"
-		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+			th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
 	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/jquery-3.7.1.min.js}"></script>
 	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
 	<script th:src="@{/assets/js/plugins.min.js}"></script>
 	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
+	<script th:src="@{/assets/js/nouislider.min.js}"></script>
 
 	<!-- Main JS File -->
-	<script th:src="@{/assets/js/main.min.js}"></script>
+	<script th:src="@{/assets/js/main.js}"></script>
+	<script th:src="@{/assets/js/xzoom.min.js}"></script>
 	<script>
 		// Variables globales para los mensajes
 		var message1 = document.getElementById('message1');
