@@ -2,9 +2,25 @@
 <html lang="en">
 <!--th:replace="fragments/head"-->
 <head>
-    <!--	<title>Inicio</title>-->
-    <th:block th:replace="fragments/head :: global-style"></th:block>
-    <th:block th:replace="fragments/head :: inicio-style"></th:block>
+    <title>Muscle Shop - Inicio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/images/muscle-shop-isotipo.png}">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/notice.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/header.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/footer.style.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/popup.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/demo4.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/global.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/login.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/style.demo4.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/carousel.style.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/inicio.style.min.css}">
+    <script src="https://kit.fontawesome.com/98270ba09b.js" crossorigin="anonymous"></script>
 </head>
 
 <body style="background-color: #FFFFFF;">
@@ -94,12 +110,12 @@
                     </div>
 
                     <!--d-none d-lg-flex-->
-                    <button class="carousel-control-prev" type="button" data-target="#carouselExampleIntervalo"
+                    <button class="carousel-control-prev d-none" type="button" data-target="#carouselExampleIntervalo"
                             data-slide="prev">
                         <span class="carousel-control-prev-icon fa-solid fa-circle-chevron-left" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-target="#carouselExampleIntervalo"
+                    <button class="carousel-control-next d-none" type="button" data-target="#carouselExampleIntervalo"
                             data-slide="next">
                         <span class="carousel-control-next-icon fa-solid fa-circle-chevron-right" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
@@ -173,7 +189,9 @@
                              th:each="productosPorForma:${productosPorForma}">
                             <figure>
                                 <a th:href="@{'/index/' + ${productosPorForma.getProductoCategoria().getMenuSub().getMenu().getUrl()} + '/'+ ${productosPorForma.getProductoCategoria().getMenuSub().getUrl()} + '/'  + ${productosPorForma.getProductoCategoria().getUrl()} + '/detalleProducto'(productoId=${productosPorForma.getId()})}">
-                                    <img th:src="@{'/images/productos/' + ${productosPorForma.getImagen()}}" class="img-owl-carousel"
+                                    <!--https://res.cloudinary.com/dhgkb17i4/image/upload/v1724438922/PRUEBA/vtxvu2ld2fb5gmeib28j.png-->
+                                    <!--th:src="@{'/images/productos/' + ${productosPorForma.getImagen()}}"-->
+                                    <img src="https://res.cloudinary.com/dhgkb17i4/image/upload/v1724438922/PRUEBA/vtxvu2ld2fb5gmeib28j.png" class="img-owl-carousel"
                                          alt="product"/>
                                 </a>
 
@@ -279,7 +297,8 @@
                                 </div>
                                 <div class="col-lg-6 image d-lg-block">
                                     <figure>
-                                        <img th:src="@{'/images/' + ${comentariosProductos.pedidoProducto.producto.imagen}}"/>
+                                        <!--th:src="@{'/images/' + ${comentariosProductos.pedidoProducto.producto.imagen}}"-->
+                                        <img src="https://res.cloudinary.com/dhgkb17i4/image/upload/v1724438922/PRUEBA/vtxvu2ld2fb5gmeib28j.png"/>
                                     </figure>
                                 </div>
 

@@ -1,0 +1,38 @@
+.login-body {
+    background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)), url('/next/images/body-login.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.container.login {
+    border-radius: 15px;
+    background-color: #6e6e6e;
+    width: 40%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 20px 35px;
+}
+.login-body .container.login .container{
+    padding: 0;
+}
+
+.container-image {
+    display: flex;
+    justify-content: center;
+}
+.container-image img {
+    width: 130px;
+}
+.login-body .title-login{
+    margin: 0;
+    font-size: 20px;
+}
+
+.form-input {
+    padding: 1rem 1.2rem;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+}

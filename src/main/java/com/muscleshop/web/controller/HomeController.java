@@ -323,25 +323,32 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 		menuDto.setNombreMenuTipo(menu.getMenuTipo().getNombre());
 		menuDto.setEstado(menu.getEstado().getNombre());
 
-		List<MenuSub> menuSubs = menuSubService.obtenerMenuSubsPorMenuId(menu.getId());
-		List<MenuSubDto> menuSubsDto = menuSubs.stream()
-				.map(menuSub -> {
-					MenuSubDto dto = new MenuSubDto();
-					dto.setId(menuSub.getId());
-					dto.setNombre(menuSub.getNombre());
-					dto.setUrl(menuSub.getUrl());
-					dto.setImagen(menuSub.getImagen());
-					dto.setBanner(menuSub.getBanner());
-					dto.setNombreMenu(menuSub.getMenu().getNombre());
-					dto.setUrlMenu(menuSub.getMenu().getUrl());
-					dto.setEstado(menuSub.getEstado().getNombre());
-					return dto;
-				})
-				.toList();
+		if(menu.getId()==7) {
+			List<Articulo> arti = articuloService.listarArticulo();
+			model.addAttribute("articulo", arti);
+			return "porBlog/menuBlog";
+		}
+		else {
+			List<MenuSub> menuSubs = menuSubService.obtenerMenuSubsPorMenuId(menu.getId());
+			List<MenuSubDto> menuSubsDto = menuSubs.stream()
+					.map(menuSub -> {
+						MenuSubDto dto = new MenuSubDto();
+						dto.setId(menuSub.getId());
+						dto.setNombre(menuSub.getNombre());
+						dto.setUrl(menuSub.getUrl());
+						dto.setImagen(menuSub.getImagen());
+						dto.setBanner(menuSub.getBanner());
+						dto.setNombreMenu(menuSub.getMenu().getNombre());
+						dto.setUrlMenu(menuSub.getMenu().getUrl());
+						dto.setEstado(menuSub.getEstado().getNombre());
+						return dto;
+					})
+					.toList();
 
-		model.addAttribute("menuDto", menuDto);
-		model.addAttribute("menuSubsDto", menuSubsDto);
-		return "porProductos/menuProducto";
+			model.addAttribute("menuDto", menuDto);
+			model.addAttribute("menuSubsDto", menuSubsDto);
+			return "porProductos/menuProducto";
+		}
 	}
 
 	//@GetMapping("/categorias/{MenuSubUrl}")

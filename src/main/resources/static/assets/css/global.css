@@ -3397,10 +3397,6 @@ a:focus {
     border-radius: 0
 }
 
-.card-body a {
-    text-decoration: underline
-}
-
 .card-body h4 {
     margin-bottom: 0.7rem;
     color: #666
@@ -11239,7 +11235,7 @@ a:hover {
     text-decoration: none;
     font-weight: 800;
 }*/
-
+/*
 .heading {
     margin-bottom: 3rem;
     color: #222529
@@ -11255,7 +11251,7 @@ a:hover {
 
 .heading p:last-child {
     margin-bottom: 0
-}
+}*/
 
 .light-title {
     margin-bottom: 2rem;

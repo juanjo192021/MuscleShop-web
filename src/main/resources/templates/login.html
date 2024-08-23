@@ -1,45 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="fragments/head"></head>
+<head th:replace="fragments/head">
+	<link rel="stylesheet" th:src="@{/assets/css/login.css}">
+</head>
 
 <body class="login-body">
-
 	<div class="container login">
 		<div class="container">
 			<div class=" container-image" th:each="logos:${logos}">
-				<a th:href="@{/index/inicio}" class="mb-5">
+				<a th:href="@{/index/inicio}">
 					<img th:src="@{'/images/' + ${logos.login}}" width="250">
 				</a>
 			</div>
-			<div class="heading mb-1">
-				<h2 class="title">Inicia Sesión</h2>
+			<div class="heading my-5">
+				<h2 class="title-login">Inicia Sesión</h2>
 			</div>
 			<div class="px-5">
-				<form th:action="@{/login}" th:object="${usuario}" method="post">
+				<form th:action="@{/login}" th:object="${usuario}" method="post" class="m-0">
 
-					<label for="login-email">
-						Correo Electrónico
-						<span class="required">*</span>
-					</label>
-					<input type="email" class="form-input form-wide" id="username" name="username" required />
-
-					<label for="login-password" class="mt-1">
-						Contraseña
-						<span class="required">*</span>
-					</label>
-					<input type="password" class="form-input form-wide" id="password" name="password" required />
-
-					<p class="tituloUsuarioNuevo pt-5 m-0 text-dark">¿Eres un usuario nuevo? <a th:href="@{/registrar}"
-							class="registroUsuario text-white">Registrate
-							aqui.</a></p><br>
-					<a th:href="@{/cambiar-contrasena}" class="forget-password text-dark form-footer-right">¿Olvidaste
-						tu
-						contraseña?</a>
-
+					<div class="form-group">
+						<label for="username">
+							Correo Electrónico
+							<span class="required">*</span>
+						</label>
+						<input type="email" class="form-input form-wide" id="username" name="username" required />
+					</div>
+					<div class="form-group">
+						<label for="password">
+							Contraseña
+							<span class="required">*</span>
+						</label>
+						<input type="password" class="form-input form-wide" id="password" name="password" required />
+					</div>
+					<a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block border-0" style="background-color: #55acee;margin: 20px 30px 0 30px;width: auto;    padding-top: 8px;
+    padding-bottom: 8px;border-radius: 5px;font-size: 12px;" href="#!"
+					   role="button">
+						<i class="fab fa-google mr-2"></i>Continuar con Google
+					</a>
+					<a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block border-0" style="background-color: #3b5998;margin: 20px 30px 0 30px;width: auto;    padding-top: 8px;
+    padding-bottom: 8px;border-radius: 5px;font-size: 12px;" href="#!"
+					   role="button">
+						<i class="fab fa-facebook mr-2"></i>Continue con Facebook
+					</a>
+					<a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block border-0" style="background-color: #bababa;margin: 20px 30px 0 30px;width: auto;    padding-top: 8px;
+    padding-bottom: 8px;border-radius: 5px;font-size: 12px;" href="#!"
+					   role="button">
+						<i class="fab fa-apple mr-2"></i>Continue con Apple
+					</a>
+					<p class="tituloUsuarioNuevo pt-4 m-0 text-dark">¿Eres un usuario nuevo?
+						<a th:href="@{/registrar}"
+						   class="registroUsuario text-white">Registrate aqui.
+						</a>
+					</p>
+					<p class="pt-4 text-dark forget-password form-footer-right">
+						¿Olvidaste tu contraseña?
+						<a th:href="@{/cambiar-contrasena}" class="text-white">
+							Haz click aquí
+						</a>
+					</p>
 					<input name="_csrf" type="hidden"
 						value="mPc73lbY6orX-zupYwtSFa0N8tb8twk1IvFV1ntC5Wus2zuGrMUKvTO7j7v6zg6dWyZmLMtu37eZj2sYRJRisxkg1VqfvV-2" />
-					<button type="submit" class="btn btn-dark btn-md w-100 mt-3">
+					<button type="submit" class="btn btn-dark btn-md w-100">
 						Ingresar
 					</button>
 

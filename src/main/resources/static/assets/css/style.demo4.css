@@ -325,16 +325,7 @@ blockquote::before {
 	font-family: "Montserrat", sans-serif;
 }
 
-.container.login {
-	background-color: #38d430;
-	width: 40%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	text-align: center;
-	padding: 35px;
-}
+
 
 .container.login h2,
 label,
@@ -461,10 +452,12 @@ aside.filtros .widget #accordion1 .card.card-accordion {
 
 }
 /*next*/
-.login-body {
-	background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)), url('/next/images/body-login.jpg') no-repeat center center fixed;
-	background-size: cover;
-}
+
+
+/*.login-body {
+	background-image: url('/images/body-login.jpg');
+	background-size: contain;
+}*/
 
 .mi-cuenta {
 	background-color: rgb(46, 181, 38);
@@ -556,11 +549,6 @@ aside.filtros .widget #accordion1 .card.card-accordion {
 
 .centrado a {
 	color: #FFF;
-}
-
-.container-image {
-	display: flex;
-	justify-content: center;
 }
 
 .agregar-pro {
