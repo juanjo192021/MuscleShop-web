@@ -22,11 +22,11 @@ public interface IProductoDao extends JpaRepository<Producto, Integer> {
 
     /*Listar todos los productos con ofertas ya sean únicos o agrupados */
 
-    @Query("SELECT p FROM Producto p join ProductoFormaProducto pfp on p.id = pfp.producto.id " +
+/*    @Query("SELECT p FROM Producto p join ProductoFormaProducto pfp on p.id = pfp.producto.id " +
             "where pfp.productoForma.id=:productoFormaId and " +
             "p.estado.id=:estadoId")
     List<Producto> listarProductosPorForma(@Param("productoFormaId") Integer productoFormaId,
-                                           @Param("estadoId") Integer estadoId);
+                                           @Param("estadoId") Integer estadoId);*/
 
     // Listar productos por url del MenuSub: va según la escala ProductoCategoria.MenuSub.url
     List<Producto> findByProductoCategoria_MenuSub_Id(Integer menuSubId);
@@ -36,11 +36,13 @@ public interface IProductoDao extends JpaRepository<Producto, Integer> {
 
     Producto findByProductoPropiedadesDetalles_Id(Integer propiedadesDetallesId);
 
-    //Filtrar una lista de productos por precio mínimo, precio máximo, id del submenú y id de sus propiedades
+    Producto findByUrl(String productoUrl);
+
+/*    //Filtrar una lista de productos por precio mínimo, precio máximo, id del submenú y id de sus propiedades
     @Query("SELECT p FROM Producto p " +
             "join ProductoCategoria pc on p.productoCategoria.id=pc.id " +
             "join MenuSub ms on pc.menuSub.id=ms.id " +
-            "join ProductoPropiedadDetalle ppd on p.id=ppd.producto.id " +
+            "join ProductoPropiedadesDetalles ppd on p.id=ppd.producto.id " +
             "join PropiedadesDetalles pd on ppd.propiedadesDetalles.id=pd.id " +
             "left join PropiedadesDetalles pd2 on ppd.propiedadesDetalles2.id=pd2.id " +
             "where (ppd.precioReducido BETWEEN :minPrecio and :maxPrecio) " +
@@ -52,12 +54,12 @@ public interface IProductoDao extends JpaRepository<Producto, Integer> {
     //Filtrar una lista de productos por precio mínimo, precio máximo, id de la categoría y id de sus propiedades
 
     @Query("SELECT p FROM Producto p " +
-            "join ProductoPropiedadDetalle ppd on p.id=ppd.producto.id " +
+            "join ProductoPropiedadesDetalles ppd on p.id=ppd.producto.id " +
             "join PropiedadesDetalles pd on ppd.propiedadesDetalles.id=pd.id " +
             "left join PropiedadesDetalles pd2 on ppd.propiedadesDetalles2.id=pd2.id " +
             "where (ppd.precioReducido BETWEEN :precioMin and :precioMax) " +
             "and p.productoCategoria.id =:productoCategoriaId")
     List<Producto> findByPrecioBetweenAndCategoriaId(@Param("precioMin") Double precioMin,
                                                              @Param("precioMax") Double precioMax,
-                                                             @Param("productoCategoriaId") Integer productoCategoriaId);
+                                                             @Param("productoCategoriaId") Integer productoCategoriaId);*/
 }

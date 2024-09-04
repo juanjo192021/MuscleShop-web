@@ -10,7 +10,6 @@ public class ProductoCategoriaDto {
     String urlMenuSub;
     String nombreMenu;
     String urlMenu;
-    String nombreMenuTipo;
 
     public Integer getId() {
         return id;
@@ -74,13 +73,5 @@ public class ProductoCategoriaDto {
 
     public void setUrlMenu(String urlMenu) {
         this.urlMenu = urlMenu;
-    }
-
-    public String getNombreMenuTipo() {
-        return nombreMenuTipo;
-    }
-
-    public void setNombreMenuTipo(String nombreMenuTipo) {
-        this.nombreMenuTipo = nombreMenuTipo;
     }
 }

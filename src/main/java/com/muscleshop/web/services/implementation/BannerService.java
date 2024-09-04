@@ -15,7 +15,8 @@ public class BannerService implements IBannerService {
 	@Autowired
 	private IBannerDao bannerDao;
 
-	public List<Banner> listarBanners(Integer estadoId) {
+	private Integer estadoId = 1;
+	public List<Banner> obtenerBanners() {
 		return bannerDao.findAllByEstado_Id(estadoId);
 	}
 }

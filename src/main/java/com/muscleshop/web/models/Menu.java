@@ -25,10 +25,6 @@ public class Menu {
 	private String imagen;
 	private String descripcion;
 
-	@ManyToOne
-	@JoinColumn(name="menu_tipo_id")
-	private MenuTipo menuTipo;
-	
 	@OneToOne
 	@JoinColumn(name = "estado_id")
 	private Estado estado;
@@ -40,14 +36,13 @@ public class Menu {
 	public Menu() {
 	}
 
-	public Menu(String nombre, String url, String imagen, String descripcion, MenuTipo menuTipo, Estado estado,
+	public Menu(String nombre, String url, String imagen, String descripcion, Estado estado,
 			List<MenuSub> menuSub) {
 		super();
 		this.nombre = nombre;
 		this.url = url;
 		this.imagen = imagen;
 		this.descripcion = descripcion;
-		this.menuTipo = menuTipo;
 		this.estado = estado;
 		this.menuSub = menuSub;
 	}
@@ -107,13 +102,4 @@ public class Menu {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
-	public MenuTipo getMenuTipo() {
-		return menuTipo;
-	}
-
-	public void setMenuTipo(MenuTipo menuTipo) {
-		this.menuTipo = menuTipo;
-	}
-
 }

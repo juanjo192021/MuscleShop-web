@@ -1,6 +1,8 @@
 package com.muscleshop.web.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,11 +13,6 @@ public class PropiedadDetalleImagen {
     private Integer id;
 
     private String nombre;
-
-    @ManyToOne
-    @JoinColumn(name="producto_propiedad_detalle_id")
-    @JsonIgnore
-    private ProductoPropiedadDetalle productoPropiedadDetalle;
 
     @ManyToOne
     @JoinColumn(name="estado_id")
@@ -35,14 +32,6 @@ public class PropiedadDetalleImagen {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public ProductoPropiedadDetalle getProductoPropiedadDetalle() {
-        return productoPropiedadDetalle;
-    }
-
-    public void setProductoPropiedadDetalle(ProductoPropiedadDetalle productoPropiedadDetalle) {
-        this.productoPropiedadDetalle = productoPropiedadDetalle;
     }
 
     public Estado getEstado() {

@@ -4,7 +4,7 @@
 	<!-- HEADER TOP -->
 	<div class="header-top p-0">
 		<!--container-->
-		<div class="container-fluid row p-3 mx-0 d-flex justify-content-center">
+		<div class="container-fluid row p-3 mx-0 d-flex justify-content-center text-uppercase">
 			<div class="items-anuncios col-6 col-sm-6 col-lg-4">
 				<div class="header-left justify-content-center align-items-center">
 					<i class="icons-header-top fa-solid fa-truck"></i>
@@ -42,11 +42,11 @@
 
 	<!-- HEADER MIDDLE -->
 
-	<div class="header-middle sticky-header py-3"
+	<div class="header-middle sticky-header"
 		 data-sticky-options="{'mobile': true}">
 		<div class="container justify-content-around justify-content-lg-center" >
 		 <div  class="row justify-content-between w-100 m-0">
-			<div class="header-left col-7 col-sm-5 col-lg-3 w-100 px-0 px-lg-3 justify-content-center"
+			<div class="header-left col-7 col-sm-5 col-lg-3 px-0 px-lg-3 justify-content-center"
 				 th:each="logos:${logosTienda}">
 				<button class="mobile-menu-toggler text-primary" type="button">
 					<i class="fas fa-bars"></i>
@@ -89,16 +89,22 @@
 					<div class="col-lg-3 d-none d-lg-block">
 						<a th:href="@{/index/ofertas}" title="login">
 							<div class="d-flex flex-column align-items-center">
-								<i class="fas fa-gift"></i>
+								<img class="img-icons" th:src="@{'/images/icons/gift.svg'}" alt="gift-icon">
 								<span class="title-header-middle">OFERTAS</span>
 							</div>
 						</a>
 					</div>
 					<div class="col-6 col-lg-3 p-0">
 						<a th:href="@{/usuario/mi-cuenta}" title="Mi cuenta">
-							<div class="d-flex flex-column align-items-center">
-								<i class="icon-user-2"></i>
+							<div  th:if="${session.usuario == null}"
+								  class="d-flex flex-column align-items-center">
+								<img class="img-icons" th:src="@{'/images/icons/user.svg'}" alt="user-icon">
 								<span class="title-header-middle">CUENTA</span>
+							</div>
+							<div  th:unless="${session.usuario == null}"
+								  class="d-flex flex-column align-items-center">
+								<img class="img-icons" th:src="@{'/images/icons/user.svg'}" alt="user-icon">
+								<span class="title-header-middle" th:text="${session.usuario}"></span>
 							</div>
 						</a>
 					</div>
@@ -108,7 +114,7 @@
 							<a th:href="@{/index/carrito}" title="Cart" class="dropdown-toggle cart-toggle justify-content-center" role="button"
 							   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
 								<div class="d-flex flex-column align-items-center h-100">
-									<i class="fa-solid fa-bag-shopping"></i>
+									<img class="img-icons" th:src="@{'/images/icons/bag.svg'}" alt="bag-icon">
 									<!--<i class="minicart-icon" style="margin-bottom: 5px; font-size: 25px;"></i>-->
 									<span class="cart-count badge-circle"
 										  th:text="${session.carrito.size()}"></span>

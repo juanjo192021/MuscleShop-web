@@ -7,7 +7,7 @@
 
 .header-top p, .header-top a{
     font-weight: 700;
-    font-size: 12px;
+    font-size: 11px;
    /* margin: 0 0 0 10px;*/
 }
 .header-top a.text-whathsapp:hover{
@@ -39,11 +39,8 @@
     align-items: center;
 }
 
-.header-middle .header-right .icon-user-2{
-    font-size: 25px;
-}
-.header-right .fa-bag-shopping, .header-right .fa-gift {
-    font-size: 30px;
+.header-right .img-icons {
+    width: 30px;
 }
 
 .header-middle .header-right .title-header-middle{

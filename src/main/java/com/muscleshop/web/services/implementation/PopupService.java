@@ -1,7 +1,8 @@
-package com.muscleshop.web.services;
+package com.muscleshop.web.services.implementation;
 
 import java.util.List;
 
+import com.muscleshop.web.services.IPopupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,9 @@ public class PopupService implements IPopupService {
 	@Autowired
 	private IPopupDao popupDao;
 
-	public List<Popup> listarPopups(Integer estadoId) {
+	private Integer estadoId=1;
+
+	public List<Popup> obtenerPopups() {
 		/*return popupDao.findAllByEstado_Id(estadoId);*/
 		return  popupDao.findAll();
 	}

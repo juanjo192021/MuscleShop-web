@@ -2,7 +2,6 @@ package com.muscleshop.web.models;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -16,6 +15,7 @@ public class Producto {
 	private Integer id;
 	private String nombre;
 	private String imagen;
+	private String url;
 	private String descripcion;
 	private LocalDate fecha;
 	private String mostrar;
@@ -29,6 +29,9 @@ public class Producto {
 	@JoinColumn(name = "categoria_id")
 	private ProductoCategoria productoCategoria;
 
+	@OneToMany
+	@JoinColumn(name = "producto_id")
+	private List<ProductoVariacion> productoVariaciones;
 
 /*	@ManyToOne
 	@JoinColumn(name="agrupacion_id", nullable = false)
@@ -37,30 +40,12 @@ public class Producto {
 	@OneToOne(mappedBy  = "producto")
 	private ProductoInformacion productoInformacion;
 
-	@OneToMany(mappedBy = "producto")
-	private List<ProductoImagen> productoImagenes;
-	
-	@OneToMany(mappedBy = "producto")
-	@JsonIgnore
-	private List<ProductoPrecio> productoPrecios;
-
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	private List<ProductoMenuSub> productoMenusSub;
 
 	@OneToMany(mappedBy = "producto")
 	@JsonIgnore
-	private List<ProductoPropiedadDetalle> productoPropiedadesDetalles ;
-
-	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
-	private List<ProductoFormaProducto> productoFormasProducto;
-
-/*	@OneToMany(mappedBy = "productoPadre", cascade = CascadeType.ALL)
-	@JsonIgnore
-	private List<ProductoAgrupado> productosHijos;
-
-	@OneToMany(mappedBy = "productoHijo")
-	@JsonIgnore
-	private List<ProductoAgrupado> productosPadre;*/
+	private List<ProductoPropiedadesDetalles> productoPropiedadesDetalles ;
 
 	public Integer getId() {
 		return id;
@@ -84,6 +69,14 @@ public class Producto {
 
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getDescripcion() {
@@ -134,36 +127,12 @@ public class Producto {
 		this.productoCategoria = productoCategoria;
 	}
 
-/*	public Agrupacion getAgrupacion() {
-		return agrupacion;
-	}
-
-	public void setAgrupacion(Agrupacion agrupacion) {
-		this.agrupacion = agrupacion;
-	}*/
-
 	public ProductoInformacion getProductoInformacion() {
 		return productoInformacion;
 	}
 
 	public void setProductoInformacion(ProductoInformacion productoInformacion) {
 		this.productoInformacion = productoInformacion;
-	}
-
-	public List<ProductoImagen> getProductoImagenes() {
-		return productoImagenes;
-	}
-
-	public void setProductoImagenes(List<ProductoImagen> productoImagenes) {
-		this.productoImagenes = productoImagenes;
-	}
-
-	public List<ProductoPrecio> getProductoPrecios() {
-		return productoPrecios;
-	}
-
-	public void setProductoPrecios(List<ProductoPrecio> productoPrecios) {
-		this.productoPrecios = productoPrecios;
 	}
 
 	public List<ProductoMenuSub> getProductoMenusSub() {
@@ -174,35 +143,19 @@ public class Producto {
 		this.productoMenusSub = productoMenusSub;
 	}
 
-	public List<ProductoPropiedadDetalle> getProductoPropiedadesDetalles() {
+	public List<ProductoPropiedadesDetalles> getProductoPropiedadesDetalles() {
 		return productoPropiedadesDetalles;
 	}
 
-	public void setProductoPropiedadesDetalles(List<ProductoPropiedadDetalle> productoPropiedadesDetalles) {
+	public void setProductoPropiedadesDetalles(List<ProductoPropiedadesDetalles> productoPropiedadesDetalles) {
 		this.productoPropiedadesDetalles = productoPropiedadesDetalles;
 	}
 
-	public List<ProductoFormaProducto> getProductoFormasProducto() {
-		return productoFormasProducto;
+	public List<ProductoVariacion> getProductoVariaciones() {
+		return productoVariaciones;
 	}
 
-	public void setProductoFormasProducto(List<ProductoFormaProducto> productoFormasProducto) {
-		this.productoFormasProducto = productoFormasProducto;
+	public void setProductoVariaciones(List<ProductoVariacion> productoVariaciones) {
+		this.productoVariaciones = productoVariaciones;
 	}
-
-/*	public List<ProductoAgrupado> getProductosHijos() {
-		return productosHijos;
-	}
-
-	public void setProductosHijos(List<ProductoAgrupado> productosHijos) {
-		this.productosHijos = productosHijos;
-	}
-
-	public List<ProductoAgrupado> getProductosPadre() {
-		return productosPadre;
-	}
-
-	public void setProductosPadre(List<ProductoAgrupado> productosPadre) {
-		this.productosPadre = productosPadre;
-	}*/
 }

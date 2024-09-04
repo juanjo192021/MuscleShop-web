@@ -41,7 +41,6 @@ import com.muscleshop.web.services.MenuService;
 import com.muscleshop.web.services.MetodoPagoService;
 import com.muscleshop.web.services.PedidoProductoService;
 import com.muscleshop.web.services.PedidoService;
-import com.muscleshop.web.services.ProductoPrecioService;
 import com.muscleshop.web.services.ProductoService;
 import com.muscleshop.web.services.RedesSocialesService;
 import com.muscleshop.web.services.RolPerfilService;
@@ -63,9 +62,6 @@ public class UsuarioController {
 
 	@Autowired
 	MenuService menuService;
-
-	@Autowired
-	ProductoPrecioService proPrecioService;
 
 	@Autowired
 	ProductoService productoService;
@@ -182,6 +178,7 @@ public class UsuarioController {
 		return redesSocialesService.listarRedes();
 	}
 
+	/* OAuth2AuthenticationToken token*/
 	@GetMapping("/mi-cuenta")
 	public String miCuenta(HttpSession session, Model model) {
 		if (session.getAttribute("usuario") != null) {
@@ -192,6 +189,14 @@ public class UsuarioController {
 			model.addAttribute("usuarioPerfil", usuarioPerfil);
 			return "usuario/cuenta";
 		}
+/*		if (token.getPrincipal().getAttribute("name") != null) {
+			Usuario usuario = usuarioService.buscarUsuario(token.getPrincipal().getAttribute("email"));
+			UsuarioPerfil usuarioPerfil = usuPerfilService.buscarUsuario(usuario);
+
+			session.setAttribute("usuarioPerfil", usuarioPerfil);
+			model.addAttribute("usuarioPerfil", usuarioPerfil);
+			return "usuario/cuenta";
+		}*/
 		return "redirect:/login";
 	}
 
@@ -380,13 +385,13 @@ public class UsuarioController {
 							int cantidad = contenido.getCantidad();
 							Producto producto = contenido.getProducto();
 							double subtotal = contenido.getSub_total();
-							ProductoPropiedadDetalle productoPropiedadDetalle = contenido.getProductoProDetal();
+							ProductoPropiedadesDetalles productoPropiedadesDetalles = contenido.getProductoProDetal();
 
-							if (productoPropiedadDetalle == null) {
+							if (productoPropiedadesDetalles == null) {
 								PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, null);
 						        pedProService.guardarPedidoPro(pedidoProducto);
 						    } else {
-						        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoPropiedadDetalle);
+						        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoPropiedadesDetalles);
 						        pedProService.guardarPedidoPro(pedidoProducto);
 						    }
 						}
@@ -464,13 +469,13 @@ public class UsuarioController {
 							int cantidad = contenido.getCantidad();
 							Producto producto = contenido.getProducto();
 							double subtotal = contenido.getSub_total();
-							ProductoPropiedadDetalle productoPropiedadDetalle = contenido.getProductoProDetal();
+							ProductoPropiedadesDetalles productoPropiedadesDetalles = contenido.getProductoProDetal();
 
-							if (productoPropiedadDetalle == null) {
+							if (productoPropiedadesDetalles == null) {
 								PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, null);
 						        pedProService.guardarPedidoPro(pedidoProducto);
 						    } else {
-						        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoPropiedadDetalle);
+						        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoPropiedadesDetalles);
 						        pedProService.guardarPedidoPro(pedidoProducto);
 						    }
 						}
@@ -580,13 +585,13 @@ public class UsuarioController {
 				int cantidad = contenido.getCantidad();
 				Producto producto = contenido.getProducto();
 				double subtotal = contenido.getSub_total();
-				ProductoPropiedadDetalle productoPropiedadDetalle = contenido.getProductoProDetal();
+				ProductoPropiedadesDetalles productoPropiedadesDetalles = contenido.getProductoProDetal();
 
-				if (productoPropiedadDetalle == null) {
+				if (productoPropiedadesDetalles == null) {
 					PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, null);
 			        pedProService.guardarPedidoPro(pedidoProducto);
 			    } else {
-			        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoPropiedadDetalle);
+			        PedidoProducto pedidoProducto = new PedidoProducto(cantidad, subtotal, producto, pedidoNuevo, productoPropiedadesDetalles);
 			        pedProService.guardarPedidoPro(pedidoProducto);
 			    }
 			}

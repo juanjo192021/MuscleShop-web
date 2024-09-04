@@ -1,20 +1,32 @@
 package com.muscleshop.web.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "producto_propiedades_detalles")
-public class ProductoPropiedadDetalle {
+public class ProductoPropiedadesDetalles {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@ManyToOne
+	@JoinColumn(name = "producto_id")
+	private Producto producto;
+
+	@ManyToOne
+	@JoinColumn(name = "variacion_1")
+	private ProductoVariacion productoVariacion1;
+
+	@ManyToOne
+	@JoinColumn(name = "variacion_2")
+	private ProductoVariacion productoVariacion2;
 	private String imagen;
-	private Double precio;
 	private Integer stock;
+	private Double precio;
 
 	@Column(name = "precio_reducido")
 	private Double precioReducido;
@@ -28,20 +40,13 @@ public class ProductoPropiedadDetalle {
 	@Column(name = "precio_familiar")
 	private Double precioFamiliar;
 
-	@ManyToOne
-	@JoinColumn(name = "producto_id")
-	private Producto producto;
-
-	@ManyToOne
-	@JoinColumn(name = "propiedades_detalles_id")
-	private PropiedadesDetalles propiedadesDetalles;
-
-	@ManyToOne
-	@JoinColumn(name = "propiedades_detalles_id_2")
-	private PropiedadesDetalles propiedadesDetalles2;
-
-	@OneToMany(mappedBy = "productoPropiedadDetalle")
+	@OneToMany
+	@JoinColumn(name = "producto_propiedad_detalle_id")
 	private List<PropiedadDetalleImagen> propiedadesDetallesImagenes;
+
+	@ManyToOne
+	@JoinColumn(name = "producto_forma_id")
+	private ProductoForma productoForma;
 
 	@ManyToOne
 	@JoinColumn(name="estado_id")
@@ -71,20 +76,20 @@ public class ProductoPropiedadDetalle {
 		this.producto = producto;
 	}
 
-	public PropiedadesDetalles getPropiedadesDetalles() {
-		return propiedadesDetalles;
+	public ProductoVariacion getProductoVariacion1() {
+		return productoVariacion1;
 	}
 
-	public void setPropiedadesDetalles(PropiedadesDetalles propiedadesDetalles) {
-		this.propiedadesDetalles = propiedadesDetalles;
+	public void setProductoVariacion1(ProductoVariacion productoVariacion1) {
+		this.productoVariacion1 = productoVariacion1;
 	}
 
-	public PropiedadesDetalles getPropiedadesDetalles2() {
-		return propiedadesDetalles2;
+	public ProductoVariacion getProductoVariacion2() {
+		return productoVariacion2;
 	}
 
-	public void setPropiedadesDetalles2(PropiedadesDetalles propiedadesDetalles2) {
-		this.propiedadesDetalles2 = propiedadesDetalles2;
+	public void setProductoVariacion2(ProductoVariacion productoVariacion2) {
+		this.productoVariacion2 = productoVariacion2;
 	}
 
 	public Double getPrecio() {
@@ -141,6 +146,14 @@ public class ProductoPropiedadDetalle {
 
 	public void setPropiedadesDetallesImagenes(List<PropiedadDetalleImagen> propiedadesDetallesImagenes) {
 		this.propiedadesDetallesImagenes = propiedadesDetallesImagenes;
+	}
+
+	public ProductoForma getProductoForma() {
+		return productoForma;
+	}
+
+	public void setProductoForma(ProductoForma productoForma) {
+		this.productoForma = productoForma;
 	}
 
 	public Estado getEstado() {

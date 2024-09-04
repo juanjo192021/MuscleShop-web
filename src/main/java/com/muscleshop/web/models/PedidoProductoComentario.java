@@ -24,21 +24,15 @@ public class PedidoProductoComentario {
 	@OneToOne
 	@JoinColumn(name = "pedidos_productos_id")
 	private PedidoProducto pedidoProducto;
-	
-	@OneToOne
-	@JoinColumn(name = "comentario_mostrar_id")
-	private ComentarioMostrar comentarioMostrar;
 
 	public PedidoProductoComentario() {
 	}
 
-	public PedidoProductoComentario(String comentario, Estado estado, PedidoProducto pedidoProducto,
-			ComentarioMostrar comentarioMostrar) {
+	public PedidoProductoComentario(String comentario, Estado estado, PedidoProducto pedidoProducto) {
 		super();
 		this.comentario = comentario;
 		this.estado = estado;
 		this.pedidoProducto = pedidoProducto;
-		this.comentarioMostrar = comentarioMostrar;
 	}
 
 	public Integer getId() {
@@ -72,13 +66,4 @@ public class PedidoProductoComentario {
 	public void setPedidoProducto(PedidoProducto pedidoProducto) {
 		this.pedidoProducto = pedidoProducto;
 	}
-
-	public ComentarioMostrar getComentarioMostrar() {
-		return comentarioMostrar;
-	}
-
-	public void setComentarioMostrar(ComentarioMostrar comentarioMostrar) {
-		this.comentarioMostrar = comentarioMostrar;
-	}
-	
 }

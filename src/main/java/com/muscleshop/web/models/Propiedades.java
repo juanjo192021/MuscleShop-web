@@ -19,21 +19,6 @@ public class Propiedades {
 	private Integer id;
 	private String nombre;
 
-
-	@OneToMany(mappedBy = "propiedades")
-	@JsonIgnore
-	private List<PropiedadesDetalles> propiedadesDetalles;
-	
-	public Propiedades() {
-
-	}
-
-	public Propiedades(String nombre, List<PropiedadesDetalles> propiedadesDetalles) {
-		super();
-		this.nombre = nombre;
-		this.propiedadesDetalles = propiedadesDetalles;
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -49,22 +34,5 @@ public class Propiedades {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public List<PropiedadesDetalles> getPropiedadesDetalles() {
-		return propiedadesDetalles;
-	}
-
-	public void setPropiedadesDetalles(List<PropiedadesDetalles> propiedadesDetalles) {
-		this.propiedadesDetalles = propiedadesDetalles;
-	}
-	
-	
-	
-	
-	
-	
-
-	
-	
 
 }

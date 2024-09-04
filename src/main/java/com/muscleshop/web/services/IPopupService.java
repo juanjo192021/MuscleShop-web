@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IPopupService {
 
-    public List<Popup> listarPopups(Integer estadoId);
+    public List<Popup> obtenerPopups();
 }

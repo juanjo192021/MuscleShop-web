@@ -29,19 +29,19 @@ public class PedidoProducto {
 	
 	@OneToOne
 	@JoinColumn(name = "producto_propiedades_detalles_id")
-	private ProductoPropiedadDetalle productoPropiedadDetalle;
+	private ProductoPropiedadesDetalles productoPropiedadesDetalles;
 
 	public PedidoProducto() {
 	}
 
 	public PedidoProducto(Integer cantidad, double sub_total, Producto producto, Pedidos pedido,
-			ProductoPropiedadDetalle productoPropiedadDetalle) {
+			ProductoPropiedadesDetalles productoPropiedadesDetalles) {
 		super();
 		this.cantidad = cantidad;
 		this.sub_total = sub_total;
 		this.producto = producto;
 		this.pedido = pedido;
-		this.productoPropiedadDetalle = productoPropiedadDetalle;
+		this.productoPropiedadesDetalles = productoPropiedadesDetalles;
 	}
 
 	public Integer getId() {
@@ -84,12 +84,12 @@ public class PedidoProducto {
 		this.sub_total = sub_total;
 	}
 
-	public ProductoPropiedadDetalle getProductoProDetal() {
-		return productoPropiedadDetalle;
+	public ProductoPropiedadesDetalles getProductoProDetal() {
+		return productoPropiedadesDetalles;
 	}
 
-	public void setProductoProDetal(ProductoPropiedadDetalle productoPropiedadDetalle) {
-		this.productoPropiedadDetalle = productoPropiedadDetalle;
+	public void setProductoProDetal(ProductoPropiedadesDetalles productoPropiedadesDetalles) {
+		this.productoPropiedadesDetalles = productoPropiedadesDetalles;
 	}
 	
 

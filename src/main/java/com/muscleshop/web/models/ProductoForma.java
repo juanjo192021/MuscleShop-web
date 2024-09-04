@@ -15,10 +15,6 @@ public class ProductoForma {
 	private Integer id;
 	private String nombre;
 
-	@OneToMany(mappedBy = "productoForma", cascade = CascadeType.ALL)
-	@JsonIgnore
-	private List<ProductoFormaProducto> productoFormaProducto;
-
 	public Integer getId() {
 		return id;
 	}
@@ -35,11 +31,4 @@ public class ProductoForma {
 		this.nombre = nombre;
 	}
 
-	public List<ProductoFormaProducto> getProductoFormaProducto() {
-		return productoFormaProducto;
-	}
-
-	public void setProductoFormaProducto(List<ProductoFormaProducto> productoFormaProducto) {
-		this.productoFormaProducto = productoFormaProducto;
-	}
 }

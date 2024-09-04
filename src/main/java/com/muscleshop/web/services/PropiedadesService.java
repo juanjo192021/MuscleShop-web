@@ -14,6 +14,7 @@ public class PropiedadesService implements IPropiedadesService {
 
     @Override
     public List<Propiedades> findProductosPropiedadesByMenuSubUrl(String menuSubUrl, Integer estado) {
-        return iPropiedadesDao.findProductosPropiedadesByMenuSubUrl(menuSubUrl,estado);
+        /*return iPropiedadesDao.findProductosPropiedadesByMenuSubUrl(menuSubUrl,estado);*/
+        return iPropiedadesDao.findAll();
     }
 }

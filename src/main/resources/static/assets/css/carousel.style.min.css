@@ -25,14 +25,16 @@ section .carousel-control-prev{
     cursor: pointer;
 }
 
-.owl-item{
-
-}
 /*CAROUSEL COMPLEMENTO*/
 
-.img-owl-carousel{
+#section-objetivos img{
     display: block;
-    height: 313px;
+    height: 270px;
+    object-fit: cover;
+}
+#section-best-sellers .img-owl-carousel{
+    display: block;
+    height: 240px;
     object-fit: cover;
 }
 .new-products-section .owl-carousel .product-category {
@@ -78,10 +80,45 @@ section .carousel-control-prev{
 .owl-nav{
     display: block;
 }
-@media screen and (max-width: 1200px){
-/*    #section-carousel #carouselExampleInterval img{
-        height: 348px;
-    }*/
+
+/*.link-objetivos{
+    position: relative;
+}
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 1;
+}
+.card-title{
+    color: #FFFFFF;
+}
+.card-title:hover{
+    color: #000000;
+}*/
+
+.link-objetivos:hover{
+    opacity: 0.8;
+}
+#section-objetivos .card-title{
+    color: #ffffff;
+    font-weight: normal;
+    transition: font-weight 0.3s ease-out;
+}
+#section-objetivos .card-title:hover{
+    font-weight: bolder;
+    transition: font-weight 0.3s ease-out;
+}
+
+@media screen and (1440px<width<2550px){
+    .carousel-item img{
+        height: 470px;
+    }
+}
+@media screen and (992px<width<=1440px){
+    .carousel-item img{
+        height: 430px;
+    }
 }
 
 @media screen and  (max-width: 992px) {

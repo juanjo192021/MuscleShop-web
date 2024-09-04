@@ -6,7 +6,6 @@ public class MenuDto {
     private String nombre;
     private String url;
     private String imagen;
-    private String nombreMenuTipo;
     private String estado;
 
 
@@ -40,14 +39,6 @@ public class MenuDto {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
-    }
-
-    public String getNombreMenuTipo() {
-        return nombreMenuTipo;
-    }
-
-    public void setNombreMenuTipo(String nombreMenuTipo) {
-        this.nombreMenuTipo = nombreMenuTipo;
     }
 
     public String getEstado() {

@@ -79,27 +79,9 @@
 
 
 						<div class="product-slider-containers">
-							<!--<div class="product-single-carousel owl-carousel owl-theme show-nav-hover" id="prueba">
-                                <div class="product-item" id="propiedades-detalles-img-individuales" th:each="imagen : ${propiedadesDetallesImagenes}" >
-                                    <img class="product-single-image" th:src="@{'/images/productos/' + ${imagen.nombre}}"
-                                         width="468"
-                                         height="468" alt="product"/>
-                                </div>
-                            </div>
 
-
-                            <span class="prod-full-screen">
-                                <i class="icon-plus"></i>
-                            </span>-->
 						</div>
 
-						<!--<div class="prod-thumbnail owl-dots">
-                            <div class="owl-dot" th:each="imagen : ${propiedadesDetallesImagenes}">
-                                <img th:src="@{'/images/productos/' + ${imagen.nombre}}" width="110" height="110"
-                                    alt="product-thumbnail" />
-                            </div>
-
-                        </div>-->
 					</div>
 
 
@@ -117,11 +99,11 @@
 							<hr class="large-divider my-3 pb-4">
 							<div class="price-box">
 								<!--<span class="old-price" th:text="'S/. ' + ${producto.}"></span>-->
-								<span class="old-price" th:text="'S/. 1500'"></span>
+								<span class="old-price" th:text="${precio}"></span>
 								<!--<span id="precioProducto" class="new-price"
                                     th:text="'S/. ' + ${precios[producto.id]}"></span>-->
 								<span id="precioProducto" class="new-price"
-									  th:text="'S/. 1200'"></span>
+									  th:text="${precioReducido}"></span>
 							</div>
 
 							<hr class="divider my-4">
@@ -162,10 +144,10 @@
 								<select class="form-select" aria-label="Large select example" id="presentacion">
 									<option disabled>Seleccionar </option>
 									<option th:each="presentaciones : ${agrupacionDetallesPresentacion}"
-											th:attr="selected=${detalleNombre == presentaciones.nombre ? 'selected' : null}, data-id=${presentaciones.id}"
+											th:attr="selected=${detalleNombre == presentaciones.valor ? 'selected' : null}, data-id=${presentaciones.id}"
 											href="javascript:;"
 											class="d-flex align-items-center justify-content-center"
-											th:text="${presentaciones.nombre}"
+											th:text="${presentaciones.valor}"
 											th:value="${presentaciones.id}">
 										<!--th:attr="data-id=${presentaciones.nombre}"-->
 									</option>
@@ -184,16 +166,15 @@
                                     </option>
                                 </select>
                             </div>-->
-
 							<div class="product-single-filter" th:if="${not #lists.isEmpty(agrupacionDetallesSabor)}">
 								<label class="font2">Sabores:</label>
 								<select class="form-select" aria-label="Large select example" id="sabor">
 									<option disabled>Seleccionar </option>
 									<option th:each="sabores: ${agrupacionDetallesSabor}"
-											th:attr="selected=${detalleModificado == sabores.nombre ? 'selected' : null}, data-id=${sabores.id}"
+											th:attr="selected=${detalleModificado == sabores.valor ? 'selected' : null}, data-id=${sabores.id}"
 											href="javascript:;"
 											class="d-flex align-items-center justify-content-center"
-											th:text="${sabores.nombre}"
+											th:text="${sabores.valor}"
 											th:value="${sabores.id}">
 										<!--th:attr="data-id=${sabores.nombre}"-->
 									</option>
@@ -454,34 +435,17 @@
 
 <script>
 
-/*	$(function(){
-		$(".xzoom, .xzoom-gallery").xzoom({
-			position:"lens",
-			zoomWidth:500,
-			smoothZoomMove: 1,
-			smoothLensMove:1,
-			smoothScale:6,
-			defaultScale:0,
-			tint: "#333",
-			lensShape: "circle",
-			fadeOut:true,
-			lensCollision:true,
-			lensReverse:true,
-			openOnSmall:true,
-		});
-	});*/
-
 	$(document).ready(function() {
 		function obtenerPrecio() {
-			var _presentacion = $('#presentacion').val();
-			var _sabor = $('#sabor').val();
+			var _presentacion = $('#presentacion option:selected').text();
+			var _sabor = $('#sabor option:selected').text();
 			var _productoId = $('#productoId').val();
 
 			$.ajax({
 				method: 'GET',
-				url: '/next/index/buscarPropiedadDetalleImagen',
+				url: '/index/buscarPropiedadDetalleImagen',
 				dataType: "json",
-				data: { productoId: parseInt(_productoId), presentacion: parseInt(_presentacion), sabor: parseInt(_sabor) },
+				data: { productoId: parseInt(_productoId), presentacion: _presentacion, sabor: _sabor },
 				success: function(response) {
 					// Si ya existe una imagen, actualizamos sus atributos en lugar de eliminarla
 					console.log(response);
@@ -491,7 +455,7 @@
 					oldPrice.text("S/." + response.precio);
 					newPrice.text("S/." + response.precioReducido);
 
-					if(response.stock == 0){
+					if(response.stock === 0){
 						message.removeClass('d-none');
 						message.addClass('d-block');
 					} else {

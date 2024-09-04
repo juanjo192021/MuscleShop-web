@@ -5,6 +5,7 @@ package com.muscleshop.web.models.dto;
 public class ProductoItemsDto {
     private Integer id;
     private String nombre;
+    private String urlProducto;
     private String imagen;
     private String nombreCategoria;
     private String urlCategoria;
@@ -35,6 +36,14 @@ public class ProductoItemsDto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getUrlProducto() {
+        return urlProducto;
+    }
+
+    public void setUrlProducto(String urlProducto) {
+        this.urlProducto = urlProducto;
     }
 
     public String getImagen() {

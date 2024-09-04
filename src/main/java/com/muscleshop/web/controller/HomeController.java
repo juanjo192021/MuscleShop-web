@@ -5,6 +5,7 @@ import java.util.*;
 import com.muscleshop.web.models.*;
 import com.muscleshop.web.models.dto.*;
 import com.muscleshop.web.services.*;
+import com.muscleshop.web.services.implementation.ProductoPropiedadDetalleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class HomeController {
 	IArticuloService articuloService;
 
 	@Autowired
+	IProductoPropiedadesDetallesService productoPropiedadesDetallesService;
+
+	@Autowired
 	ArticuloComService artiComService;
 
 	@Autowired
@@ -48,9 +52,6 @@ public class HomeController {
 
 	@Autowired
 	ProductoCategoriaService proCateService;
-
-	@Autowired
-	ProductoPrecioService proPrecioService;
 
 	@Autowired
 	ProDetalService proDetalService;
@@ -68,7 +69,7 @@ public class HomeController {
 	HeaderService headerService;
 
 	@Autowired
-	ProductoPropiedadDetalleService productoProDetService;
+	IProductoPropiedadesDetallesService iProductoPropiedadesDetallesService;
 
 	@Autowired
 	LogosService logosService;
@@ -175,18 +176,19 @@ public class HomeController {
 		return ResponseEntity.ok(producto);
 	}
 
-	@GetMapping("/prueba2")
+/*	@GetMapping("/prueba2")
 	@ResponseBody
-	public ResponseEntity<ProductoPropiedadDetalle> respta() {
-		ProductoPropiedadDetalle a = productoPropiedadDetalleService.obtenerProductoPropiedadDetallePorVariaciones(9, 12, 8);
+	public ResponseEntity<ProductoPropiedadesDetalles> respta() {
+		ProductoPropiedadesDetalles a = productoPropiedadDetalleService.obtenerProductoPropiedadDetallePorVariaciones(9, 12, 8);
 		return ResponseEntity.ok(a);
 	}
-
+*/
 	@GetMapping("/prueba3")
 	@ResponseBody
-	public ResponseEntity<List<ProductoItemsDto>> respues() {
-		List<ProductoItemsDto> productos = productoProDetService.listarProductosIndividualesPorMenuSubId(null, null, 1);
-		return ResponseEntity.ok(productos);
+	public ResponseEntity<List<ProductoPropiedadesDetalles>> respues() {
+		List<ProductoPropiedadesDetalles> productoPropiedadesDetalles= productoPropiedadesDetallesService.obtenerProductoPropiedadesDetallesPorForma(2);
+
+		return ResponseEntity.ok(productoPropiedadesDetalles);
 	}
 
 	// MENÚS
@@ -196,8 +198,7 @@ public class HomeController {
 
 		/*List<Producto> productos = productoService.listarProducto();*/
 
-		Integer estadoId = 1;
-		List<Banner> banners = bannerService.listarBanners(estadoId);
+		List<Banner> banners = bannerService.obtenerBanners();
 
 		List<Banner> bannerMovilTablet = banners.stream()
 				.filter(ban -> "movil_tablet".equals(ban.getTipoDispositivo()))
@@ -207,10 +208,8 @@ public class HomeController {
 				.filter(ban -> "laptop_pc".equals(ban.getTipoDispositivo()))
 				.toList();
 
-		List<Popup> popups = popupService.listarPopups(estadoId);
+		List<Popup> popups = popupService.obtenerPopups();
 
-		Integer cantidadArticulos = 3;
-		List<Articulo> articulosBlog = articuloService.listarArticulosPorCantidad(cantidadArticulos, estadoId);
 
 		/*{1,Inicio,inicio},
 		{2,Categorias,categorias},
@@ -226,9 +225,12 @@ public class HomeController {
 		List<MenuSub> subMenus = menuSubService.obtenerMenuSubsPorMenuId(menuId);
 
 		/*[{1,normal},{2,bestsellers},{3,ofertas}]*/
-		List<Producto> productosPorForma = productoService.obtenerResultado(2, 1);
+		List<ProductoPropiedadesDetalles> productoPropiedadesDetalles = productoPropiedadesDetallesService.obtenerProductoPropiedadesDetallesPorForma(2);
 
-		List<PedidoProductoComentario> comentariosProductos = pedProComService.comentariosMostrables();
+		Integer cantidadArticulos = 4;
+		List<Articulo> articulosBlog = articuloService.obtenerArticulosPorCantidad(cantidadArticulos);
+
+		List<PedidoProductoComentario> comentariosProductos = pedProComService.comentariosMostrables(1);
 
 		List<Marketplace> marketplaces = iMarketplaceService.listarMarketplaces();
 
@@ -239,7 +241,7 @@ public class HomeController {
 		model.addAttribute("bannerLaptopPc", bannerLaptopPc);
 		model.addAttribute("articulosBlog", articulosBlog);
 		model.addAttribute("subMenu", subMenus);
-		model.addAttribute("productosPorForma", productosPorForma);
+		model.addAttribute("productosPorForma", productoPropiedadesDetalles);
 		model.addAttribute("comentariosProductos", comentariosProductos);
 		model.addAttribute("marketplaces", marketplaces);
 
@@ -268,49 +270,6 @@ public class HomeController {
 		return "inicio";
 	}
 
-	@GetMapping("/inicio/{categoriaUrl}")
-	public String listarProCateInicio(Model model, @PathVariable String categoriaUrl) {
-
-		/*ProductoCategoria proCategoria = proCateService.obtenerUrl(categoriaUrl);
-		List<Producto> proCate = productoService.listarProCate(categoriaUrl);*/
-		/*Menu menu = menuService.listarMenuPorUrl(categoriaUrl);*/
-
-		//*model.addAttribute("proCateUrl", menu.getUrl());
-		//model.addAttribute("proCate", proCate);
-		//model.addAttribute("nombreCategoria", menu.getNombre());
-		//*
-		/*model.addAttribute("menuUrl", menu.getUrl());
-		//
-		model.addAttribute("menuNombre", menu.getNombre());*/
-
-		return "anonimo/inicioCate";
-	}
-
-/*@GetMapping("/inicio/{categoriaUrl}/{id}")
-public String verProductoInicio(@PathVariable("id") int id, @PathVariable String categoriaUrl, Model model,
-		HttpSession session) {
-
-	ProductoCategoria procate = proCateService.obtenerUrl(categoriaUrl);
-
-	Producto proDetalles = productoService.listarProductoPorID(id);
-
-	List<ProductoPropiedadDetalle> detallePresentacion = productoProDetService.obtenerPorTipoDePropiedad(id, 1);
-	List<ProductoPropiedadDetalle> detalleTam = productoProDetService.obtenerPorTipoDePropiedad(id, 3);
-	List<ProductoPropiedadDetalle> detalleColor = productoProDetService.obtenerPorTipoDePropiedad(id, 2);
-	List<ProductoPropiedadDetalle> detalleSabor = productoProDetService.obtenerPorTipoDePropiedad(id, 4);
-
-	model.addAttribute("detallePresentacion", detallePresentacion);
-	model.addAttribute("detalleTam", detalleTam);
-	model.addAttribute("detalleColor", detalleColor);
-	model.addAttribute("detalleSabor", detalleSabor);
-
-	model.addAttribute("proCateUrl", procate);
-	model.addAttribute("producto", proDetalles);
-
-
-	return "anonimo/detalle";
-}*/
-
 	@GetMapping("/{menuUrl}")
 	public String menuProducto(Model model, @PathVariable String menuUrl, HttpSession session) {
 
@@ -320,11 +279,10 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 		menuDto.setNombre(menu.getNombre());
 		menuDto.setImagen(menu.getImagen());
 		menuDto.setUrl(menu.getUrl());
-		menuDto.setNombreMenuTipo(menu.getMenuTipo().getNombre());
 		menuDto.setEstado(menu.getEstado().getNombre());
 
 		if(menu.getId()==7) {
-			List<Articulo> arti = articuloService.listarArticulo();
+			List<Articulo> arti = articuloService.obtenerArticulos();
 			model.addAttribute("articulo", arti);
 			return "porBlog/menuBlog";
 		}
@@ -351,7 +309,6 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 		}
 	}
 
-	//@GetMapping("/categorias/{MenuSubUrl}")
 	@GetMapping("/{menuUrl}/{menuSubUrl}")
 	public String productoCategoria(Model model,
 									@PathVariable String menuUrl,
@@ -360,22 +317,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 									@RequestParam(required = false) Double maxPrecio,
 									HttpSession session) {
 
-
-
-
 		Menu menu = menuService.obtenerMenuPorUrl(menuUrl);
-/*		Integer propiedadesId = 0;
-		String nombrePropiedad = null;
-		if (menu.getId() == null) {
-			propiedadesId = 0;
-			nombrePropiedad = "";
-		} else if (menu.getId() == 2 || menu.getId() == 5) {
-			propiedadesId = 1;
-			nombrePropiedad = "Presentación";
-		} else if (propiedadNombre.equals("Tamaños")) {
-			propiedadesId = 4;
-			nombrePropiedad = "Tamaños";
-		}*/
 		MenuSub menuSub = menuSubService.obtenerMenuSubPorUrl(menuSubUrl);
 
 		List<BannerMenuSub> bannerMovilTablet = (menuSub.getBannerMenuSub()).stream()
@@ -447,23 +389,22 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 					return menuSubDto;
 				}).toList();
 
-		List<ProductoItemsDto> productos = productoProDetService.listarProductosIndividualesPorMenuSubId(minPrecio, maxPrecio, menuSub.getId());
+		List<ProductoItemsDto> productos = iProductoPropiedadesDetallesService.obtenerProductosIndividualesPorMenuSubId(minPrecio, maxPrecio, menuSub.getId());
 
 		model.addAttribute("nombreMenuSub", menuSub.getNombre());
-		/*model.addAttribute("bannerMenuSub", menuSub.getBanner());*/
+		//*model.addAttribute("bannerMenuSub", menuSub.getBanner());*//*
 		model.addAttribute("bannerMenuSubMovilTablet", bannerMovilTablet);
 		model.addAttribute("bannerMenuSubLaptopPc", bannerLaptopPc);
 		model.addAttribute("categoriasMenuSub", categoriasMenuSubDto);
 		model.addAttribute("otrasCategoriasMenuSubs", otrasCategoriasDto);
 		model.addAttribute("porObjetivos", porObjetivosDto);
 		model.addAttribute("porMarcas", porMarcasDto);
-		/*model.addAttribute("nombrePropiedad", nombrePropiedad);*/
+		//*model.addAttribute("nombrePropiedad", nombrePropiedad);*//*
 		model.addAttribute("productos", productos);
 
 		return "porProductos/subMenuProductos";
 	}
 
-	//@GetMapping("/categorias/{MenuSubUrl}/{categoriaUrl}")
 	@GetMapping("/{menuUrl}/{menuSubUrl}/{categoriaUrl}")
 	public String listarProCate(Model model,
 								HttpSession session,
@@ -539,7 +480,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 
 		ProductoCategoria productoCategoria = productoCategoriaService.obtenerProductoCategoriaPorUrl(categoriaUrl);
 
-		List<ProductoItemsDto> productos = productoProDetService.listarProductosIndividualesPorCategoriaId(minPrecio, maxPrecio, productoCategoria.getId());
+		List<ProductoItemsDto> productos = iProductoPropiedadesDetallesService.obtenerProductosIndividualesPorCategoriaId(minPrecio, maxPrecio, productoCategoria.getId());
 
 		model.addAttribute("nombreMenuSub", menuSub.getNombre());
 		model.addAttribute("bannerMenuSub", menuSub.getBanner());
@@ -552,70 +493,51 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 		return "porProductos/categoriaPro";
 	}
 
-	// Método para verificar si la lista contiene un nombre específico
-	private boolean containsNombre(List<Detalles> lista, String nombre) {
-		for (Detalles detalle : lista) {
-			if (detalle.getNombre().equals(nombre)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	//@GetMapping("/categorias/{MenuSubUrl}/{categoriaUrl}/{id}")
-	@GetMapping("/{menuUrl}/{MenuSubUrl}/{categoriaUrl}/detalleProducto")
+	@GetMapping("/{menuUrl}/{menuSubUrl}/{categoriaUrl}/{productoUrl}")
 	public String verProducto(@PathVariable String menuUrl,
-							  @PathVariable String MenuSubUrl,
+							  @PathVariable String menuSubUrl,
 							  @PathVariable String categoriaUrl,
-							  @RequestParam int productoId,
+							  @PathVariable String productoUrl,
 							  @RequestParam(required = false) String detalleNombre,
 							  @RequestParam(required = false) String detalleModificado,
 							  Model model,
 							  HttpSession session) {
 
 
-		Producto producto = productoService.listarProductoPorID(productoId);
+		Producto producto = productoService.obtenerProductoPorUrl(productoUrl);
+
+		ProductoPropiedadesDetalles productoPropiedadesDetalles = productoPropiedadDetalleService.obtenerProductoPropiedadDetallesPorVariaciones(producto.getId(),detalleNombre,detalleModificado);
 
 		List<PropiedadDetalleImagen> propiedadesDetallesImagenes = new ArrayList<>();
-		for (ProductoPropiedadDetalle dtl : producto.getProductoPropiedadesDetalles()) {
+		for (PropiedadDetalleImagen pdi : productoPropiedadesDetalles.getPropiedadesDetallesImagenes()) {
 
-			for (PropiedadDetalleImagen pdi : dtl.getPropiedadesDetallesImagenes()) {
-				PropiedadDetalleImagen propiedadDetalleImagen = new PropiedadDetalleImagen();
-				propiedadDetalleImagen.setId(pdi.getId());
-				propiedadDetalleImagen.setNombre(pdi.getNombre());
-				propiedadesDetallesImagenes.add(propiedadDetalleImagen);
-			}
+			PropiedadDetalleImagen propiedadDetalleImagen = new PropiedadDetalleImagen();
+			propiedadDetalleImagen.setId(pdi.getId());
+			propiedadDetalleImagen.setNombre(pdi.getNombre());
+			propiedadesDetallesImagenes.add(propiedadDetalleImagen);
+
 		}
 		// Inicializar listas para cada propiedad
-		List<Detalles> listaDetallesPresentacion = new ArrayList<>();
-		List<Detalles> listaDetallesColor = new ArrayList<>();
-		List<Detalles> listaDetallesTamanio = new ArrayList<>();
-		List<Detalles> listaDetallesSabor = new ArrayList<>();
+		List<ProductoVariacion> listaDetallesPresentacion = new ArrayList<>();
+		List<ProductoVariacion> listaDetallesColor = new ArrayList<>();
+		List<ProductoVariacion> listaDetallesTamanio = new ArrayList<>();
+		List<ProductoVariacion> listaDetallesSabor = new ArrayList<>();
 
-		for (ProductoPropiedadDetalle detalle : producto.getProductoPropiedadesDetalles()) {
-			String presentacionNombre = detalle.getPropiedadesDetalles().getDetalles().getNombre();
-			Detalles presentacion = new Detalles();
-			presentacion.setId(detalle.getPropiedadesDetalles().getDetalles().getId());
-			presentacion.setNombre(presentacionNombre);
+		for (ProductoVariacion productoVariacion : producto.getProductoVariaciones()) {
 
-			String saborNombre = detalle.getPropiedadesDetalles2().getDetalles().getNombre();
-			Detalles sabor = new Detalles();
-			sabor.setId(detalle.getPropiedadesDetalles2().getDetalles().getId());
-			sabor.setNombre(saborNombre);
-
-			// Agregar Presentación si no está en la lista
-			if (!containsNombre(listaDetallesPresentacion, presentacionNombre)) {
-				listaDetallesPresentacion.add(presentacion);
-			}
-
-			// Agregar Sabor si no está en la lista
-			if (!containsNombre(listaDetallesSabor, saborNombre)) {
-				listaDetallesSabor.add(sabor);
+			switch (productoVariacion.getPropiedades().getId()){
+				case 1: listaDetallesPresentacion.add(productoVariacion);break;
+				case 2: listaDetallesColor.add(productoVariacion);break;
+				case 3: listaDetallesTamanio.add(productoVariacion);break;
+				case 4: listaDetallesSabor.add(productoVariacion);break;
+				default: listaDetallesPresentacion.add(new ProductoVariacion());break;
 			}
 		}
 
 
 		model.addAttribute("producto", producto);
+		model.addAttribute("precio", productoPropiedadesDetalles.getPrecio());
+		model.addAttribute("precioReducido", productoPropiedadesDetalles.getPrecioReducido());
 
 		model.addAttribute("propiedadesDetallesImagenes", propiedadesDetallesImagenes);
 
@@ -632,10 +554,10 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 
 	@GetMapping("/buscarPropiedadDetalleImagen")
 	@ResponseBody
-	public ResponseEntity<ProductoPropiedadDetalle> buscarPropiedadDetalleImagen(Integer productoId,
-																				 Integer presentacion,
-																				 Integer sabor) {
-		ProductoPropiedadDetalle a = productoPropiedadDetalleService.obtenerProductoPropiedadDetallePorVariaciones(productoId,
+	public ResponseEntity<ProductoPropiedadesDetalles> buscarPropiedadDetalleImagen(Integer productoId,
+                                                                                    String presentacion,
+                                                                                    String sabor) {
+		ProductoPropiedadesDetalles a = productoPropiedadDetalleService.obtenerProductoPropiedadDetallesPorVariaciones(productoId,
 				presentacion,
 				sabor);
 		if (a == null) {
@@ -883,17 +805,17 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 	// MENÚ BLOG
 	@GetMapping("/blog")
 	public String blog(HttpSession session, Model model) {
-		List<Articulo> arti = articuloService.listarArticulo();
+		List<Articulo> arti = articuloService.obtenerArticulos();
 		model.addAttribute("articulo", arti);
 		return "porBlog/menuBlog";
 	}
 
 	@GetMapping("blog/ver-blog/{id}")
 	public String verBlog(@PathVariable("id") int id, Model model, HttpSession session) {
-		Articulo artiVer = articuloService.listarArticuloID(id);
+		Articulo artiVer = articuloService.obtenerArticuloPorID(id);
 		session.setAttribute("articulo", artiVer);
 
-		List<Articulo> arti = articuloService.listarArticulo();
+		List<Articulo> arti = articuloService.obtenerArticulos();
 		int size = arti.size();
 		int startIndex = Math.max(size - 2, 0);
 		List<Articulo> ultimosArti = arti.subList(startIndex, size);
@@ -905,7 +827,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 	@PostMapping("/blog/agregar-comentario/{id}")
 	public String agregarComentario(@PathVariable("id") int id, @RequestParam("nombre") String nombre,
 									@RequestParam("comentario") String comentario, HttpSession session) {
-		Articulo articulo = articuloService.listarArticuloID(id);
+		Articulo articulo = articuloService.obtenerArticuloPorID(id);
 
 		ArticuloComentario nuevoComentario = new ArticuloComentario();
 		nuevoComentario.setArticulo(articulo);
@@ -958,7 +880,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 	}
 */
 	// CARRITO DE COMPRAS
-	@GetMapping("/carrito")
+/*	@GetMapping("/carrito")
 	public String carrito(Model model, HttpSession session) {
 
 		List<Producto> proCate = productoService.listarProducto();
@@ -995,7 +917,7 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 
 
 		return "anonimo/carrito";
-	}
+	}*/
 
 	// MÉTODO PARA AGREGAR PRODUCTOS AL CARRITO
 	@SuppressWarnings("unchecked")
@@ -1131,16 +1053,16 @@ public String verProductoInicio(@PathVariable("id") int id, @PathVariable String
 	
 	//fin cupones
 
-	@GetMapping("/precioPresentacion")
+/*	@GetMapping("/precioPresentacion")
 	@ResponseBody
 	public double actualizarPrecioPorPresentacion(@RequestParam("idPresentacion") int idPresentacion) {
-	    List<ProductoPropiedadDetalle> productos = productoProDetService.obtenerProductosPorIdPresentacion(idPresentacion);
+	    List<ProductoPropiedadesDetalles> productos = productoProDetService.obtenerProductosPorIdPresentacion(idPresentacion);
 	    if (!productos.isEmpty()) {
 	        return productos.get(0).getPrecio();
 	    } else {
 	        return 0.0;
 	    }
-	}
+	}*/
 	
 	// Buscar un producto
 	@GetMapping("/productobuscar")

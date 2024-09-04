@@ -1,15 +1,12 @@
 package com.muscleshop.web.services;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.muscleshop.web.models.*;
 import com.muscleshop.web.models.dto.ProductoCarritoDto;
 import com.muscleshop.web.models.dto.ProductoItemsDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.muscleshop.web.dao.IProductoDao;
@@ -29,6 +26,10 @@ public class ProductoService {
 
 	public Producto listarProductoPorID(Integer id) {
 		return productoDao.findById(id).orElse(null);
+	}
+
+	public Producto obtenerProductoPorUrl(String productoUrl){
+		return productoDao.findByUrl(productoUrl);
 	}
 
 /*	public List<Producto> listarProCate(String categoriaUrl) {
@@ -54,14 +55,14 @@ public class ProductoService {
 	}
 
 
-	public List<Producto> obtenerResultado(Integer productoFormaId,Integer estadoId){
+/*	public List<Producto> obtenerResultado(Integer productoFormaId,Integer estadoId){
 		return productoDao.listarProductosPorForma(productoFormaId, estadoId);
-	}
+	}*/
 
 	public ProductoCarritoDto obtenerProductoPorProductoPropiedadId(Integer id) {
 		Producto producto = productoDao.findByProductoPropiedadesDetalles_Id(id);
 		ProductoCarritoDto productoCarritoDto = new ProductoCarritoDto();
-		for (ProductoPropiedadDetalle ppd : producto.getProductoPropiedadesDetalles()) {
+		for (ProductoPropiedadesDetalles ppd : producto.getProductoPropiedadesDetalles()) {
 			if(ppd.getId() == id){
 				/*
 				*     private int productoId;
@@ -78,8 +79,8 @@ public class ProductoService {
 				productoCarritoDto.setProductoPropiedadDetalleId(ppd.getId());
 				productoCarritoDto.setNombreProducto(producto.getNombre());
 				productoCarritoDto.setImagenProducto(ppd.getImagen());
-				productoCarritoDto.setNombrePropiedadDetalle(ppd.getPropiedadesDetalles().getDetalles().getNombre());
-				productoCarritoDto.setNombrePropiedadDetalle2(ppd.getPropiedadesDetalles2().getDetalles().getNombre());
+				/*productoCarritoDto.setNombrePropiedadDetalle(ppd.getPropiedadesDetalles().getDetalles().getNombre());
+				productoCarritoDto.setNombrePropiedadDetalle2(ppd.getPropiedadesDetalles2().getDetalles().getNombre());*/
 				productoCarritoDto.setPrecio(ppd.getPrecio());
 				productoCarritoDto.setPrecioReducido(ppd.getPrecioReducido());
 			}
@@ -87,7 +88,7 @@ public class ProductoService {
 		return productoCarritoDto;
 	}
 
-	public List<ProductoItemsDto> listarProductosIndividualesPorMenuSubId(Double minPrecio, Double maxPrecio, Integer menuSubId) {
+/*	public List<ProductoItemsDto> listarProductosIndividualesPorMenuSubId(Double minPrecio, Double maxPrecio, Integer menuSubId) {
 
 		List<Producto> productos = new ArrayList<>();
 		if(minPrecio == null && maxPrecio == null){
@@ -110,14 +111,14 @@ public class ProductoService {
 		}
 
 		return listarProductosItemsModificados(productos);
-	}
+	}*/
 
 	public List<ProductoItemsDto> listarProductosItemsModificados(List<Producto> productos){
 
 		List<ProductoItemsDto> productosIndividuales = new ArrayList<>();
 
 		for(Producto producto: productos){
-			for(ProductoPropiedadDetalle ppd : producto.getProductoPropiedadesDetalles()){
+			for(ProductoPropiedadesDetalles ppd : producto.getProductoPropiedadesDetalles()){
 				ProductoItemsDto nuevoProducto = new ProductoItemsDto();
 				nuevoProducto.setId(producto.getId());
 				nuevoProducto.setNombre(producto.getNombre());
@@ -130,9 +131,9 @@ public class ProductoService {
 				nuevoProducto.setPrecio(ppd.getPrecio());
 				nuevoProducto.setPrecioReducido(ppd.getPrecioReducido());
 				nuevoProducto.setStock(ppd.getStock());
-				nuevoProducto.setDetalleNombre(ppd.getPropiedadesDetalles().getDetalles().getNombre());
+				/*nuevoProducto.setDetalleNombre(ppd.getPropiedadesDetalles().getDetalles().getNombre());
 				nuevoProducto.setDetalleModificado(ppd.getPropiedadesDetalles2() == null ? "Sin sabor" : ppd.getPropiedadesDetalles2().getDetalles().getNombre());
-				nuevoProducto.setPropiedadNombre(ppd.getPropiedadesDetalles().getPropiedades().getNombre());
+				nuevoProducto.setPropiedadNombre(ppd.getPropiedadesDetalles().getPropiedades().getNombre());*/
 				for(ProductoMenuSub pms : ppd.getProducto().getProductoMenusSub()){
 					if(pms.getMenuSub().getMenu().getId() == 6){
 						nuevoProducto.setNombreMarca(pms.getMenuSub().getNombre());

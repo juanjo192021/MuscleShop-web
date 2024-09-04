@@ -17,6 +17,17 @@
 				<h2 class="title-login">Inicia Sesión</h2>
 			</div>
 			<div class="px-5">
+				<a th:href="@{/oauth2/authorization/google}"
+				   class="btn btn-primary btn-lg btn-block border-0"
+				   style="background-color: #55acee;margin: 20px 30px 0 30px;width: auto;padding-top: 8px;padding-bottom: 8px;border-radius: 5px;font-size: 12px;">
+					<i class="fab fa-google mr-2"></i>Continuar con Google
+				</a>
+				<a class="btn btn-primary btn-lg btn-block border-0" style="background-color: #3b5998;margin: 20px 30px 0 30px;width: auto;padding-top: 8px;padding-bottom: 8px;border-radius: 5px;font-size: 12px;">
+					<i class="fab fa-facebook mr-2"></i>Continue con Facebook
+				</a>
+				<a class="btn btn-primary btn-lg btn-block border-0" style="background-color: #bababa;margin: 20px 30px 0 30px;width: auto;padding-top: 8px;padding-bottom: 8px;border-radius: 5px;font-size: 12px;">
+					<i class="fab fa-apple mr-2"></i>Continue con Apple
+				</a>
 				<form th:action="@{/login}" th:object="${usuario}" method="post" class="m-0">
 
 					<div class="form-group">
@@ -33,21 +44,6 @@
 						</label>
 						<input type="password" class="form-input form-wide" id="password" name="password" required />
 					</div>
-					<a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block border-0" style="background-color: #55acee;margin: 20px 30px 0 30px;width: auto;    padding-top: 8px;
-    padding-bottom: 8px;border-radius: 5px;font-size: 12px;" href="#!"
-					   role="button">
-						<i class="fab fa-google mr-2"></i>Continuar con Google
-					</a>
-					<a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block border-0" style="background-color: #3b5998;margin: 20px 30px 0 30px;width: auto;    padding-top: 8px;
-    padding-bottom: 8px;border-radius: 5px;font-size: 12px;" href="#!"
-					   role="button">
-						<i class="fab fa-facebook mr-2"></i>Continue con Facebook
-					</a>
-					<a data-mdb-ripple-init class="btn btn-primary btn-lg btn-block border-0" style="background-color: #bababa;margin: 20px 30px 0 30px;width: auto;    padding-top: 8px;
-    padding-bottom: 8px;border-radius: 5px;font-size: 12px;" href="#!"
-					   role="button">
-						<i class="fab fa-apple mr-2"></i>Continue con Apple
-					</a>
 					<p class="tituloUsuarioNuevo pt-4 m-0 text-dark">¿Eres un usuario nuevo?
 						<a th:href="@{/registrar}"
 						   class="registroUsuario text-white">Registrate aqui.

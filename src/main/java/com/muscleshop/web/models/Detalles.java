@@ -14,10 +14,6 @@ public class Detalles {
 	private Integer id;
 	private String nombre;
 
-	@OneToMany(mappedBy = "detalles")
-	@JsonIgnore
-	private List<PropiedadesDetalles> propiedadesDetalles ;
-
 	public Integer getId() {
 		return id;
 	}
@@ -34,19 +30,10 @@ public class Detalles {
 		this.nombre = nombre;
 	}
 
-	public List<PropiedadesDetalles> getPropiedadesDetalles() {
-		return propiedadesDetalles;
-	}
-
-	public void setPropiedadesDetalles(List<PropiedadesDetalles> propiedadesDetalles) {
-		this.propiedadesDetalles = propiedadesDetalles;
-	}
-
 	public Detalles() {}
 
-	public Detalles(Integer id, String nombre, List<PropiedadesDetalles> propiedadesDetalles) {
+	public Detalles(Integer id, String nombre) {
 		this.id = id;
 		this.nombre = nombre;
-		this.propiedadesDetalles = propiedadesDetalles;
 	}
 }

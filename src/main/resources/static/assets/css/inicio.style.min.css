@@ -3,7 +3,9 @@
 
 1) CONFIGURACION GLOBALES INICIO
 2) SECCION BLOG
-
+3) SECCION BESTSELLERS
+4) SECCION BLOG
+5) SECCION REVIEWS
 */
 
 
@@ -18,27 +20,19 @@ section {
 .section-title{
     position: relative;
     display: inline-block;
-    margin: 0 0 64px;
-    padding: 0px 10px 10px 10px;
+    margin: 0 0 50px;
+    padding: 0 10px 0 10px;
     color: #000000;
 }
 .section-title::after{
     content: "";
     position: absolute;
     left: 10px;
-    bottom: -5px; /* Ajusta la posición del subrayado según sea necesario */
+    bottom: 0px;
     width: 95%;
-    height: 3px; /* Ajusta el grosor aquí */
-    background-color: #000000; /* Usa el color del texto */
+    height: 3px;
+    background-color: #000000;
 }
-
-#btn-best-sellers, #btn-ver-blog{
-    background-color: #CDCDCD;
-    color: #000000;
-    border: none;
-    border-radius: 5px;
-}
-
 
 /*2) SECCION OBJETIVOS*/
 
@@ -47,7 +41,7 @@ section {
     bottom: 0;
     width: 100%;
     z-index: 1;
-    background: #fff;
+    background: red;
     padding: 1rem 1rem;
     display: flex;
     display: -ms-flex-box;
@@ -70,11 +64,9 @@ section {
     font-weight: 700;
     color: #FFFFFF;
 }
-/*BESTSELLERS*/
 
-.products-slider{
+/*3)BESTSELLERS*/
 
-}
 .inner-btn figure .btn-icon-group{
     display: flex;
     flex-direction: row;
@@ -99,13 +91,13 @@ section {
     font-weight: bold;
 }
 
-/*2) SECCION BLOG*/
+/*4) SECCION BLOG*/
 #section-blog .row{
     padding: 0 10px;
 }
 #section-blog .card{
     border-radius: 15px;
-    width: 35rem;
+    width: 27rem;
 }
 
 #section-blog .card-img-top{
@@ -147,7 +139,7 @@ section {
     }
 }
 
-/*3) SECCION REVIEWS*/
+/*5) SECCION REVIEWS*/
 #section-reviews .container-title-reviews{
     text-align: center;
 }
@@ -213,11 +205,6 @@ section {
     }
     .category-content h3{
         font-size: 13px;
-    }
-
-    #btn-best-sellers, #btn-ver-blog {
-        padding: 8px 15px;
-        font-size: 11px;
     }
 
     .products-slider{

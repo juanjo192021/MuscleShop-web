@@ -15,8 +15,8 @@ public class PedidoProductoComentarioService {
 	@Autowired
 	private IPedidoProductoComentarioDao pedProComDao;
 	
-	public List<PedidoProductoComentario> comentariosMostrables() {
-        return pedProComDao.findByComentarioMostrarId(1);
+	public List<PedidoProductoComentario> comentariosMostrables(Integer estadoId) {
+        return pedProComDao.findByEstado_Id(estadoId);
     }
 
 }

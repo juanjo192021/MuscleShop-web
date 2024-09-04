@@ -93,13 +93,13 @@
 				</div>
 			</section>
 
-			<div class="container">
+			<div class="container-fluid">
 
 				<div class="row">
-					<div class="col-lg-12 main-content">
+					<div class="col-lg-9 main-content">
 						<nav class="toolbox sticky-header" data-sticky-options="{'mobile': true}">
 							<div class="toolbox-left">
-								<a href="category.html#" class="sidebar-toggle" style="display: flex !important;">
+								<a href="category.html#" class="sidebar-toggle">
 									<svg data-name="Layer 3" id="Layer_3" viewBox="0 0 32 32"
 										xmlns="http://www.w3.org/2000/svg">
 										<line x1="15" x2="26" y1="9" y2="9" class="cls-1"></line>
@@ -119,16 +119,15 @@
 									</svg>
 									<span>Filtro</span>
 								</a>
-
 							</div>
 						</nav>
 
 						<div class="d-flex flex-row flex-wrap">
-							<div th:each="productos : ${productos}" style="flex-basis: 20%;max-width: 20%;padding: 0 30px;">
+							<div th:each="productos : ${productos}" style="flex-basis: 20%;padding: 0 30px;">
 
 								<div class="product-default inner-btn inner-icon inner-icon-inline left-details">
 									<figure>
-										<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/detalleProducto'(productoId=${productos.id}, detalleNombre=${productos.detalleNombre},detalleModificado=${productos.detalleModificado})}">
+										<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/'+${productos.urlProducto}(detalleNombre=${productos.detalleNombre},detalleModificado=${productos.detalleModificado})}">
 											<!--th:src="@{'/images/productos/'+${productos.imagen}}"-->
 											<img src="https://res.cloudinary.com/dhgkb17i4/image/upload/v1723795820/PRUEBA/hfspuyvpwgw5yjxipxbs.png"
 												alt="product" style="height: 180px;"/>
@@ -176,6 +175,15 @@
 										</div>
 									</div>
 								</div>
+
+								<!--<div class="card" style="width: 18rem;">
+									<img src="https://res.cloudinary.com/dhgkb17i4/image/upload/v1724438922/PRUEBA/vtxvu2ld2fb5gmeib28j.png" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Go somewhere</a>
+									</div>
+								</div>-->
 							</div>
 						</div>
 						<nav class="toolbox toolbox-pagination justify-content-end">
@@ -201,12 +209,12 @@
 
 					<div class="sidebar-overlay"></div>
 
-					<aside class="sidebar-shop order-lg-first mobile-sidebar filtros">
+					<aside class="sidebar-shop col-lg-3 order-lg-first mobile-sidebar filtros">
 						<div class="sidebar-wrapper">
 							<div class="widget">
 								<div id="accordion1">
 									<h3 class="widget-title pb-4">
-										<a data-toggle="collapse"
+										<a data-bs-toggle="collapse"
 										   href="category.html#widget-body-2"
 										   role="button"
 										   aria-expanded="true"
@@ -216,14 +224,14 @@
 									<div class="card card-accordion">
 										<a class="card-header"
 										   href="element-accordions.html#"
-										   data-toggle="collapse"
-										   data-target="#collapse1"
+										   data-bs-toggle="collapse"
+										   data-bs-target="#collapse1"
 										   aria-expanded="true"
 										   aria-controls="collapse1"
 										   th:text="${nombreMenuSub}">
 										</a>
 										<div id="collapse1" class="collapse show"
-											 data-parent="#accordion1">
+											 data-bs-parent="#accordion1">
 											<div class="collapse show"
 												 id="widget-category-11">
 												<ul class="cat-sublist">
@@ -243,13 +251,13 @@
 									<div class="card card-accordion">
 										<a class="card-header"
 										   href="element-accordions.html#"
-										   data-toggle="collapse"
-										   data-target="#collapse4"
+										   data-bs-toggle="collapse"
+										   data-bs-target="#collapse4"
 										   aria-expanded="true"
 										   aria-controls="collapse4"
 										   th:text="'Otras categorías'">
 										</a>
-										<div id="collapse4" class="collapse" data-parent="#accordion1">
+										<div id="collapse4" class="collapse" data-bs-parent="#accordion1">
 											<div class="collapse show" id="widget-category-15">
 												<ul class="cat-sublist">
 													<!--<li th:each="subMenuCate : ${subMenuCate}" class="pb-3">
@@ -268,15 +276,15 @@
 									<div class="card card-accordion">
 										<a class="card-header collapsed"
 										   href="element-accordions.html#"
-										   data-toggle="collapse"
-										   data-target="#collapse2"
+										   data-bs-toggle="collapse"
+										   data-bs-target="#collapse2"
 										   aria-expanded="true"
 										   aria-controls="collapse2">
 											Por Objetivos
 										</a>
 										<div id="collapse2"
 											 class="collapse"
-											 data-parent="#accordion1">
+											 data-bs-parent="#accordion1">
 											<div class="collapse show"
 												 id="widget-category-1">
 												<ul class="cat-sublist">
@@ -296,11 +304,11 @@
 
 									<div class="card card-accordion">
 										<a class="card-header collapsed" href="element-accordions.html#"
-											data-toggle="collapse" data-target="#collapse3" aria-expanded="true"
+											data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="true"
 											aria-controls="collapse3">
 											Por  Marcas
 										</a>
-										<div id="collapse3" class="collapse" data-parent="#accordion1">
+										<div id="collapse3" class="collapse" data-bs-parent="#accordion1">
 											<ul class="cat-sublist">
 												<li th:each="porMarcas:${porMarcas}" class="pb-3">
 													<a th:href="@{'/index/' + ${porMarcas.urlMenu} + '/' + ${porMarcas.url}}"
@@ -331,8 +339,8 @@
 												<div class="filter-price-text">
 													Precio:
 													<span id="filter-price-range"></span>
-													<input name="minPrecio" type="text" id="input-select">
-													<input name="maxPrecio" type="text" id="input-number">
+													<input name="minPrecio" type="hidden" id="input-select">
+													<input name="maxPrecio" type="hidden" id="input-number">
 													<!--<input name="propiedadNombre" type="text" th:value="${nombrePropiedad}">
 													<input name="propiedadNombre" type="text" th:value="${nombrePropiedad}">-->
 												</div>
