@@ -52,6 +52,10 @@ public class Agrupacion implements Serializable{
 	@JsonIgnore
 	private List<ProductoAgrupado> productoAgrupado;
 
+	@OneToMany(mappedBy = "agrupacion",cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<AgrupacionImagen> agrupacionImagen;
+
 	public Integer getId() {
 		return id;
 	}
@@ -154,5 +158,13 @@ public class Agrupacion implements Serializable{
 
 	public void setProductoAgrupado(List<ProductoAgrupado> productoAgrupado) {
 		this.productoAgrupado = productoAgrupado;
+	}
+
+	public List<AgrupacionImagen> getAgrupacionImagen() {
+		return agrupacionImagen;
+	}
+
+	public void setAgrupacionImagen(List<AgrupacionImagen> agrupacionImagen) {
+		this.agrupacionImagen = agrupacionImagen;
 	}
 }

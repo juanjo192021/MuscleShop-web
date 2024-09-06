@@ -6430,15 +6430,6 @@ figure .porto-loading-icon {
     text-align: center
 }
 
-.product-default .btn-add-cart,
-.product-default .btn-icon-wish,
-.product-default .btn-quickview {
-    border: 1px solid #f4f4f4;
-    background: #f4f4f4;
-    color: #6f6e6b;
-    line-height: 34px
-}
-
 .product-default .btn-icon-wish,
 .product-default .btn-quickview {
     display: inline-block;
@@ -6539,12 +6530,6 @@ figure .porto-loading-icon {
 .product-default:hover figure img:last-child {
     opacity: 1;
     transition: opacity 0.3s ease-in-out
-}
-
-.product-default:hover .btn-add-cart {
-    background: #2b2b2d;
-    border-color: #2b2b2d;
-    color: #fff
 }
 
 .product-default:hover .btn-add-cart.product-type-simple i {
@@ -7213,66 +7198,36 @@ figure .porto-loading-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #ddd;
-    border-radius: 50%;
     margin: 0 0 5px;
-    width: 36px;
-    height: 36px;
+    width: 100%;
+    line-height: 36px;
     padding: 0;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s, background-color 0.3s, color 0.3s, border-color 0.3s;
+    /*transition: opacity 0.3s, background-color 0.3s, color 0.3s;*/
     transform: none
 }
 
-.inner-icon figure .btn-icon i:not(.fa):before {
-    font-weight: 400
-}
-
-.inner-icon figure .btn-icon .fa {
-    font-size: 12px;
-    font-weight: 600
-}
-
-.inner-icon figure .btn-icon i {
-    font-size: 1.6rem;
-    margin-bottom: 0
-}
-
-.inner-icon figure .btn-icon i:before {
-    margin: 0
-}
-
-.inner-icon figure .btn-icon i.icon-bag {
-    font-size: 1.8rem
-}
-
-.inner-icon figure .btn-icon:hover {
-    background-color: #08C;
-    border-color: #08C;
-    color: #fff
-}
-
-.inner-icon:hover .btn-icon {
-    background-color: #fff;
-    border-color: #ddd;
-    color: black;
+.inner-icon figure:hover .btn-icon {
+    background-color: #4f4f4f;
+    color: #FFFFFF;
+    border: none;
     visibility: visible;
     opacity: 1;
-    overflow: hidden
+    overflow: hidden;
+    transition: color 0.5s, background-color 0.5s ease-in-out;
+}
+
+.inner-icon figure:hover .btn-icon:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+    width: 100%;
+    transition: color 0.5s, background-color 0.5s ease-in-out;
 }
 
 .left-details .product-details {
     -ms-flex-align: start;
     align-items: flex-start
-}
-
-.left-details .btn-add-cart,
-.left-details .btn-icon-wish,
-.left-details .btn-quickview {
-    background-color: #f4f4f4;
-    border-color: #f4f4f4;
-    color: black
 }
 
 .left-details .btn-icon-wish,

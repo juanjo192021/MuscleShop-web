@@ -6199,15 +6199,6 @@ figure .porto-loading-icon {
     text-align: center
 }
 
-.product-default .btn-add-cart,
-.product-default .btn-icon-wish,
-.product-default .btn-quickview {
-    border: 1px solid #f4f4f4;
-    background: #f4f4f4;
-    color: #6f6e6b;
-    line-height: 34px
-}
-
 .product-default .btn-icon-wish,
 .product-default .btn-quickview {
     display: inline-block;
@@ -6973,75 +6964,10 @@ figure .porto-loading-icon {
     background-color: transparent
 }
 
-.inner-icon figure {
-    position: relative
-}
-
-
-.inner-icon figure .btn-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    margin: 0 0 5px;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s, background-color 0.3s, color 0.3s, border-color 0.3s;
-    transform: none
-}
-
-.inner-icon figure .btn-icon i:not(.fa):before {
-    font-weight: 400
-}
-
-.inner-icon figure .btn-icon .fa {
-    font-size: 12px;
-    font-weight: 600
-}
-
-.inner-icon figure .btn-icon i {
-    font-size: 1.6rem;
-    margin-bottom: 0
-}
-
-.inner-icon figure .btn-icon i:before {
-    margin: 0
-}
-
-.inner-icon figure .btn-icon i.icon-bag {
-    font-size: 1.8rem
-}
-
-.inner-icon figure .btn-icon:hover {
-    background-color: #08C;
-    border-color: #08C;
-    color: #fff
-}
-
-.inner-icon:hover .btn-icon {
-    background-color: #fff;
-    border-color: #ddd;
-    color: black;
-    visibility: visible;
-    opacity: 1;
-    overflow: hidden
-}
 
 .left-details .product-details {
     -ms-flex-align: start;
     align-items: flex-start
-}
-
-.left-details .btn-add-cart,
-.left-details .btn-icon-wish,
-.left-details .btn-quickview {
-    background-color: #f4f4f4;
-    border-color: #f4f4f4;
-    color: black
 }
 
 .left-details .btn-icon-wish,

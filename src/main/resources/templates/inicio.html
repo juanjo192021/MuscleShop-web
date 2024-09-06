@@ -203,17 +203,17 @@
                         <div class="product-default inner-btn inner-icon inner-icon-inline left-details m-0"
                              th:each="productosPorForma:${productosPorForma}">
                             <figure>
-                                <a th:href="@{'/index/' + ${productosPorForma.producto.productoCategoria.menuSub.menu.url} + '/'+ ${productosPorForma.producto.productoCategoria.menuSub.url} + '/'  + ${productosPorForma.producto.productoCategoria.url} + '/'+${productosPorForma.producto.url}(productoId=${productosPorForma.getId()})}">
+                                <a th:href="@{'/index/' + ${productosPorForma.producto.productoCategoria.menuSub.menu.url} + '/'+ ${productosPorForma.producto.productoCategoria.menuSub.url} + '/'  + ${productosPorForma.producto.productoCategoria.url} + '/'+${productosPorForma.producto.url}(detalleNombre=${productosPorForma.productoVariacion1.valor}, detalleModificado=${productosPorForma.productoVariacion2.valor})}">
                                     <!--https://res.cloudinary.com/dhgkb17i4/image/upload/v1724438922/PRUEBA/vtxvu2ld2fb5gmeib28j.png-->
                                     <!--th:src="@{'/images/productos/' + ${productosPorForma.getImagen()}}"-->
                                     <img src="https://res.cloudinary.com/dhgkb17i4/image/upload/v1724438922/PRUEBA/vtxvu2ld2fb5gmeib28j.png" class="img-owl-carousel"
                                          alt="product"/>
                                 </a>
-
                                 <div class="btn-icon-group">
                                     <a th:href="@{/index/productoAgregar(id=${productosPorForma.id})}"
-                                       class="btn-icon btn-add-cart"><i
-                                            class="icon-shopping-cart"></i></a>
+                                       class="btn-icon btn-add-cart">
+                                        Añadir al carrito
+                                    </a>
 
                                 </div>
                             </figure>
