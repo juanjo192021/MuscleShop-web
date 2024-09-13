@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import com.muscleshop.web.models.Producto;
 import com.muscleshop.web.models.ProductoMenuSub;
 import com.muscleshop.web.models.ProductoPropiedadesDetalles;
+import com.muscleshop.web.models.dto.ProductoCarritoDto;
 import com.muscleshop.web.models.dto.ProductoItemsDto;
 import com.muscleshop.web.services.IProductoPropiedadesDetallesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,9 @@ public class ProductoPropiedadDetalleService implements IProductoPropiedadesDeta
 
 	private int estadoId=1;
 
-	public List<ProductoPropiedadesDetalles> obtenerProductoPropiedadesDetallesPorForma(int productoFormaId){
-		return iProductoPropiedadesDetallesDao.findByProductoForma_IdAndEstado_Id(productoFormaId,estadoId);
+	public List<ProductoItemsDto> obtenerProductoPropiedadesDetallesPorForma(int productoFormaId){
+		List<ProductoPropiedadesDetalles> productoPropiedadesDetalles = iProductoPropiedadesDetallesDao.findByProductoForma_IdAndEstado_Id(productoFormaId,estadoId);
+		return obtenerProductosItemsModificados(productoPropiedadesDetalles);
 	}
 
 	/*public List<ProductoPropiedadesDetalles> listarProDetPro() {
@@ -83,6 +86,22 @@ public class ProductoPropiedadDetalleService implements IProductoPropiedadesDeta
 
 	public ProductoPropiedadesDetalles obtenerProductoPropiedadDetallesPorVariaciones(int productoId, String variacion1, String variacion2){
 		return iProductoPropiedadesDetallesDao.findByProducto_IdAndProductoVariacion1_ValorAndProductoVariacion2_Valor(productoId, variacion1, variacion2);
+	}
+
+	public ProductoCarritoDto obtenerProductoPropiedadDetallePorId(Integer id) {
+		ProductoPropiedadesDetalles productoPropiedadesDetalles = iProductoPropiedadesDetallesDao.findById(id).orElse(null);
+		ProductoCarritoDto productoCarritoDto = new ProductoCarritoDto();
+        assert productoPropiedadesDetalles != null;
+        productoCarritoDto.setProductoId(productoPropiedadesDetalles.getProducto().getId());
+		productoCarritoDto.setProductoPropiedadDetalleId(productoPropiedadesDetalles.getId());
+		productoCarritoDto.setNombreProducto(productoPropiedadesDetalles.getProducto().getNombre());
+		productoCarritoDto.setImagenProducto(productoPropiedadesDetalles.getImagen());
+		productoCarritoDto.setNombrePropiedadDetalle(productoPropiedadesDetalles.getProductoVariacion1().getValor());
+		productoCarritoDto.setNombrePropiedadDetalle2(productoPropiedadesDetalles.getProductoVariacion2()==null || productoPropiedadesDetalles.getProductoVariacion2().getValor()==null ? "Sin sabor" : productoPropiedadesDetalles.getProductoVariacion2().getValor());
+		productoCarritoDto.setPrecio(productoPropiedadesDetalles.getPrecio());
+		productoCarritoDto.setPrecioReducido(productoPropiedadesDetalles.getPrecioReducido());
+
+		return productoCarritoDto;
 	}
 
 	public List<ProductoItemsDto> obtenerProductosItemsModificados(List<ProductoPropiedadesDetalles> productoPropiedadesDetalles){

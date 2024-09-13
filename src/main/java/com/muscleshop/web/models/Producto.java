@@ -23,7 +23,7 @@ public class Producto {
 
 	@ManyToOne
 	@JoinColumn(name = "estado_id")
-	private Estado estado;
+	private EstadoArticuloProducto estado;
 
 	@ManyToOne
 	@JoinColumn(name = "categoria_id")
@@ -95,11 +95,11 @@ public class Producto {
 		this.fecha = fecha;
 	}
 
-	public Estado getEstado() {
+	public EstadoArticuloProducto getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Estado estado) {
+	public void setEstado(EstadoArticuloProducto estado) {
 		this.estado = estado;
 	}
 

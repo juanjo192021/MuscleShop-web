@@ -86,7 +86,7 @@
 				</div>-->
 
 				<div class="col-11 col-sm-5 col-lg-5 row m-0 p-0 align-items-center justify-content-center justify-content-lg-around">
-					<div class="col-lg-3 d-none d-lg-block">
+					<div class="col-lg-3 p-0 d-none d-lg-block">
 						<a th:href="@{/index/ofertas}" title="login">
 							<div class="d-flex flex-column align-items-center">
 								<img class="img-icons" th:src="@{'/images/icons/gift.svg'}" alt="gift-icon">
@@ -112,7 +112,7 @@
 						<div class="dropdown cart-dropdown m-0">
 
 							<a th:href="@{/index/carrito}" title="Cart" class="dropdown-toggle cart-toggle justify-content-center" role="button"
-							   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+							   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-display="static">
 								<div class="d-flex flex-column align-items-center h-100">
 									<img class="img-icons" th:src="@{'/images/icons/bag.svg'}" alt="bag-icon">
 									<!--<i class="minicart-icon" style="margin-bottom: 5px; font-size: 25px;"></i>-->
@@ -135,6 +135,7 @@
 									<div class="dropdown-cart-products">
 										<div class="product" th:each="pedidoPro : ${session.carrito}">
 											<div class="product-details">
+												<p th:text="${pedidoPro.productoCarrito.productoPropiedadDetalleId}"></p>
 												<h4 class="product-title">
 													<a href="product.html" th:text="${pedidoPro.productoCarrito.nombreProducto}"></a>
 												</h4>
@@ -147,7 +148,7 @@
 													<span class="cart-product-qty" th:text="${pedidoPro.cantidad}"></span>
 
 													<span class="cart-product-qty" th:if="${pedidoPro.productoCarrito != null}"
-														  th:text="' × S/. ' + ${pedidoPro.productoCarrito.precioReducido}"></span>
+														  th:text="' × S/. ' + ${#numbers.formatDecimal(pedidoPro.productoCarrito.precioReducido,3,2,'POINT')}"></span>
 
 													<!--<span class="cart-product-qty"
 														  th:unless="${pedidoPro.productoCarrito != null}"
@@ -185,7 +186,8 @@
 										</section>
 									</div>
 
-									<div class="dropdown-cart-action">
+									<div class="dropdown-cart-action"
+										 th:if="${session.carrito != null and session.carrito.size() != 0}">
 										<a th:href="@{/index/carrito}" class="btn btn-dark btn-block">Ver carrito</a>
 									</div>
 

@@ -6301,12 +6301,6 @@ figure .porto-loading-icon {
     transition: opacity 0.3s ease-in-out
 }
 
-.product-default:hover .btn-add-cart {
-    background: #2b2b2d;
-    border-color: #2b2b2d;
-    color: #fff
-}
-
 .product-default:hover .btn-add-cart.product-type-simple i {
     display: inline-block
 }
@@ -7125,10 +7119,6 @@ figure .porto-loading-icon {
     background: rgba(33, 37, 41, 0.01)
 }
 
-.inner-icon-inline figure .btn-icon {
-    margin-left: 5px
-}
-
 .product-overlay figure {
     margin: 0
 }
@@ -7405,10 +7395,6 @@ figure .porto-loading-icon {
     position: relative
 }
 
-.inner-btn figure .btn-icon {
-    position: relative;
-    margin-bottom: 0
-}
 
 .inner-btn figure .btn-quickview {
     background-color: #fff

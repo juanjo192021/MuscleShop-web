@@ -104,6 +104,8 @@ section .carousel-control-prev{
     color: #ffffff;
     font-weight: normal;
     transition: font-weight 0.3s ease-out;
+    text-align: center;
+    font-size: 18px;
 }
 #section-objetivos .card-title:hover{
     font-weight: bolder;

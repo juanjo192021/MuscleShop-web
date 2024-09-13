@@ -143,20 +143,10 @@
                     }">
                         <div class="product-category" data-animation-name="fadeInUpShorter"
                              th:each="subMenu : ${subMenu}">
-                            <div class="card m-0">
-                                <!--th:style="'background: #f1f1f1 no-repeat center/cover url(' + @{/images/} + ${popup[0].imagen} + ')'"-->
-                                <!--<a class="link-objetivos" th:href="@{'/index/objetivo/' + ${subMenu.url}}">
-
-
-                                </a>-->
-                                <!--<div class="child"
-                                     th:style="'background-image: url('+@{/images/}+${subMenu.imagen}+')'">
-                                    <h5 th:text="${subMenu.nombre}"
-                                        class="title">
-                                    </h5>
-                                </div>-->
+                            <div class="card m-0 border-0">
                                 <a class="link-objetivos" th:href="@{'/index/objetivo/' + ${subMenu.url}}">
-                                    <img th:src="@{'/images/' + ${subMenu.imagen}}" class="card-img" alt="...">
+                                    <!--th:src="@{'/images/' + ${subMenu.imagen}}"-->
+                                    <img th:src="${subMenu.imagen}" class="card-img" th:alt="${subMenu.nombre}">
                                     <div class="card-img-overlay d-flex justify-content-center align-items-center">
                                         <h5 th:text="${subMenu.nombre}"
                                             class="card-title m-0">
@@ -165,16 +155,6 @@
                                 </a>
 
                             </div>
-                            <!--<a th:href="@{'/index/objetivo/' + ${subMenu.url}}">
-                                <figure>
-                                    <img th:src="@{'/images/' + ${subMenu.imagen}} " class="img-owl-carousel" alt="category"/>
-                                </figure>
-
-
-                                <div class="category-content">
-                                    <h3 th:text="${subMenu.nombre}"></h3>
-                                </div>
-                            </a>-->
                         </div>
                     </div>
 
@@ -203,16 +183,15 @@
                         <div class="product-default inner-btn inner-icon inner-icon-inline left-details m-0"
                              th:each="productosPorForma:${productosPorForma}">
                             <figure>
-                                <a th:href="@{'/index/' + ${productosPorForma.producto.productoCategoria.menuSub.menu.url} + '/'+ ${productosPorForma.producto.productoCategoria.menuSub.url} + '/'  + ${productosPorForma.producto.productoCategoria.url} + '/'+${productosPorForma.producto.url}(detalleNombre=${productosPorForma.productoVariacion1.valor}, detalleModificado=${productosPorForma.productoVariacion2.valor})}">
-                                    <!--https://res.cloudinary.com/dhgkb17i4/image/upload/v1724438922/PRUEBA/vtxvu2ld2fb5gmeib28j.png-->
+                                <a th:href="@{'/index/' + ${productosPorForma.urlMenuSub} + '/'+ ${productosPorForma.urlMenuSub} + '/'  + ${productosPorForma.urlCategoria} + '/'+${productosPorForma.urlProducto}(detalleNombre=${productosPorForma.detalleNombre},detalleModificado=${productosPorForma.detalleModificado})}">
                                     <!--th:src="@{'/images/productos/' + ${productosPorForma.getImagen()}}"-->
-                                    <img src="https://res.cloudinary.com/dhgkb17i4/image/upload/v1724438922/PRUEBA/vtxvu2ld2fb5gmeib28j.png" class="img-owl-carousel"
+                                    <img th:src="${productosPorForma.imagen}" class="img-owl-carousel"
                                          alt="product"/>
                                 </a>
                                 <div class="btn-icon-group">
                                     <a th:href="@{/index/productoAgregar(id=${productosPorForma.id})}"
                                        class="btn-icon btn-add-cart">
-                                        Añadir al carrito
+                                        <p class="m-0 p-0">Añadir al carrito</p>
                                     </a>
 
                                 </div>
@@ -220,8 +199,8 @@
                             <div class="product-details">
 
                                 <h3 class="product-title pb-2 text-center">
-                                    <a th:href="@{'/index/inicio/' + ${productosPorForma.producto.nombre} + '/' + ${productosPorForma.producto.nombre}}"
-                                       th:text="${productosPorForma.producto.nombre}+' '+${productosPorForma.productoVariacion1.valor}+' '+${productosPorForma.productoVariacion2.valor}"></a>
+                                    <a th:href="@{'/index/inicio/' + ${productosPorForma.nombre} + '/' + ${productosPorForma.nombre}}"
+                                       th:text="${productosPorForma.nombre}+' '+${productosPorForma.detalleNombre}+' '+${productosPorForma.detalleModificado}"></a>
                                 </h3>
                             </div>
                         </div>
@@ -231,7 +210,46 @@
 
             <!--SECCION BLOGS-->
 
-            <section id="section-blog">
+            <section class="new-products-section objetivos" id="section-objetivos" style="background-color: #FFF;">
+                <div class="container">
+                    <h2 class="section-title border-0 text-left">
+                        ¿CUÁL ES TU OBJETIVO?
+                    </h2>
+                    <div class="owl-carousel owl-theme show-nav-hover slide-animate" data-owl-options="{
+                        'dots': true,
+                        'nav': true,
+                        'loop': true,
+                        'responsive': {
+                            '0': {'items': 1},
+                            '768': {'items': 2},
+                            '992': {'items': 4}
+                            }
+                    }">
+                        <div th:each="articulosBlog : ${articulosBlog}"  class="product-category" data-animation-name="fadeInUpShorter" >
+                            <div>
+                                <div class="ro m-0 v-100 justify-content-arond justify-ontent-lg-between" >
+                                    <div class="card p-0">
+                                        <img th:src="@{'/images/' + ${articulosBlog.getImagen()}}" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h4 class="card-title text-dark" th:text="${articulosBlog.titulo}"></h4>
+                                            <div class="contenedor-descripcion-blog">
+                                                <p class="card-text"
+                                                   style="white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis;"
+                                                   th:utext="${articulosBlog.descripcion}"></p>
+                                            </div>
+                                            <a th:href="@{'/index/blog/ver-blog/' + ${articulosBlog.id}}" class="card-link"
+                                               style="text-decoration: none;">Leer más ...</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!--<section id="section-blog">
                 <div class="container">
                     <a>
                         <h2 class="section-title border-0 text-left">NUESTROS BLOGS</h2>
@@ -251,7 +269,7 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>-->
 
             <!--SECCION REVIEWS-->
 

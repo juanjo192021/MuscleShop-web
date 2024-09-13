@@ -75,13 +75,13 @@
 									<figure>
 										<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/'+${productos.urlProducto}(detalleNombre=${productos.detalleNombre},detalleModificado=${productos.detalleModificado})}">
 											<!--th:src="@{'/images/productos/'+${productos.imagen}}"-->
-											<img src="https://res.cloudinary.com/dhgkb17i4/image/upload/v1723795997/PRUEBA/ob6rmsghgpmjy9sllbee.png"
+											<img th:src="${productos.imagen}"
 												 alt="product" style="height: 180px;"/>
 										</a>
 										<div class="btn-icon-group">
 											<a th:href="@{/index/productoAgregar(id=${productos.productoPropiedadDetalleId})}"
 											   class="btn-icon btn-add-cart">
-												<i class="icon-shopping-cart"></i>
+												<p class="m-0 p-0">Añadir al carrito</p>
 											</a>
 										</div>
 									</figure>

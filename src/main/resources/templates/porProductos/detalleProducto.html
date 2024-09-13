@@ -59,10 +59,11 @@
 					<div class="col-lg-5 col-md-6 product-single-galery">
 						<div class="container-imgs-producto">
 							<div class="container-img-single">
+								<!--th:src="@{'/images/productos/' + ${imagen.nombre}}"-->
 								<img class="image-single"
 									 th:each="imagen, stat : ${propiedadesDetallesImagenes}"
 									 th:if="${stat.index == 0}"
-									 th:src="@{'/images/productos/' + ${imagen.nombre}}"
+									 th:src="${imagen.nombre}"
 									 alt="producto" style="width: 250px !important;">
 							</div>
 							<div class="container-img-thumbs">
@@ -87,10 +88,9 @@
 
 					<div class="col-lg-7 col-md-6 product-single-details pt-4">
 
-						<form th:action="@{/index/productoAgregar}" method="post" class="m-0">
+						<form th:action="@{/index/productoAgregar}" method="get" class="m-0">
 							<input type="hidden" th:value="${producto.id}" id="productoId" >
-							<input type="hidden" th:value="${producto.id}" name="id">
-							<input type="hidden" id="idPresentacion" name="idPresentacion">
+							<input type="hidden" th:value="${productoPropiedadesDetallesId}" name="id" >
 
 							<h1 class="product-title" th:text="${producto.nombre}"></h1>
 							<div class="product-desc">
@@ -184,11 +184,13 @@
 							<div class="product-action">
 								<div class="product-single-qty p-0">
 									<input class="horizontal-quantity form-control" type="text" id="cantidad"
-										   name="cantidad" value="1" autocomplete="off">
+										   name="cantidad" autocomplete="off">
 								</div>
 
-								<button type="submit" class="btn butt btn-light agregar-producto">AGREGAR
-									PRODUCTO</button>
+								<button class="btn butt btn-light agregar-producto"
+										type="submit">
+									AGREGAR PRODUCTO
+								</button>
 
 							</div>
 
@@ -443,7 +445,7 @@
 
 			$.ajax({
 				method: 'GET',
-				url: '/index/buscarPropiedadDetalleImagen',
+				url: '/next/index/buscarPropiedadDetalleImagen',
 				dataType: "json",
 				data: { productoId: parseInt(_productoId), presentacion: _presentacion, sabor: _sabor },
 				success: function(response) {

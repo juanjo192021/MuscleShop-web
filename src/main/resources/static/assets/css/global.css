@@ -6419,9 +6419,6 @@ figure .porto-loading-icon {
     margin-bottom: 0.5rem
 }
 
-.product-default .title-wrap .btn-icon-wish {
-    margin-top: -2px
-}
 
 .product-default .product-action {
     position: relative;
@@ -6776,7 +6773,8 @@ figure .porto-loading-icon {
 }
 
 .product-single-qty .btn.btn-outline {
-    border-color: #e7e7e7
+    border-color: #e7e7e7;
+    height: -webkit-fill-available;
 }
 
 .product-single-qty .btn.btn-down-icon:after,
@@ -7198,14 +7196,18 @@ figure .porto-loading-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 0 5px;
+    position: relative;
+    margin: 0;
+    font-size: 15px;
     width: 100%;
     line-height: 36px;
     padding: 0;
     opacity: 0;
+    color: transparent;
+    background-color: transparent;
+    transition: opacity 0.5s, visibility 0.5s, color 0.5s, background-color 0.5s ease-out;
     visibility: hidden;
-    /*transition: opacity 0.3s, background-color 0.3s, color 0.3s;*/
-    transform: none
+    transform: none;
 }
 
 .inner-icon figure:hover .btn-icon {
@@ -7215,14 +7217,21 @@ figure .porto-loading-icon {
     visibility: visible;
     opacity: 1;
     overflow: hidden;
-    transition: color 0.5s, background-color 0.5s ease-in-out;
+    transition: opacity 0.5s, visibility 0.5s, color 0.5s, background-color 0.5s, font-weight 0.3s ease-out;
 }
-
-.inner-icon figure:hover .btn-icon:hover {
+.inner-icon figure:hover .btn-icon p {
+    font-weight: normal;
+    transition: font-weight 0.3s ease-out;
+}
+.inner-icon figure .btn-icon:hover {
     background-color: #000000;
     color: #FFFFFF;
     width: 100%;
     transition: color 0.5s, background-color 0.5s ease-in-out;
+}
+.inner-icon figure .btn-icon:hover p {
+    font-weight: bold;
+    transition: font-weight 0.3s ease-in-out;
 }
 
 .left-details .product-details {
@@ -7233,11 +7242,6 @@ figure .porto-loading-icon {
 .left-details .btn-icon-wish,
 .left-details .btn-quickview {
     transform: none
-}
-
-.left-details .btn-add-cart {
-    margin-left: 0;
-    padding: 0 1.5rem
 }
 
 .hidden-description {
@@ -7383,11 +7387,6 @@ figure .porto-loading-icon {
     width: 100%;
     height: 100%;
     background: rgba(33, 37, 41, 0.01)
-}
-
-
-.inner-icon-inline figure .btn-icon {
-    margin-left: 5px
 }
 
 .product-overlay figure {
@@ -7664,11 +7663,6 @@ figure .porto-loading-icon {
 
 .creative-grid .btn-icon-wish {
     position: relative
-}
-
-.inner-btn figure .btn-icon {
-    position: relative;
-    margin-bottom: 0
 }
 
 .inner-btn figure .btn-quickview {
@@ -10800,7 +10794,7 @@ a:hover {
 }
 
 .owl-carousel.show-nav-hover .owl-nav {
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.2s, color 0.2s
 }
 

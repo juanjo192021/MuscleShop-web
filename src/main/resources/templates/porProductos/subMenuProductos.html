@@ -1,9 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<!--	<title>Inicio</title>-->
-	<th:block th:replace="fragments/head :: global-style"></th:block>
-	<th:block th:replace="fragments/head :: inicio-style"></th:block>
+	<title>Muscle Shop - Inicio</title>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/muscle-shop-isotipo.png}">
+	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/notice.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/header.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/footer.style.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/popup.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/demo4.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/global.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/login.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/style.demo4.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/carousel.style.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/inicio.style.min.css}">
+	<script src="https://kit.fontawesome.com/98270ba09b.js" crossorigin="anonymous"></script>
+	<script>
+		WebFontConfig = {
+			google: {
+				families: ['Open+Sans:300,400,600,700,800', 'Poppins:300,400,500,600,700,800', 'Oswald:300,400,500,600,700,800']
+			}
+		};
+		(function (d) {
+			var wf = d.createElement('script'),
+					s = d.scripts[0];
+			wf.src = 'assets/js/webfont.js';
+			wf.async = true;
+			s.parentNode.insertBefore(wf, s);
+		})(document);
+	</script>
 </head>
 <body>
 	<div class="page-wrapper">
@@ -129,13 +159,13 @@
 									<figure>
 										<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/'+${productos.urlProducto}(detalleNombre=${productos.detalleNombre},detalleModificado=${productos.detalleModificado})}">
 											<!--th:src="@{'/images/productos/'+${productos.imagen}}"-->
-											<img src="https://res.cloudinary.com/dhgkb17i4/image/upload/v1723795820/PRUEBA/hfspuyvpwgw5yjxipxbs.png"
+											<img th:src="${productos.imagen}"
 												alt="product" style="height: 180px;"/>
 										</a>
 										<div class="btn-icon-group">
 											<a th:href="@{/index/productoAgregar(id=${productos.productoPropiedadDetalleId})}"
 												class="btn-icon btn-add-cart">
-												<i class="icon-shopping-cart"></i>
+												<p class="m-0 p-0">Añadir al carrito</p>
 											</a>
 										</div>
 									</figure>
@@ -160,7 +190,7 @@
 											</a>
 										</p>
 										<p style="margin-bottom: 5px;">
-											<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/detalleProducto'(productoId=${productos.id}, detalleNombre=${productos.detalleNombre},detalleModificado=${productos.detalleModificado})}"
+											<a th:href="@{'/index/' + ${menuUrl} + '/' +${menuSubUrl} + '/' +${productos.urlCategoria} + '/'+${productos.urlProducto}(detalleNombre=${productos.detalleNombre},detalleModificado=${productos.detalleModificado})}"
 											   th:text="${productos.nombre}">
 											</a>
 										</p>

@@ -172,7 +172,7 @@ public class HomeController {
 	@GetMapping("/prueba")
 	@ResponseBody
 	public ResponseEntity<ProductoCarritoDto> resp() {
-		ProductoCarritoDto producto = productoService.obtenerProductoPorProductoPropiedadId(15);
+		ProductoCarritoDto producto = new ProductoCarritoDto();
 		return ResponseEntity.ok(producto);
 	}
 
@@ -185,8 +185,8 @@ public class HomeController {
 */
 	@GetMapping("/prueba3")
 	@ResponseBody
-	public ResponseEntity<List<ProductoPropiedadesDetalles>> respues() {
-		List<ProductoPropiedadesDetalles> productoPropiedadesDetalles= productoPropiedadesDetallesService.obtenerProductoPropiedadesDetallesPorForma(2);
+	public ResponseEntity<List<ProductoItemsDto>> respues() {
+		List<ProductoItemsDto> productoPropiedadesDetalles= productoPropiedadesDetallesService.obtenerProductoPropiedadesDetallesPorForma(2);
 
 		return ResponseEntity.ok(productoPropiedadesDetalles);
 	}
@@ -225,9 +225,9 @@ public class HomeController {
 		List<MenuSub> subMenus = menuSubService.obtenerMenuSubsPorMenuId(menuId);
 
 		/*[{1,normal},{2,bestsellers},{3,ofertas}]*/
-		List<ProductoPropiedadesDetalles> productoPropiedadesDetalles = productoPropiedadesDetallesService.obtenerProductoPropiedadesDetallesPorForma(2);
+		List<ProductoItemsDto> productoPropiedadesDetalles = productoPropiedadesDetallesService.obtenerProductoPropiedadesDetallesPorForma(2);
 
-		Integer cantidadArticulos = 4;
+		Integer cantidadArticulos = 8;
 		List<Articulo> articulosBlog = articuloService.obtenerArticulosPorCantidad(cantidadArticulos);
 
 		List<PedidoProductoComentario> comentariosProductos = pedProComService.comentariosMostrables(1);
@@ -509,14 +509,23 @@ public class HomeController {
 		ProductoPropiedadesDetalles productoPropiedadesDetalles = productoPropiedadDetalleService.obtenerProductoPropiedadDetallesPorVariaciones(producto.getId(),detalleNombre,detalleModificado);
 
 		List<PropiedadDetalleImagen> propiedadesDetallesImagenes = new ArrayList<>();
-		for (PropiedadDetalleImagen pdi : productoPropiedadesDetalles.getPropiedadesDetallesImagenes()) {
-
+		if (productoPropiedadesDetalles.getPropiedadesDetallesImagenes().isEmpty()){
 			PropiedadDetalleImagen propiedadDetalleImagen = new PropiedadDetalleImagen();
-			propiedadDetalleImagen.setId(pdi.getId());
-			propiedadDetalleImagen.setNombre(pdi.getNombre());
+			propiedadDetalleImagen.setId(productoPropiedadesDetalles.getId());
+			propiedadDetalleImagen.setNombre(productoPropiedadesDetalles.getImagen());
 			propiedadesDetallesImagenes.add(propiedadDetalleImagen);
+		}else {
+			for (PropiedadDetalleImagen pdi : productoPropiedadesDetalles.getPropiedadesDetallesImagenes()) {
 
+				PropiedadDetalleImagen propiedadDetalleImagen = new PropiedadDetalleImagen();
+				propiedadDetalleImagen.setId(pdi.getId());
+				propiedadDetalleImagen.setNombre(pdi.getNombre());
+				propiedadesDetallesImagenes.add(propiedadDetalleImagen);
+
+			}
 		}
+
+
 		// Inicializar listas para cada propiedad
 		List<ProductoVariacion> listaDetallesPresentacion = new ArrayList<>();
 		List<ProductoVariacion> listaDetallesColor = new ArrayList<>();
@@ -535,7 +544,9 @@ public class HomeController {
 		}
 
 
+
 		model.addAttribute("producto", producto);
+		model.addAttribute("productoPropiedadesDetallesId", productoPropiedadesDetalles.getId());
 		model.addAttribute("precio", productoPropiedadesDetalles.getPrecio());
 		model.addAttribute("precioReducido", productoPropiedadesDetalles.getPrecioReducido());
 
@@ -879,11 +890,67 @@ public class HomeController {
 		return "ofertas/detallesOferta";
 	}
 */
+
+	// MÉTODO PARA AGREGAR PRODUCTOS AL CARRITO
+	@SuppressWarnings("unchecked")
+	@GetMapping("/productoAgregar")
+	public String agregarProductoGet(HttpServletRequest request, HttpSession session,
+			@RequestParam(name = "id", required = false) int id,
+			@RequestParam(name = "cantidad", required = false, defaultValue = "1") int cantidad,
+			RedirectAttributes ra) {
+
+		ProductoCarritoDto productoCarritoDto = productoPropiedadDetalleService.obtenerProductoPropiedadDetallePorId(id);
+
+		List<PedidoProductoDto> carrito = (List<PedidoProductoDto>) session.getAttribute("carrito");
+
+		PedidoProductoDto pedidoProducto = new PedidoProductoDto();
+		/*pedidoProducto.setProductoId(productoCarritoDto.getProductoId());
+		pedidoProducto.setProductoPropiedadesDetallesId(productoCarritoDto.getProductoPropiedadDetalleId());*/
+		pedidoProducto.setProductoCarrito(productoCarritoDto);
+		pedidoProducto.setCantidad(cantidad);
+		carrito.add(pedidoProducto);
+		session.setAttribute("carrito", carrito);
+
+		double precioUnitario = productoCarritoDto.getPrecioReducido();
+		double subTotales = precioUnitario * cantidad;
+		pedidoProducto.setSub_total(subTotales);
+		double totalCart = 0.0;
+		for (PedidoProductoDto pedidoProd : carrito) {
+			totalCart += pedidoProd.getSub_total();
+		}
+		session.setAttribute("totalCarrito", String.format("%.2f", totalCart));
+		String referer = request.getHeader("referer");
+		return "redirect:" + referer;
+	}
+
+	@SuppressWarnings("unchecked")
+	@GetMapping("/carrito/eliminarProducto/{id}")
+	public String eliminarProducto(HttpServletRequest request, HttpSession session, @PathVariable int id) {
+
+		List<PedidoProductoDto> carrito = (List<PedidoProductoDto>) session.getAttribute("carrito");
+		List<PedidoProductoDto> nuevoCarrito = new ArrayList<PedidoProductoDto>();
+
+		double nuevoTotal = 0.0;
+		for (PedidoProductoDto pedidoPro : carrito) {
+			if (pedidoPro.getProductoCarrito().getProductoPropiedadDetalleId() != id) {
+				nuevoCarrito.add(pedidoPro);
+				nuevoTotal += pedidoPro.getSub_total();
+			}
+		}
+
+		carrito = nuevoCarrito;
+		session.setAttribute("totalCarrito", String.format("%.2f",nuevoTotal));
+		session.setAttribute("carrito", carrito);
+
+		String referer = request.getHeader("referer");
+		return "redirect:" + referer;
+	}
+
 	// CARRITO DE COMPRAS
-/*	@GetMapping("/carrito")
+	@GetMapping("/carrito")
 	public String carrito(Model model, HttpSession session) {
 
-		List<Producto> proCate = productoService.listarProducto();
+		/*List<Producto> proCate = productoService.listarProducto();
 
 		Map<Integer, Double> precios = new HashMap<>();
 		Map<Integer, Double> preciosTachados = new HashMap<>();
@@ -909,108 +976,38 @@ public class HomeController {
 				preciosTachados.put(producto.getId(), precioTachado);
 				porcentajes.put(producto.getId(), porcentaje);
 			}
-		}
+		}*/
 
-		model.addAttribute("precios", precios);
+		/*model.addAttribute("precios", precios);
 		model.addAttribute("preciosTachados", preciosTachados);
-		model.addAttribute("porcentajes", porcentajes);
+		model.addAttribute("porcentajes", porcentajes);*/
 
 
 		return "anonimo/carrito";
-	}*/
-
-	// MÉTODO PARA AGREGAR PRODUCTOS AL CARRITO
-	@SuppressWarnings("unchecked")
-	@GetMapping("/productoAgregar")
-	public String agregarProductoGet(HttpServletRequest request, HttpSession session,
-			@RequestParam(name = "id", required = false) int id,
-			@RequestParam(name = "cantidad", required = false, defaultValue = "1") int cantidad,
-			RedirectAttributes ra) {
-
-		Producto producto = productoService.listarProductoPorID(id);
-		ProductoCarritoDto productoCarritoDto = productoService.obtenerProductoPorProductoPropiedadId(id);
-
-		List<PedidoProductoDto> carrito = (List<PedidoProductoDto>) session.getAttribute("carrito");
-
-		PedidoProductoDto pedidoProducto = new PedidoProductoDto();
-		pedidoProducto.setProductoCarrito(productoCarritoDto);
-		pedidoProducto.setCantidad(cantidad);
-		carrito.add(pedidoProducto);
-		session.setAttribute("carrito", carrito);
-
-		double precioUnitario = productoCarritoDto.getPrecioReducido();
-		double subTotales = precioUnitario * cantidad;
-		pedidoProducto.setSub_total(subTotales);
-		double totalCart = 0.0;
-		for (PedidoProductoDto pedidoProd : carrito) {
-			totalCart += pedidoProd.getSub_total();
-		}
-		session.setAttribute("totalCarrito", Math.round(totalCart * 100.00) / 100.00);
-	    /*Map<Integer, Double> precios = (Map<Integer, Double>) session.getAttribute("precios");
-	    if (precios != null && precios.containsKey(id)) {
-	        double precioProducto = precios.get(id);
-	        double subtotal = precioProducto * cantidad;
-	        pedidoProducto.setSub_total(subtotal);
-
-	        double totalCart = 0.0;
-	        for (PedidoProductoDto pedidoProd : carrito) {
-	            totalCart += pedidoProd.getSub_total();
-	        }
-	        session.setAttribute("totalCarrito", Math.round(totalCart * 100.00) / 100.00);
-	    }*/
-
-		String referer = request.getHeader("referer");
-		return "redirect:" + referer;
 	}
 
-	@SuppressWarnings("unchecked")
-	@GetMapping("/carrito/eliminarProducto/{id}")
-	public String eliminarProducto(HttpServletRequest request, HttpSession session, @PathVariable int id) {
-
-		List<PedidoProducto> carrito = (List<PedidoProducto>) session.getAttribute("carrito");
-		List<PedidoProducto> nuevoCarrito = new ArrayList<PedidoProducto>();
-
-		double nuevoTotal = 0.0;
-		for (PedidoProducto pedidoPro : carrito) {
-			if (pedidoPro.getProducto().getId() != id) {
-				nuevoCarrito.add(pedidoPro);
-				nuevoTotal += pedidoPro.getSub_total();
-			}
-		}
-
-		carrito = nuevoCarrito;
-		session.setAttribute("totalCarrito", nuevoTotal);
-		session.setAttribute("carrito", carrito);
-
-		String referer = request.getHeader("referer");
-		return "redirect:" + referer;
-	}
 
 	@SuppressWarnings("unchecked")
 	@PostMapping("/carrito/actualizarCantidad")
 	public String actualizarCantidad(HttpServletRequest request, HttpSession session, @RequestParam(name = "id") int id,
 	        @RequestParam(name = "cantidad") int cantidad, RedirectAttributes ra) {
 
-	    List<PedidoProducto> carrito = (List<PedidoProducto>) session.getAttribute("carrito");
+	    List<PedidoProductoDto> carrito = (List<PedidoProductoDto>) session.getAttribute("carrito");
 
-	    for (PedidoProducto pedidoProducto : carrito) {
-	        if (pedidoProducto.getProducto().getId() == id) {
+	    for (PedidoProductoDto pedidoProducto : carrito) {
+	        if (pedidoProducto.getProductoCarrito().getProductoPropiedadDetalleId() == id) {
 	            pedidoProducto.setCantidad(cantidad);
-
-	            Map<Integer, Double> precios = (Map<Integer, Double>) session.getAttribute("precios");
-	            if (precios != null && precios.containsKey(id)) {
-	                double precioProducto = precios.get(id);
-	                double subtotal = precioProducto * cantidad;
-	                pedidoProducto.setSub_total(subtotal);
-	            }
+				double precioUnitario = pedidoProducto.getProductoCarrito().getPrecioReducido();
+				double subtotal = precioUnitario * cantidad;
+				pedidoProducto.setSub_total(subtotal);
 	        }
 	    }
 
-	    double totalCart = 0.0;
-	    for (PedidoProducto pedidoProd : carrito) {
-	        totalCart += pedidoProd.getSub_total();
-	    }
-	    session.setAttribute("totalCarrito", Math.round(totalCart * 100.00) / 100.00);
+		double totalCart = 0.0;
+		for (PedidoProductoDto pedidoProd : carrito) {
+			totalCart += pedidoProd.getSub_total();
+		}
+	    session.setAttribute("totalCarrito", String.format("%.2f",totalCart));
 
 	    String referer = request.getHeader("referer");
 	    return "redirect:" + referer;
@@ -1053,17 +1050,6 @@ public class HomeController {
 	
 	//fin cupones
 
-/*	@GetMapping("/precioPresentacion")
-	@ResponseBody
-	public double actualizarPrecioPorPresentacion(@RequestParam("idPresentacion") int idPresentacion) {
-	    List<ProductoPropiedadesDetalles> productos = productoProDetService.obtenerProductosPorIdPresentacion(idPresentacion);
-	    if (!productos.isEmpty()) {
-	        return productos.get(0).getPrecio();
-	    } else {
-	        return 0.0;
-	    }
-	}*/
-	
 	// Buscar un producto
 	@GetMapping("/productobuscar")
 	public String buscar(Model model) {

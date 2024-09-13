@@ -2,6 +2,8 @@ package com.muscleshop.web.models.dto;
 
 public class PedidoProductoDto {
     private Integer id;
+    private Integer productoId;
+    private Integer productoPropiedadesDetallesId;
     private Integer cantidad;
     private double sub_total;
     private ProductoCarritoDto productoCarrito;
@@ -12,6 +14,22 @@ public class PedidoProductoDto {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getProductoId() {
+        return productoId;
+    }
+
+    public void setProductoId(Integer productoId) {
+        this.productoId = productoId;
+    }
+
+    public Integer getProductoPropiedadesDetallesId() {
+        return productoPropiedadesDetallesId;
+    }
+
+    public void setProductoPropiedadesDetallesId(Integer productoPropiedadesDetallesId) {
+        this.productoPropiedadesDetallesId = productoPropiedadesDetallesId;
     }
 
     public Integer getCantidad() {

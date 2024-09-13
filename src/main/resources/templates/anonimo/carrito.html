@@ -1,7 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="fragments/head"></head>
+<head>
+	<title>Muscle Shop - Carrito</title>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/muscle-shop-isotipo.png}">
+	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/notice.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/header.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/footer.style.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/popup.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/demo4.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/global.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/login.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/style.demo4.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/carousel.style.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/inicio.style.min.css}">
+	<script src="https://kit.fontawesome.com/98270ba09b.js" crossorigin="anonymous"></script>
+</head>
 
 <body style="background-color: #f8f8f8;">
 	<div class="page-wrapper">
@@ -39,31 +59,36 @@
 											<!-- Imagen del producto -->
 											<figure class="product-image-container">
 												<a href="product.html" class="product-image">
-													<img th:src="@{'/images/' + ${pedidoPro.producto.imagen}}"
+													<img th:src="@{'/images/' + ${pedidoPro.productoCarrito.imagenProducto}}"
 														alt="product">
 												</a>
-												<a th:href="@{/index/carrito/eliminarProducto/{id} (id = ${pedidoPro.producto.id})}"
+												<a th:href="@{/index/carrito/eliminarProducto/{id} (id = ${pedidoPro.productoCarrito.productoPropiedadDetalleId})}"
 													class="btn-remove icon-cancel" title="Remove Product"></a>
 											</figure>
 										</td>
 										<td class="product-col">
 											<h5 class="product-title">
-												<a href="product.html" th:text="${pedidoPro.producto.nombre + (pedidoPro.productoPropiedadesDetalles != null ? ' × ' + pedidoPro.productoPropiedadesDetalles.propiedadesDetalles.detalles.nombre : '')}"></a>
+												<a href="product.html" th:text="${pedidoPro.productoCarrito.nombreProducto}"></a>
 
 											</h5>
 										</td>
 										<td>
-											<span class="cart-product-qty" th:if="${pedidoPro.productoPropiedadesDetalles != null}"
-												th:text="'S/. ' + ${pedidoPro.productoPropiedadesDetalles.precio}"></span>
-											<span th:unless="${pedidoPro.productoPropiedadesDetalles != null}"
-												th:text="'S/. ' + ${precios[pedidoPro.producto.id]}"></span>
+											<!--th:if="${pedidoPro.productoPropiedadesDetalles != null}"-->
+											<!--<span class="cart-product-qty"
+												  th:if="${pedidoPro.productoCarrito != null}"
+												  th:text="'S/. ' + ${pedidoPro.productoCarrito.precio}">
+											</span>-->
+											<span th:if="${pedidoPro.productoCarrito != null}"
+												  th:text="'S/. ' + ${pedidoPro.productoCarrito.precioReducido}">
+
+											</span>
 										</td>
 										<td style="text-align: center; height: 100px; position: relative;" >
 											<div class="product-single-qty"
 												style="margin-top: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 												<form th:action="@{/index/carrito/actualizarCantidad}" method="post" class="d-flex align-items-center">
 													<input type="hidden" name="id"
-														th:value="${pedidoPro.producto.id}" />
+														th:value="${pedidoPro.productoCarrito.productoPropiedadDetalleId}" />
 													<input class="horizontal-quantity form-control" type="text"
 														name="cantidad" th:value="${pedidoPro.cantidad}">
 													<button type="submit" class="btn btn-sm btn-primary cant ml-2 mx-4">
@@ -78,7 +103,7 @@
 												th:text="'S/.' + ${pedidoPro.sub_total}"></span>
 										</td>
 									</tr>
-									<tr th:if="${session.cupon != null}">
+									<!--<tr th:if="${session.cupon != null}">
 										<td class="align-middle">
 											<h5 class="product-title">
 												<a>CUPON</a>
@@ -103,8 +128,7 @@
 											<span class="subtotal-price"
 												th:text="' - S/.' + ${session.descuento}"></span>
 										</td>
-
-									</tr>
+									</tr>-->
 								</tbody>
 
 								<!-- Table Footer -->
@@ -193,16 +217,25 @@
 	</div>
 
 	<!-- Plugins JS File -->
+	<!--Para ingresar el correo en los popups-->
 	<script data-cfasync="false"
-		th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
-	<script th:src="@{/assets/js/jquery.min.js}"></script>
-	<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+			th:src="@{../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js}"></script>
+
+	<!--Para toda la web-->
+	<script th:src="@{/assets/js/jquery-3.7.1.min.js}"></script>
+
+	<!--Para Filtrar y Ordenar una Lista => https://isotope.metafizzy.co/-->
 	<script th:src="@{/assets/js/optional/isotope.pkgd.min.js}"></script>
+
+	<!--Para el carrousel objetivos, bestseller owl-carousel-->
 	<script th:src="@{/assets/js/plugins.min.js}"></script>
 	<script th:src="@{/assets/js/jquery.appear.min.js}"></script>
 
 	<!-- Main JS File -->
-	<script th:src="@{/assets/js/main.min.js}"></script>
+
+	<script th:src="@{/assets/js/main.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.slim.min.js}"></script>
 	<script>
 		// Variables globales para los mensajes
 		var message1 = document.getElementById('message1');

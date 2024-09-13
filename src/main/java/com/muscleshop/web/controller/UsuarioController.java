@@ -20,6 +20,7 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import com.muscleshop.web.models.*;
+import com.muscleshop.web.models.dto.PedidoProductoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -218,15 +219,15 @@ public class UsuarioController {
 	@GetMapping("/carrito/finalizarCompra")
 	public String finalizarCompra(HttpSession session) {
 		if (session.getAttribute("carrito") != null) {
-			List<PedidoProducto> carrito = (List<PedidoProducto>) session.getAttribute("carrito");
+			List<PedidoProductoDto> carrito = (List<PedidoProductoDto>) session.getAttribute("carrito");
 			int productosTotales = carrito.size();
 			double precioTotal = 0.0;
-			for (PedidoProducto pedidoPro : carrito) {
+			for (PedidoProductoDto pedidoPro : carrito) {
 				double precio = pedidoPro.getSub_total();
 				precioTotal += precio;
 			}
 			session.setAttribute("productosTotales", productosTotales);
-			session.setAttribute("precioTotal", Math.round(precioTotal * 100.00) / 100.00);
+			session.setAttribute("precioTotal",  String.format("%.2f",precioTotal));
 			return "redirect:/usuario/pago";
 		} else {
 			return "redirect:/index/inicio";

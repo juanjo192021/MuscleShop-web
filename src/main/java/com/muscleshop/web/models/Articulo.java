@@ -25,7 +25,7 @@ public class Articulo {
 
 	@OneToOne
 	@JoinColumn(name = "estado_id")
-	private Estado estado;
+	private EstadoArticuloProducto estado;
 
 	@OneToMany(mappedBy = "articulo")
 	@JsonIgnore
@@ -34,7 +34,7 @@ public class Articulo {
 	public Articulo() {
 	}
 
-	public Articulo(String imagen, String titulo, String descripcion, Estado estado,
+	public Articulo(String imagen, String titulo, String descripcion, EstadoArticuloProducto estado,
 			List<ArticuloComentario> articuloCom) {
 		super();
 		this.imagen = imagen;
@@ -76,11 +76,11 @@ public class Articulo {
 		this.descripcion = descripcion;
 	}
 
-	public Estado getEstado() {
+	public EstadoArticuloProducto getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Estado estado) {
+	public void setEstado(EstadoArticuloProducto estado) {
 		this.estado = estado;
 	}
 
